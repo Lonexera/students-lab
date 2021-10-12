@@ -4,4 +4,6 @@
     <!-- Bottom Navigation -->
     <string name="bottom_nav_tasks_title">Tasks</string>
     <string name="bottom_nav_plants_title">Plants</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
