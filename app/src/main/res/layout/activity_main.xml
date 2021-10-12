@@ -5,7 +5,7 @@
     android:layout_width="match_parent">
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentContainerView"
+        android:id="@+id/fragment_container"
         android:name="com.example.plantsapp.TasksFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
