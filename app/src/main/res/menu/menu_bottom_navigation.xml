@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/bottom_nav_tasks"
+        android:title="@string/title_bottom_nav_tasks" />
+
+    <item android:id="@+id/bottom_nav_plants"
+        android:title="@string/title_bottom_nav_plants" />
+</menu>
