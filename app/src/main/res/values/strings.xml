@@ -2,8 +2,7 @@
     <string name="app_name">PlantsApp</string>
 
     <!-- Bottom Navigation -->
-    <string name="bottom_nav_tasks_title">Tasks</string>
-    <string name="bottom_nav_plants_title">Plants</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_bottom_nav_tasks">Tasks</string>
+    <string name="title_bottom_nav_plants">Plants</string>
+
 </resources>
