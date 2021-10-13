@@ -8,5 +8,5 @@ val listOfPlants = listOf(
     Plant("Marley", "Spath plant", PLANT_PICTURE, SEVEN_DAYS),
     Plant("John", "Cacti", PLANT_PICTURE, SEVEN_DAYS),
     Plant("Casey", "Tillandsia", PLANT_PICTURE, SEVEN_DAYS),
-    Plant("Robert", "Succulent", PLANT_PICTURE, SEVEN_DAYS),
+    Plant("Robert", "Succulent", PLANT_PICTURE, SEVEN_DAYS)
 )
