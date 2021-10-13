@@ -2,7 +2,6 @@ package com.example.plantsapp.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.example.plantsapp.databinding.ItemPlantBinding
 import com.example.plantsapp.model.Plant
