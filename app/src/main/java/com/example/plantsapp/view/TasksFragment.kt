@@ -1,4 +1,4 @@
-package com.example.plantsapp
+package com.example.plantsapp.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
