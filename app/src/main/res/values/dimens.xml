@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="plant_card_image_size">96dp</dimen>
+    <dimen name="plant_detail_image_size">200dp</dimen>
     <!-- margins -->
     <dimen name="margin_16dp">16dp</dimen>
     <dimen name="margin_8dp">8dp</dimen>
