@@ -29,13 +29,18 @@ class PlantsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.rvPlants.apply {
-            layoutManager = GridLayoutManager(context, 2)
-            adapter = PlantsAdapter().also { plantsAdapter ->
+        val plantsAdapter = PlantsAdapter()
 
-                plantsViewModel.plants.observe(viewLifecycleOwner) {
-                    plantsAdapter.submitList(it)
-                }
+        with(plantsViewModel) {
+            plants.observe(viewLifecycleOwner) {
+                plantsAdapter.submitList(it)
+            }
+        }
+
+        with(binding) {
+            rvPlants.apply {
+                layoutManager = GridLayoutManager(context, 2)
+                adapter = plantsAdapter
             }
         }
     }

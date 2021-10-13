@@ -7,20 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import com.example.plantsapp.databinding.ItemPlantBinding
 import com.example.plantsapp.model.Plant
 
-class PlantsAdapter : ListAdapter<Plant, PlantViewHolder>(itemComparator) {
-
-    companion object {
-        val itemComparator = object : DiffUtil.ItemCallback<Plant>() {
-
-            override fun areItemsTheSame(oldItem: Plant, newItem: Plant): Boolean {
-                return oldItem.name == newItem.name
-            }
-
-            override fun areContentsTheSame(oldItem: Plant, newItem: Plant): Boolean {
-                return oldItem == newItem
-            }
-        }
-    }
+class PlantsAdapter : ListAdapter<Plant, PlantViewHolder>(PlantComparator()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlantViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
