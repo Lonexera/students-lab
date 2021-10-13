@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.ListAdapter
 import com.example.plantsapp.databinding.ItemPlantBinding
 import com.example.plantsapp.model.Plant
 
-class PlantsAdapter : ListAdapter<Plant, PlantViewHolder>(PlantComparator()) {
+class PlantsAdapter : ListAdapter<Plant, PlantViewHolder>(PlantItemCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlantViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)

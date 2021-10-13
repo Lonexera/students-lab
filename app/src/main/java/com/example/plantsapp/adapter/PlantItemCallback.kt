@@ -3,7 +3,7 @@ package com.example.plantsapp.adapter
 import androidx.recyclerview.widget.DiffUtil
 import com.example.plantsapp.model.Plant
 
-class PlantComparator : DiffUtil.ItemCallback<Plant>() {
+class PlantItemCallback : DiffUtil.ItemCallback<Plant>() {
 
     override fun areItemsTheSame(oldItem: Plant, newItem: Plant): Boolean {
         return oldItem.name == newItem.name

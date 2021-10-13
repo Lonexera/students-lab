@@ -16,6 +16,7 @@ class PlantsFragment : Fragment() {
     private var _binding: FragmentPlantsBinding? = null
     private val binding get() = _binding!!
     private val plantsViewModel: PlantsViewModel by viewModels()
+    private val plantsAdapter = PlantsAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,8 +29,6 @@ class PlantsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val plantsAdapter = PlantsAdapter()
 
         with(plantsViewModel) {
             plants.observe(viewLifecycleOwner) {
