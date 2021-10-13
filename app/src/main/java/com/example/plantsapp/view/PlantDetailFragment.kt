@@ -17,7 +17,7 @@ class PlantDetailFragment : Fragment() {
     private var _binding: FragmentPlantDetailBinding? = null
     private val binding get() = _binding!!
     private val detailViewModel: PlantDetailViewModel by viewModels()
-    private lateinit var detailPlant: Plant
+    private var detailPlant = Plant("", "", "", 9)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,10 +34,23 @@ class PlantDetailFragment : Fragment() {
         with(detailViewModel) {
             plant.observe(viewLifecycleOwner) {
                 detailPlant = it
+
+                with(binding) {
+                    Glide.with(requireContext())
+                        .load(detailPlant.plantPicture)
+                        .into(ivPlant)
+
+                    tvPlantName.text = detailPlant.name
+                    tvSpeciesName.text = detailPlant.speciesName
+                    tvWateringValue.text = getString(
+                        R.string.msg_watering_frequency_value,
+                        detailPlant.wateringFrequencyDays
+                    )
+                }
             }
         }
 
-        with(binding) {
+        /*with(binding) {
             Glide.with(requireContext())
                 .load(detailPlant.plantPicture)
                 .into(ivPlant)
@@ -48,7 +61,7 @@ class PlantDetailFragment : Fragment() {
                 R.string.msg_watering_frequency_value,
                 detailPlant.wateringFrequencyDays
             )
-        }
+        }*/
     }
 
     override fun onDestroyView() {
