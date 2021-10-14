@@ -1,6 +1,5 @@
 package com.example.plantsapp.adapter
 
-
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.example.plantsapp.model.Plant

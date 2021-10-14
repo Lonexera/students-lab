@@ -31,7 +31,7 @@ class PlantViewHolder(
         fun create(
             parent: ViewGroup,
             onPlantClick: (Plant) -> Unit
-        ) : PlantViewHolder {
+        ): PlantViewHolder {
             val layoutInflater = LayoutInflater.from(parent.context)
             val binding = ItemPlantBinding.inflate(layoutInflater, parent, false)
 
