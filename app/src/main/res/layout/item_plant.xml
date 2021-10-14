@@ -21,7 +21,7 @@
             card_view:layout_constraintGuide_begin="@dimen/margin_8dp" />
 
         <ImageView
-            android:id="@+id/iv_plant"
+            android:id="@+id/iv_detail_plant"
             android:layout_width="@dimen/plant_card_image_size"
             android:layout_height="@dimen/plant_card_image_size"
             android:layout_marginStart="@dimen/margin_8dp"
@@ -32,19 +32,19 @@
 
 
         <TextView
-            android:id="@+id/tv_plant_name"
+            android:id="@+id/tv_detail_plant_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toEndOf="@id/iv_plant"
+            app:layout_constraintStart_toEndOf="@id/iv_detail_plant"
             card_view:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/guideline_top"/>
 
         <TextView
-            android:id="@+id/tv_species_name"
+            android:id="@+id/tv_detail_species_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toEndOf="@id/iv_plant"
-            app:layout_constraintTop_toBottomOf="@id/tv_plant_name"/>
+            app:layout_constraintStart_toEndOf="@id/iv_detail_plant"
+            app:layout_constraintTop_toBottomOf="@id/tv_detail_plant_name"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
