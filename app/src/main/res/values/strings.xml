@@ -5,7 +5,13 @@
     <string name="title_bottom_nav_tasks">Tasks</string>
     <string name="title_bottom_nav_plants">Plants</string>
     
-    <!-- Fragment Plant Detail -->
+    <!-- Plant Detail Screen -->
     <string name="msg_watering_frequency_text">Watering frequency:</string>
     <string name="msg_watering_frequency_value">every %d days</string>
+
+    <!-- Plant Creation Screen -->
+    <string name="hint_plant_name">Name</string>
+    <string name="hint_species_name">Species name</string>
+    <string name="msg_creation_watering_text">Water every</string>
+    <string name="msg_creation_frequency_units">days</string>
 </resources>
