@@ -18,7 +18,7 @@ class PlantsFragment : Fragment() {
     private val binding get() = _binding!!
     private val plantsViewModel: PlantsViewModel by viewModels()
     private val plantsAdapter = PlantsAdapter {
-        openDetailFragment()
+        openFragment(PlantDetailFragment())
     }
 
     override fun onCreateView(
@@ -44,6 +44,10 @@ class PlantsFragment : Fragment() {
                 layoutManager = GridLayoutManager(context, 2)
                 adapter = plantsAdapter
             }
+
+            fabAddPlant.setOnClickListener {
+                openFragment(PlantCreationFragment())
+            }
         }
     }
 
@@ -52,9 +56,9 @@ class PlantsFragment : Fragment() {
         _binding = null
     }
 
-    private fun openDetailFragment() {
+    private fun openFragment(fragment: Fragment) {
         parentFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, PlantDetailFragment())
+            .replace(R.id.fragment_container, fragment)
             .commit()
     }
 }
