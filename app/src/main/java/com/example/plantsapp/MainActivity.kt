@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.example.plantsapp.databinding.ActivityMainBinding
+import com.example.plantsapp.view.PlantsFragment
+import com.example.plantsapp.view.TasksFragment
 
 class MainActivity : AppCompatActivity() {
 
