@@ -26,7 +26,10 @@ class PlantCreationFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
-            btnCreationSave.setOnClickListener { collectData() }
+            btnCreationSave.setOnClickListener {
+                collectData()
+                navigateBack()
+            }
         }
     }
 
@@ -41,5 +44,9 @@ class PlantCreationFragment : Fragment() {
             Timber.d("Plant species name: ${etCreationSpeciesName.text}")
             Timber.d("Watering frequency in days: ${etCreationWateringFrequency.text}")
         }
+    }
+
+    private fun navigateBack() {
+        requireActivity().supportFragmentManager.popBackStack()
     }
 }

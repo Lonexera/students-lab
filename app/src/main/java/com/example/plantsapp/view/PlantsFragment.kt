@@ -18,7 +18,7 @@ class PlantsFragment : Fragment() {
     private val binding get() = _binding!!
     private val plantsViewModel: PlantsViewModel by viewModels()
     private val plantsAdapter = PlantsAdapter {
-        openFragment(PlantDetailFragment())
+        plantsViewModel.onPlantClicked(it)
     }
 
     override fun onCreateView(
@@ -36,6 +36,12 @@ class PlantsFragment : Fragment() {
         with(plantsViewModel) {
             plants.observe(viewLifecycleOwner) {
                 plantsAdapter.submitList(it)
+            }
+
+            clickedPlant.observe(viewLifecycleOwner) {
+                it.getContentIfNotHandled()?.let {
+                    openFragment(PlantDetailFragment())
+                }
             }
         }
 
@@ -57,8 +63,9 @@ class PlantsFragment : Fragment() {
     }
 
     private fun openFragment(fragment: Fragment) {
-        parentFragmentManager.beginTransaction()
+        requireActivity().supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)
+            .addToBackStack(fragment.tag)
             .commit()
     }
 }
