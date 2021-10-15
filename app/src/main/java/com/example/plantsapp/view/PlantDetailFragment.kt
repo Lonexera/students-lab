@@ -6,26 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
 import com.example.plantsapp.R
 import com.example.plantsapp.databinding.FragmentPlantDetailBinding
 import com.example.plantsapp.model.Plant
 import com.example.plantsapp.viewModels.PlantDetailViewModel
 
-class PlantDetailFragment : Fragment() {
+class PlantDetailFragment : Fragment(R.layout.fragment_plant_detail) {
 
-    private var _binding: FragmentPlantDetailBinding? = null
-    private val binding get() = _binding!!
+    private val binding: FragmentPlantDetailBinding by viewBinding(FragmentPlantDetailBinding::bind)
     private val detailViewModel: PlantDetailViewModel by viewModels()
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentPlantDetailBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,11 +26,6 @@ class PlantDetailFragment : Fragment() {
                 showPlantDetail(it)
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     private fun showPlantDetail(plant: Plant) {

@@ -5,24 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import by.kirich1409.viewbindingdelegate.viewBinding
+import com.example.plantsapp.R
 import com.example.plantsapp.databinding.FragmentTasksBinding
 
-class TasksFragment : Fragment() {
+class TasksFragment : Fragment(R.layout.fragment_tasks) {
 
-    private var _binding: FragmentTasksBinding? = null
-    private val binding get() = _binding!!
+    private val binding: FragmentTasksBinding by viewBinding(FragmentTasksBinding::bind)
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentTasksBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }
