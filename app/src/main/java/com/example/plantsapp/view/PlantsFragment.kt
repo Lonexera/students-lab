@@ -44,11 +44,9 @@ class PlantsFragment : Fragment() {
                 }
             }
 
-            isAddPlantClicked.observe(viewLifecycleOwner) {
-                it.getContentIfNotHandled()?.let { isAddBtnClicked ->
-                    if (isAddBtnClicked) {
-                        openFragment(PlantCreationFragment())
-                    }
+            toCreation.observe(viewLifecycleOwner) {
+                it.getContentIfNotHandled()?.let {
+                    openFragment(PlantCreationFragment())
                 }
             }
         }

@@ -8,20 +8,14 @@ import timber.log.Timber
 
 class PlantCreationViewModel : ViewModel() {
 
-    private val _toSaveData: MutableLiveData<Event<Boolean>> = MutableLiveData()
-    val toSaveData: LiveData<Event<Boolean>> get() = _toSaveData
-    private val _toNavigateBack: MutableLiveData<Event<Boolean>> = MutableLiveData()
-    val toNavigateBack: LiveData<Event<Boolean>> get() = _toNavigateBack
-
-    fun onSaveClicked() {
-        _toSaveData.value = Event(true)
-    }
+    private val _toNavigateBack: MutableLiveData<Event<Unit>> = MutableLiveData()
+    val toNavigateBack: LiveData<Event<Unit>> get() = _toNavigateBack
 
     fun saveData(plantName: String, speciesName: String, wateringFrequency: String) {
         Timber.d("Plant name: $plantName")
         Timber.d("Plant species name: $speciesName")
         Timber.d("Watering frequency in days: $wateringFrequency")
 
-        _toNavigateBack.value = Event(true)
+        _toNavigateBack.value = Event(Unit)
     }
 }

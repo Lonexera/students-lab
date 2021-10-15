@@ -11,15 +11,15 @@ class PlantsViewModel : ViewModel() {
     val plants: LiveData<List<Plant>> = MutableLiveData(listOfPlants)
     private val _clickedPlant: MutableLiveData<Event<Plant>> = MutableLiveData()
     val clickedPlant: LiveData<Event<Plant>> get() = _clickedPlant
-    private val _isAddPlantClicked: MutableLiveData<Event<Boolean>> = MutableLiveData()
-    val isAddPlantClicked: LiveData<Event<Boolean>> get() = _isAddPlantClicked
+    private val _toCreation: MutableLiveData<Event<Unit>> = MutableLiveData()
+    val toCreation: LiveData<Event<Unit>> get() = _toCreation
 
     fun onPlantClicked(plant: Plant) {
         _clickedPlant.value = Event(plant)
     }
 
     fun onAddPlantClicked() {
-        _isAddPlantClicked.value = Event(true)
+        _toCreation.value = Event(Unit)
     }
 }
 

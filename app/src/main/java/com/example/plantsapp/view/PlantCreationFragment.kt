@@ -28,30 +28,20 @@ class PlantCreationFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         with(creationViewModel) {
-            toSaveData.observe(viewLifecycleOwner) {
-                it.getContentIfNotHandled()?.let { toSaveData: Boolean ->
-                    if (toSaveData) {
-                        creationViewModel.saveData(
-                            binding.etCreationPlantName.text.toString(),
-                            binding.etCreationSpeciesName.text.toString(),
-                            binding.etCreationWateringFrequency.text.toString()
-                        )
-                    }
-                }
-            }
-
             toNavigateBack.observe(viewLifecycleOwner) {
-                it.getContentIfNotHandled()?.let { toBack: Boolean ->
-                    if (toBack) {
-                        requireActivity().supportFragmentManager.popBackStack()
-                    }
+                it.getContentIfNotHandled()?.let {
+                    requireActivity().supportFragmentManager.popBackStack()
                 }
             }
         }
 
         with(binding) {
             btnCreationSave.setOnClickListener {
-                creationViewModel.onSaveClicked()
+                creationViewModel.saveData(
+                    binding.etCreationPlantName.text.toString(),
+                    binding.etCreationSpeciesName.text.toString(),
+                    binding.etCreationWateringFrequency.text.toString()
+                )
             }
         }
     }
