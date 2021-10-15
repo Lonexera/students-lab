@@ -46,12 +46,12 @@ class PlantDetailFragment : Fragment() {
         with(binding) {
             Glide.with(requireContext())
                 .load(plant.plantPicture)
-                .into(ivPlant)
+                .into(ivDetailPlant)
 
-            tvPlantName.text = plant.name
-            tvSpeciesName.text = plant.speciesName
-            tvWateringValue.text = getString(
-                R.string.msg_watering_frequency_value,
+            tvDetailPlantName.text = plant.name
+            tvDetailSpeciesName.text = plant.speciesName
+            tvDetailWateringText.text = getString(
+                R.string.msg_detail_watering_text,
                 plant.wateringFrequencyDays
             )
         }

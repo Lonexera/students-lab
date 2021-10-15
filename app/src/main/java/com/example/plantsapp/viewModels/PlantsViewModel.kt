@@ -4,10 +4,23 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.plantsapp.model.Plant
+import com.example.plantsapp.utils.Event
 
 class PlantsViewModel : ViewModel() {
 
     val plants: LiveData<List<Plant>> = MutableLiveData(listOfPlants)
+    private val _clickedPlant: MutableLiveData<Event<Plant>> = MutableLiveData()
+    val clickedPlant: LiveData<Event<Plant>> get() = _clickedPlant
+    private val _toCreation: MutableLiveData<Event<Unit>> = MutableLiveData()
+    val toCreation: LiveData<Event<Unit>> get() = _toCreation
+
+    fun onPlantClicked(plant: Plant) {
+        _clickedPlant.value = Event(plant)
+    }
+
+    fun onAddPlantClicked() {
+        _toCreation.value = Event(Unit)
+    }
 }
 
 private const val SEVEN_DAYS: Int = 7

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_creation_plant"
+            android:layout_width="@dimen/plant_detail_image_size"
+            android:layout_height="@dimen/plant_detail_image_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <EditText
+            android:id="@+id/et_creation_plant_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_plant_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_creation_plant" />
+
+
+        <EditText
+            android:id="@+id/et_creation_species_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_species_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/et_creation_plant_name" />
+
+        <TextView
+            android:id="@+id/tv_creation_watering_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/msg_creation_watering_text"
+            app:layout_constraintEnd_toEndOf="@id/et_creation_watering_frequency"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/et_creation_species_name" />
+
+        <EditText
+            android:id="@+id/et_creation_watering_frequency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            app:layout_constraintEnd_toEndOf="@id/tv_creation_watering_units"
+            app:layout_constraintStart_toStartOf="@id/tv_creation_watering_text"
+            app:layout_constraintTop_toTopOf="@id/tv_creation_watering_text" />
+
+        <TextView
+            android:id="@+id/tv_creation_watering_units"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/msg_creation_frequency_units"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/et_creation_watering_frequency"
+            app:layout_constraintTop_toTopOf="@id/tv_creation_watering_text" />
+
+        <Button
+            android:id="@+id/btn_creation_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_button_save"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_creation_watering_frequency" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
