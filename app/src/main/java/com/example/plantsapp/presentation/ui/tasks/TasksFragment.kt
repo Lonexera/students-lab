@@ -1,4 +1,4 @@
-package com.example.plantsapp.view
+package com.example.plantsapp.presentation.ui.tasks
 
 import androidx.fragment.app.Fragment
 import com.example.plantsapp.R

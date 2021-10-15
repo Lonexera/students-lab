@@ -1,11 +1,11 @@
-package com.example.plantsapp.adapter
+package com.example.plantsapp.presentation.ui.plants.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.plantsapp.databinding.ItemPlantBinding
-import com.example.plantsapp.model.Plant
+import com.example.plantsapp.domain.model.Plant
 
 class PlantViewHolder(
     private val binding: ItemPlantBinding,

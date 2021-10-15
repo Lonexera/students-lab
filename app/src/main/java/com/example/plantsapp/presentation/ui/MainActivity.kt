@@ -1,11 +1,12 @@
-package com.example.plantsapp
+package com.example.plantsapp.presentation.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import com.example.plantsapp.R
 import com.example.plantsapp.databinding.ActivityMainBinding
-import com.example.plantsapp.view.PlantsFragment
-import com.example.plantsapp.view.TasksFragment
+import com.example.plantsapp.presentation.ui.plants.PlantsFragment
+import com.example.plantsapp.presentation.ui.tasks.TasksFragment
 
 class MainActivity : AppCompatActivity() {
 

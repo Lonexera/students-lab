@@ -1,8 +1,9 @@
-package com.example.plantsapp.adapter
+package com.example.plantsapp.presentation.ui.plants.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
-import com.example.plantsapp.model.Plant
+import com.example.plantsapp.domain.model.Plant
+import com.example.plantsapp.presentation.model.PlantItemCallback
 
 class PlantsAdapter(
     private val onPlantClick: (Plant) -> Unit

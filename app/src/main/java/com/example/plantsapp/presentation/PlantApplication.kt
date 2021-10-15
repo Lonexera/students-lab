@@ -1,6 +1,7 @@
-package com.example.plantsapp
+package com.example.plantsapp.presentation
 
 import android.app.Application
+import com.example.plantsapp.BuildConfig
 import timber.log.Timber
 
 class PlantApplication : Application() {

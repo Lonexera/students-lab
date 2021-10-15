@@ -1,4 +1,4 @@
-package com.example.plantsapp.utils
+package com.example.plantsapp.presentation.core
 
 class Event<out T>(private val content: T) {
     var hasBeenHandled = false

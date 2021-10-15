@@ -1,7 +1,7 @@
-package com.example.plantsapp.adapter
+package com.example.plantsapp.presentation.model
 
 import androidx.recyclerview.widget.DiffUtil
-import com.example.plantsapp.model.Plant
+import com.example.plantsapp.domain.model.Plant
 
 class PlantItemCallback : DiffUtil.ItemCallback<Plant>() {
 
