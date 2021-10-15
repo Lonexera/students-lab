@@ -1,4 +1,4 @@
-package com.example.plantsapp.view
+package com.example.plantsapp.presentation.ui.plantcreation
 
 import android.os.Bundle
 import android.view.View
@@ -7,7 +7,6 @@ import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.plantsapp.R
 import com.example.plantsapp.databinding.FragmentPlantCreationBinding
-import com.example.plantsapp.viewModels.PlantCreationViewModel
 
 class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
 

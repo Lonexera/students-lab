@@ -1,10 +1,10 @@
-package com.example.plantsapp.viewModels
+package com.example.plantsapp.presentation.ui.plants
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.plantsapp.model.Plant
-import com.example.plantsapp.utils.Event
+import com.example.plantsapp.domain.model.Plant
+import com.example.plantsapp.presentation.core.Event
 
 class PlantsViewModel : ViewModel() {
 

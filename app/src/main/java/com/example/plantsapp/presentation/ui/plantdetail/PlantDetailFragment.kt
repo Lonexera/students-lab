@@ -1,4 +1,4 @@
-package com.example.plantsapp.view
+package com.example.plantsapp.presentation.ui.plantdetail
 
 import android.os.Bundle
 import android.view.View
@@ -8,7 +8,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
 import com.example.plantsapp.R
 import com.example.plantsapp.databinding.FragmentPlantDetailBinding
-import com.example.plantsapp.model.Plant
+import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.viewModels.PlantDetailViewModel
 
 class PlantDetailFragment : Fragment(R.layout.fragment_plant_detail) {

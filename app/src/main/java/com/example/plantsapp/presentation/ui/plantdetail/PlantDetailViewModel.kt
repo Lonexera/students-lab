@@ -1,9 +1,9 @@
-package com.example.plantsapp.viewModels
+package com.example.plantsapp.presentation.ui.plantdetail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.plantsapp.model.Plant
+import com.example.plantsapp.domain.model.Plant
 
 class PlantDetailViewModel : ViewModel() {
 
