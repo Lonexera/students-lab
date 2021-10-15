@@ -43,6 +43,14 @@ class PlantsFragment : Fragment() {
                     openFragment(PlantDetailFragment())
                 }
             }
+
+            isAddPlantClicked.observe(viewLifecycleOwner) {
+                it.getContentIfNotHandled()?.let { isAddBtnClicked ->
+                    if (isAddBtnClicked) {
+                        openFragment(PlantCreationFragment())
+                    }
+                }
+            }
         }
 
         with(binding) {
@@ -52,7 +60,7 @@ class PlantsFragment : Fragment() {
             }
 
             fabAddPlant.setOnClickListener {
-                openFragment(PlantCreationFragment())
+                plantsViewModel.onAddPlantClicked()
             }
         }
     }

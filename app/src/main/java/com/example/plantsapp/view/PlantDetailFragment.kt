@@ -51,7 +51,7 @@ class PlantDetailFragment : Fragment() {
             tvDetailPlantName.text = plant.name
             tvDetailSpeciesName.text = plant.speciesName
             tvDetailWateringText.text = getString(
-                R.string.msg_detail_watering_value,
+                R.string.msg_detail_watering_text,
                 plant.wateringFrequencyDays
             )
         }
