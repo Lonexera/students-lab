@@ -3,7 +3,7 @@ package com.example.plantsapp.data
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.repository.PlantsRepository
 
-object Repository : PlantsRepository {
+object PlantsRepositoryImpl : PlantsRepository {
     override fun allPlants(): List<Plant> {
         return listOfPlants
     }
