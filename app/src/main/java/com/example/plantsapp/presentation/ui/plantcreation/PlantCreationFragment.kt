@@ -8,13 +8,12 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.plantsapp.R
 import com.example.plantsapp.data.PlantsRepositoryImpl
 import com.example.plantsapp.databinding.FragmentPlantCreationBinding
-import com.example.plantsapp.presentation.ui.ViewModelFactory
 
 class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
 
     private val binding: FragmentPlantCreationBinding by viewBinding(FragmentPlantCreationBinding::bind)
     private val creationViewModel: PlantCreationViewModel by viewModels {
-        ViewModelFactory(PlantsRepositoryImpl)
+        CreationViewModelFactory(repository = PlantsRepositoryImpl)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

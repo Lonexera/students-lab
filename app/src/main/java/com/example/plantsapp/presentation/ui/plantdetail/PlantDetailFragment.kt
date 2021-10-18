@@ -7,16 +7,14 @@ import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
 import com.example.plantsapp.R
-import com.example.plantsapp.data.PlantsRepositoryImpl
 import com.example.plantsapp.databinding.FragmentPlantDetailBinding
 import com.example.plantsapp.domain.model.Plant
-import com.example.plantsapp.presentation.ui.ViewModelFactory
 
 class PlantDetailFragment : Fragment(R.layout.fragment_plant_detail) {
 
     private val binding: FragmentPlantDetailBinding by viewBinding(FragmentPlantDetailBinding::bind)
     private val detailViewModel: PlantDetailViewModel by viewModels {
-        ViewModelFactory(PlantsRepositoryImpl)
+        DetailViewModelFactory()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
