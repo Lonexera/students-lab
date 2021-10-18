@@ -21,20 +21,22 @@ class PlantCreationViewModel(
         plantName: String,
         speciesName: String,
         wateringFrequency: String
-    ) = viewModelScope.launch {
-        Timber.d("Plant name: $plantName")
-        Timber.d("Plant species name: $speciesName")
-        Timber.d("Watering frequency in days: $wateringFrequency")
+    ) {
+        viewModelScope.launch {
+            Timber.d("Plant name: $plantName")
+            Timber.d("Plant species name: $speciesName")
+            Timber.d("Watering frequency in days: $wateringFrequency")
 
-        repository.addPlant(
-            Plant(
-                plantName,
-                speciesName,
-                "",
-                wateringFrequency.toInt()
+            repository.addPlant(
+                Plant(
+                    plantName,
+                    speciesName,
+                    "",
+                    wateringFrequency.toInt()
+                )
             )
-        )
 
-        _toNavigateBack.value = Event(Unit)
+            _toNavigateBack.value = Event(Unit)
+        }
     }
 }
