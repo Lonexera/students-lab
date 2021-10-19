@@ -6,5 +6,5 @@ interface PlantsRepository {
 
     suspend fun fetchPlants(): List<Plant>
     suspend fun addPlant(plant: Plant)
-    suspend fun getPlantByName(name: Plant.PlantName): Plant
+    suspend fun getPlantByName(name: Plant.Name): Plant
 }

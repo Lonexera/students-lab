@@ -1,11 +1,11 @@
 package com.example.plantsapp.domain.model
 
 data class Plant(
-    val name: PlantName,
+    val name: Name,
     val speciesName: String,
     val plantPicture: String,
     val wateringFrequencyDays: Int
 ) {
     @JvmInline
-    value class PlantName(val value: String)
+    value class Name(val value: String)
 }

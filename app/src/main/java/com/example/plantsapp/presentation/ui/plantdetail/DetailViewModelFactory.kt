@@ -7,7 +7,7 @@ import com.example.plantsapp.domain.repository.PlantsRepository
 
 class DetailViewModelFactory(
     private val repository: PlantsRepository,
-    private val plantName: Plant.PlantName
+    private val plantName: Plant.Name
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {

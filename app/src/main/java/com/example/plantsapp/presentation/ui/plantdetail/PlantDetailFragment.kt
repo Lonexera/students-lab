@@ -18,7 +18,7 @@ class PlantDetailFragment : Fragment(R.layout.fragment_plant_detail) {
     private val detailViewModel: PlantDetailViewModel by viewModels {
         DetailViewModelFactory(
             repository = PlantsRepositoryImpl,
-            plantName = Plant.PlantName(requireArguments().plantName)
+            plantName = requireArguments().plantName
         )
     }
 
@@ -49,15 +49,17 @@ class PlantDetailFragment : Fragment(R.layout.fragment_plant_detail) {
 
     companion object {
         private const val ARGUMENT_PLANT_NAME = "PLANT NAME"
-        private var Bundle.plantName: String
-            get() = getString(ARGUMENT_PLANT_NAME, null)
-            ?: error("You forgot to pass ARGUMENT_PLANT_NAME")
-            set(value) = putString(ARGUMENT_PLANT_NAME, value)
+        private var Bundle.plantName: Plant.Name
+            get() = Plant.Name(
+                getString(ARGUMENT_PLANT_NAME, null)
+                ?: error("You forgot to pass ARGUMENT_PLANT_NAME")
+            )
+            set(plantName) = putString(ARGUMENT_PLANT_NAME, plantName.value)
 
-        fun newInstance(plantName: Plant.PlantName): PlantDetailFragment {
+        fun newInstance(plantName: Plant.Name): PlantDetailFragment {
             val detailFragment = PlantDetailFragment()
             val args = bundleOf()
-            args.plantName = plantName.value
+            args.plantName = plantName
             detailFragment.arguments = args
             return detailFragment
         }

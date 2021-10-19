@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 
 class PlantDetailViewModel(
     private val repository: PlantsRepository,
-    private val plantName: Plant.PlantName
+    private val plantName: Plant.Name
 ) : ViewModel() {
 
     private val _plant: MutableLiveData<Plant> = MutableLiveData()
