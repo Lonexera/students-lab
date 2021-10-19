@@ -23,4 +23,8 @@ object PlantsRepositoryImpl : PlantsRepository {
     override suspend fun addPlant(plant: Plant) {
         listOfPlants.add(plant)
     }
+
+    override suspend fun getPlantByName(name: String): Plant? {
+        return listOfPlants.find { it.name == name }
+    }
 }

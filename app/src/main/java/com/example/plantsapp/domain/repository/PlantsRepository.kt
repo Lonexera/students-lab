@@ -6,4 +6,5 @@ interface PlantsRepository {
 
     suspend fun fetchPlants(): List<Plant>
     suspend fun addPlant(plant: Plant)
+    suspend fun getPlantByName(name: String): Plant?
 }
