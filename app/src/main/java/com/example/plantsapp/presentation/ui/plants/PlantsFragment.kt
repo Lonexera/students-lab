@@ -32,8 +32,10 @@ class PlantsFragment : Fragment(R.layout.fragment_plants) {
             }
 
             clickedPlant.observe(viewLifecycleOwner) {
-                it.getContentIfNotHandled()?.let {
-                    openFragment(PlantDetailFragment())
+                it.getContentIfNotHandled()?.let { plant ->
+                    openFragment(
+                        PlantDetailFragment.newInstance(plant.name)
+                    )
                 }
             }
 

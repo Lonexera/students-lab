@@ -29,7 +29,7 @@ class PlantCreationViewModel(
 
             repository.addPlant(
                 Plant(
-                    plantName,
+                    Plant.Name(plantName),
                     speciesName,
                     "",
                     wateringFrequency.toInt()
