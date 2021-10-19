@@ -9,11 +9,11 @@ object PlantsRepositoryImpl : PlantsRepository {
     private const val PLANT_PICTURE = "https://www.vippng.com/png/detail/41-414674_house-plant-png.png"
 
     private val listOfPlants: MutableList<Plant> = mutableListOf(
-        Plant("Bob", "Succulent", PLANT_PICTURE, SEVEN_DAYS),
-        Plant("Marley", "Spath plant", PLANT_PICTURE, SEVEN_DAYS),
-        Plant("John", "Cacti", PLANT_PICTURE, SEVEN_DAYS),
-        Plant("Casey", "Tillandsia", PLANT_PICTURE, SEVEN_DAYS),
-        Plant("Robert", "Succulent", PLANT_PICTURE, SEVEN_DAYS)
+        Plant(Plant.PlantName("Bob"), "Succulent", PLANT_PICTURE, SEVEN_DAYS),
+        Plant(Plant.PlantName("Marley"), "Spath plant", PLANT_PICTURE, SEVEN_DAYS),
+        Plant(Plant.PlantName("John"), "Cacti", PLANT_PICTURE, SEVEN_DAYS),
+        Plant(Plant.PlantName("Casey"), "Tillandsia", PLANT_PICTURE, SEVEN_DAYS),
+        Plant(Plant.PlantName("Robert"), "Succulent", PLANT_PICTURE, SEVEN_DAYS)
     )
 
     override suspend fun fetchPlants(): List<Plant> {
@@ -24,7 +24,8 @@ object PlantsRepositoryImpl : PlantsRepository {
         listOfPlants.add(plant)
     }
 
-    override suspend fun getPlantByName(name: String): Plant? {
+    override suspend fun getPlantByName(name: Plant.PlantName): Plant {
         return listOfPlants.find { it.name == name }
+            ?: error("Plant with name $name was not found")
     }
 }

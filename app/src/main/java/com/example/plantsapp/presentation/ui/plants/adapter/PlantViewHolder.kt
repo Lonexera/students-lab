@@ -14,7 +14,7 @@ class PlantViewHolder(
 
     fun bind(plant: Plant) {
         with(binding) {
-            tvPlantName.text = plant.name
+            tvPlantName.text = plant.name.value
             tvSpeciesName.text = plant.speciesName
             Glide.with(binding.root)
                 .load(plant.plantPicture)

@@ -2,11 +2,12 @@ package com.example.plantsapp.presentation.ui.plantdetail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.repository.PlantsRepository
 
 class DetailViewModelFactory(
     private val repository: PlantsRepository,
-    private val plantName: String
+    private val plantName: Plant.PlantName
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
