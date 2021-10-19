@@ -3,7 +3,7 @@ package com.example.plantsapp.presentation.ui.plantdetail
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
 import com.example.plantsapp.R
@@ -13,7 +13,7 @@ import com.example.plantsapp.domain.model.Plant
 class PlantDetailFragment : Fragment(R.layout.fragment_plant_detail) {
 
     private val binding: FragmentPlantDetailBinding by viewBinding(FragmentPlantDetailBinding::bind)
-    private val detailViewModel: PlantDetailViewModel by viewModels {
+    private val detailViewModel: PlantDetailViewModel by activityViewModels {
         DetailViewModelFactory()
     }
 
