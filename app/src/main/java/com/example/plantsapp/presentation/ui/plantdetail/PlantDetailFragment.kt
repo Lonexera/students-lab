@@ -8,16 +8,17 @@ import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
 import com.example.plantsapp.R
-import com.example.plantsapp.data.PlantsRepositoryImpl
 import com.example.plantsapp.databinding.FragmentPlantDetailBinding
 import com.example.plantsapp.domain.model.Plant
+import com.example.plantsapp.presentation.PlantApplication
 
 class PlantDetailFragment : Fragment(R.layout.fragment_plant_detail) {
 
     private val binding: FragmentPlantDetailBinding by viewBinding(FragmentPlantDetailBinding::bind)
     private val detailViewModel: PlantDetailViewModel by viewModels {
         DetailViewModelFactory(
-            repository = PlantsRepositoryImpl,
+            repository = (requireActivity().application as PlantApplication)
+                .roomPlantsRepository,
             plantName = requireArguments().plantName
         )
     }
@@ -52,7 +53,7 @@ class PlantDetailFragment : Fragment(R.layout.fragment_plant_detail) {
         private var Bundle.plantName: Plant.Name
             get() = Plant.Name(
                 getString(ARGUMENT_PLANT_NAME, null)
-                ?: error("You forgot to pass ARGUMENT_PLANT_NAME")
+                    ?: error("You forgot to pass ARGUMENT_PLANT_NAME")
             )
             set(plantName) = putString(ARGUMENT_PLANT_NAME, plantName.value)
 

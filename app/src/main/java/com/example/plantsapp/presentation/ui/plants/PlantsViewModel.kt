@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.repository.PlantsRepository
 import com.example.plantsapp.presentation.core.Event
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class PlantsViewModel(
@@ -23,7 +24,9 @@ class PlantsViewModel(
 
     init {
         viewModelScope.launch {
-            _plants.value = repository.fetchPlants()
+            repository.fetchPlants().collect {
+                _plants.value = it
+            }
         }
     }
 
