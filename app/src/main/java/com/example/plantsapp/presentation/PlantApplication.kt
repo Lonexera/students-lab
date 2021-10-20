@@ -12,10 +12,7 @@ class PlantApplication : Application() {
 
     private val applicationScope = CoroutineScope(SupervisorJob())
     private val roomPlantsDatabase: RoomPlantsDatabase by lazy {
-        RoomPlantsDatabase.getInstance(
-            this,
-            applicationScope
-        )
+        RoomPlantsDatabase.getInstance(this)
     }
     val roomPlantsRepository: RoomPlantsRepository by lazy {
         RoomPlantsRepository(roomPlantsDatabase.plantDao())
