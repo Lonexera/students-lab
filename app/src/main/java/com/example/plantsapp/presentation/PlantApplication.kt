@@ -4,13 +4,10 @@ import android.app.Application
 import com.example.plantsapp.BuildConfig
 import com.example.plantsapp.data.RoomPlantsDatabase
 import com.example.plantsapp.data.RoomPlantsRepository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.SupervisorJob
 import timber.log.Timber
 
 class PlantApplication : Application() {
 
-    private val applicationScope = CoroutineScope(SupervisorJob())
     private val roomPlantsDatabase: RoomPlantsDatabase by lazy {
         RoomPlantsDatabase.getInstance(this)
     }
