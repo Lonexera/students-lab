@@ -6,14 +6,17 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.plantsapp.R
-import com.example.plantsapp.data.PlantsRepositoryImpl
 import com.example.plantsapp.databinding.FragmentPlantCreationBinding
+import com.example.plantsapp.presentation.PlantApplication
 
 class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
 
     private val binding: FragmentPlantCreationBinding by viewBinding(FragmentPlantCreationBinding::bind)
     private val creationViewModel: PlantCreationViewModel by viewModels {
-        CreationViewModelFactory(repository = PlantsRepositoryImpl)
+        CreationViewModelFactory(
+            repository = (requireActivity().application as PlantApplication)
+                .roomPlantsRepository
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

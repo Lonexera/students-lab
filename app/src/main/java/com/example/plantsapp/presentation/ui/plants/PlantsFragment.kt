@@ -7,9 +7,9 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.plantsapp.R
-import com.example.plantsapp.data.PlantsRepositoryImpl
 import com.example.plantsapp.presentation.ui.plants.adapter.PlantsAdapter
 import com.example.plantsapp.databinding.FragmentPlantsBinding
+import com.example.plantsapp.presentation.PlantApplication
 import com.example.plantsapp.presentation.ui.plantcreation.PlantCreationFragment
 import com.example.plantsapp.presentation.ui.plantdetail.PlantDetailFragment
 
@@ -17,7 +17,11 @@ class PlantsFragment : Fragment(R.layout.fragment_plants) {
 
     private val binding: FragmentPlantsBinding by viewBinding(FragmentPlantsBinding::bind)
     private val plantsViewModel: PlantsViewModel by viewModels {
-        PlantsViewModelFactory(repository = PlantsRepositoryImpl)
+        PlantsViewModelFactory(
+            repository =
+            (requireActivity().application as PlantApplication)
+                .roomPlantsRepository
+        )
     }
     private val plantsAdapter = PlantsAdapter {
         plantsViewModel.onPlantClicked(it)
