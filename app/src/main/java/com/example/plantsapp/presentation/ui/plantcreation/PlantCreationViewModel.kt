@@ -35,7 +35,7 @@ class PlantCreationViewModel(
                 Plant(
                     Plant.Name(plantName),
                     speciesName,
-                    selectedPicture.value ?: Uri.EMPTY,
+                    selectedPicture.value,
                     wateringFrequency.toInt()
                 )
             )
@@ -44,7 +44,7 @@ class PlantCreationViewModel(
         }
     }
 
-    fun onImageSelected(uri: Uri?) {
+    fun onImageSelected(uri: Uri) {
         _selectedPicture.value = uri
     }
 }

@@ -22,8 +22,10 @@ class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
     private val imagePickerLauncher =
         registerForActivityResult(
             ImagePickerContract()
-        ) {
-            creationViewModel.onImageSelected(it)
+        ) { uri ->
+            uri?.let {
+                creationViewModel.onImageSelected(uri)
+            }
         }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

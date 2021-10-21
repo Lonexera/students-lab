@@ -5,7 +5,7 @@ import android.net.Uri
 data class Plant(
     val name: Name,
     val speciesName: String,
-    val plantPicture: Uri,
+    val plantPicture: Uri?,
     val wateringFrequencyDays: Int
 ) {
     @JvmInline

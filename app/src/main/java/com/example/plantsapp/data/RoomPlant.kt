@@ -1,6 +1,6 @@
 package com.example.plantsapp.data
 
-import android.net.Uri
+import androidx.core.net.toUri
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -18,7 +18,7 @@ data class RoomPlant(
             return RoomPlant(
                 plant.name.value,
                 plant.speciesName,
-                plant.plantPicture.toString(),
+                plant.plantPicture?.toString().orEmpty(),
                 plant.wateringFrequencyDays
             )
         }
@@ -28,7 +28,7 @@ data class RoomPlant(
         return Plant(
             Plant.Name(this.name),
             this.speciesName,
-            Uri.parse(this.plantPicture),
+            this.plantPicture.toUri(),
             this.wateringFrequencyDays
         )
     }
