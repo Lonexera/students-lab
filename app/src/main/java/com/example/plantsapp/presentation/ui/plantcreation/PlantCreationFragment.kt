@@ -1,8 +1,8 @@
 package com.example.plantsapp.presentation.ui.plantcreation
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -20,6 +20,10 @@ class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
                 .roomPlantsRepository
         )
     }
+    private val getContent =
+        registerForActivityResult(ActivityResultContracts.GetContent()) {
+            creationViewModel.onGalleryResult(it)
+        }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -32,14 +36,8 @@ class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
             }
 
             openGallery.observe(viewLifecycleOwner) {
-                it.getContentIfNotHandled()?.let { requestCode ->
-                    val intent = Intent(Intent.ACTION_GET_CONTENT)
-                    intent.type = "image/*"
-                    requireActivity().startActivityFromFragment(
-                        this@PlantCreationFragment,
-                        intent,
-                        requestCode
-                    )
+                it.getContentIfNotHandled()?.let {
+                    getContent.launch("image/*")
                 }
             }
 
@@ -62,9 +60,5 @@ class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
                 creationViewModel.onImageClicked()
             }
         }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        creationViewModel.onGalleryActivityResult(requestCode, resultCode, data)
     }
 }
