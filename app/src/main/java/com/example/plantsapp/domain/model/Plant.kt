@@ -1,9 +1,11 @@
 package com.example.plantsapp.domain.model
 
+import android.net.Uri
+
 data class Plant(
     val name: Name,
     val speciesName: String,
-    val plantPicture: String,
+    val plantPicture: Uri,
     val wateringFrequencyDays: Int
 ) {
     @JvmInline

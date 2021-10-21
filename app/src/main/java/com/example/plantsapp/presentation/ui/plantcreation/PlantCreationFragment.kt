@@ -19,6 +19,12 @@ class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
                 .roomPlantsRepository
         )
     }
+    private val imagePickerLauncher =
+        registerForActivityResult(
+            ImagePickerContract()
+        ) {
+            creationViewModel.onImageSelected(it)
+        }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -48,9 +54,7 @@ class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
                 )
             }
             ivCreationPlant.setOnClickListener {
-                creationViewModel.onImageClicked(
-                    activityResultRegistry = requireActivity().activityResultRegistry
-                )
+                imagePickerLauncher.launch(null)
             }
         }
     }

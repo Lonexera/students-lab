@@ -1,6 +1,6 @@
 package com.example.plantsapp.presentation.ui.plantcreation
 
-import androidx.activity.result.ActivityResultRegistry
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -18,8 +18,8 @@ class PlantCreationViewModel(
     private val _toNavigateBack: MutableLiveData<Event<Unit>> = MutableLiveData()
     val toNavigateBack: LiveData<Event<Unit>> get() = _toNavigateBack
 
-    private val _selectedPicture: MutableLiveData<String> = MutableLiveData()
-    val selectedPicture: LiveData<String> get() = _selectedPicture
+    private val _selectedPicture: MutableLiveData<Uri> = MutableLiveData()
+    val selectedPicture: LiveData<Uri> get() = _selectedPicture
 
     fun saveData(
         plantName: String,
@@ -35,7 +35,7 @@ class PlantCreationViewModel(
                 Plant(
                     Plant.Name(plantName),
                     speciesName,
-                    selectedPicture.value.orEmpty(),
+                    selectedPicture.value ?: Uri.EMPTY,
                     wateringFrequency.toInt()
                 )
             )
@@ -44,10 +44,7 @@ class PlantCreationViewModel(
         }
     }
 
-    fun onImageClicked(activityResultRegistry: ActivityResultRegistry) {
-        val imagePicker = ImagePicker(activityResultRegistry) {
-            _selectedPicture.value = it?.toString()
-        }
-        imagePicker.pickImage()
+    fun onImageSelected(uri: Uri?) {
+        _selectedPicture.value = uri
     }
 }
