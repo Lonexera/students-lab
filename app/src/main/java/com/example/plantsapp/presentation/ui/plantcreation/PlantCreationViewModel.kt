@@ -1,6 +1,6 @@
 package com.example.plantsapp.presentation.ui.plantcreation
 
-import android.net.Uri
+import androidx.activity.result.ActivityResultRegistry
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,9 +17,6 @@ class PlantCreationViewModel(
 
     private val _toNavigateBack: MutableLiveData<Event<Unit>> = MutableLiveData()
     val toNavigateBack: LiveData<Event<Unit>> get() = _toNavigateBack
-
-    private val _openGallery: MutableLiveData<Event<Unit>> = MutableLiveData()
-    val openGallery: LiveData<Event<Unit>> get() = _openGallery
 
     private val _selectedPicture: MutableLiveData<String> = MutableLiveData()
     val selectedPicture: LiveData<String> get() = _selectedPicture
@@ -47,11 +44,10 @@ class PlantCreationViewModel(
         }
     }
 
-    fun onImageClicked() {
-        _openGallery.value = Event(Unit)
-    }
-
-    fun onGalleryResult(uri: Uri) {
-        _selectedPicture.value = uri.toString()
+    fun onImageClicked(activityResultRegistry: ActivityResultRegistry) {
+        val imagePicker = ImagePicker(activityResultRegistry) {
+            _selectedPicture.value = it?.toString()
+        }
+        imagePicker.pickImage()
     }
 }

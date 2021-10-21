@@ -2,7 +2,6 @@ package com.example.plantsapp.presentation.ui.plantcreation
 
 import android.os.Bundle
 import android.view.View
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -20,10 +19,6 @@ class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
                 .roomPlantsRepository
         )
     }
-    private val getContent =
-        registerForActivityResult(ActivityResultContracts.GetContent()) {
-            creationViewModel.onGalleryResult(it)
-        }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -32,12 +27,6 @@ class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
             toNavigateBack.observe(viewLifecycleOwner) {
                 it.getContentIfNotHandled()?.let {
                     requireActivity().supportFragmentManager.popBackStack()
-                }
-            }
-
-            openGallery.observe(viewLifecycleOwner) {
-                it.getContentIfNotHandled()?.let {
-                    getContent.launch("image/*")
                 }
             }
 
@@ -59,7 +48,9 @@ class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
                 )
             }
             ivCreationPlant.setOnClickListener {
-                creationViewModel.onImageClicked()
+                creationViewModel.onImageClicked(
+                    activityResultRegistry = requireActivity().activityResultRegistry
+                )
             }
         }
     }
