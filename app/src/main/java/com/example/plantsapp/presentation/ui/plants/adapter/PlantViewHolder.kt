@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.plantsapp.R
 import com.example.plantsapp.databinding.ItemPlantBinding
 import com.example.plantsapp.domain.model.Plant
 
@@ -19,6 +20,7 @@ class PlantViewHolder(
             Glide.with(binding.root)
                 .load(plant.plantPicture)
                 .centerCrop()
+                .placeholder(R.drawable.ic_baseline_image_24)
                 .into(ivPlant)
         }
 

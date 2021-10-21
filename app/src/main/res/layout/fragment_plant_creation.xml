@@ -14,7 +14,8 @@
             android:layout_height="@dimen/plant_detail_image_size"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/ic_baseline_image_24"/>
 
 
         <EditText

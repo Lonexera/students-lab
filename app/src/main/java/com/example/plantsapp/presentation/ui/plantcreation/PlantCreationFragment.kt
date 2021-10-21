@@ -44,6 +44,8 @@ class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
             selectedPicture.observe(viewLifecycleOwner) { picture ->
                 Glide.with(this@PlantCreationFragment)
                     .load(picture)
+                    .centerCrop()
+                    .placeholder(R.drawable.ic_baseline_image_24)
                     .into(binding.ivCreationPlant)
             }
         }
