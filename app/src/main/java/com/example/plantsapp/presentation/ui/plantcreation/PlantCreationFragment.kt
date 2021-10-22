@@ -5,6 +5,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.bumptech.glide.Glide
 import com.example.plantsapp.R
 import com.example.plantsapp.databinding.FragmentPlantCreationBinding
 import com.example.plantsapp.presentation.PlantApplication
@@ -18,6 +19,14 @@ class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
                 .roomPlantsRepository
         )
     }
+    private val imagePickerLauncher =
+        registerForActivityResult(
+            ImagePickerContract()
+        ) { uri ->
+            uri?.let {
+                creationViewModel.onImageSelected(uri)
+            }
+        }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -28,15 +37,26 @@ class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
                     requireActivity().supportFragmentManager.popBackStack()
                 }
             }
+
+            selectedPicture.observe(viewLifecycleOwner) { picture ->
+                Glide.with(this@PlantCreationFragment)
+                    .load(picture)
+                    .centerCrop()
+                    .placeholder(R.drawable.ic_baseline_image_24)
+                    .into(binding.ivCreationPlant)
+            }
         }
 
         with(binding) {
             btnCreationSave.setOnClickListener {
                 creationViewModel.saveData(
-                    binding.etCreationPlantName.text.toString(),
-                    binding.etCreationSpeciesName.text.toString(),
-                    binding.etCreationWateringFrequency.text.toString()
+                    etCreationPlantName.text.toString(),
+                    etCreationSpeciesName.text.toString(),
+                    etCreationWateringFrequency.text.toString()
                 )
+            }
+            ivCreationPlant.setOnClickListener {
+                imagePickerLauncher.launch(null)
             }
         }
     }
