@@ -2,6 +2,7 @@ package com.example.plantsapp.presentation.ui.plantcreation
 
 import android.os.Bundle
 import android.view.View
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -58,6 +59,15 @@ class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
             ivCreationPlant.setOnClickListener {
                 imagePickerLauncher.launch(null)
             }
+
+            // Watering Frequency Autofill
+            etCreationWateringFrequency.setAdapter(
+                ArrayAdapter(
+                    requireContext(),
+                    R.layout.support_simple_spinner_dropdown_item,
+                    (1..62).map { "$it days" }
+                )
+            )
         }
     }
 }

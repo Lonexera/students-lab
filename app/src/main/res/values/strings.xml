@@ -13,5 +13,6 @@
     <string name="hint_species_name">Species name</string>
     <string name="msg_creation_watering_text">Water every</string>
     <string name="msg_creation_frequency_units">days</string>
+    <string name="hint_watering_frequency">Watering Frequency</string>
     <string name="title_button_save">Save</string>
 </resources>
