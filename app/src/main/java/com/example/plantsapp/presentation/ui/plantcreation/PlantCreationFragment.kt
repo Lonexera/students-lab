@@ -65,7 +65,7 @@ class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
                 ArrayAdapter(
                     requireContext(),
                     R.layout.support_simple_spinner_dropdown_item,
-                    (1..62).map { "$it days" }
+                    creationViewModel.wateringFrequencyValues
                 )
             )
         }

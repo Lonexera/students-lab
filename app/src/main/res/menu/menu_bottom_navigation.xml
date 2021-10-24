@@ -2,8 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:id="@+id/bottom_nav_tasks"
-        android:title="@string/title_bottom_nav_tasks" />
+        android:title="@string/title_bottom_nav_tasks"
+        android:icon="@drawable/ic_home_24"/>
 
     <item android:id="@+id/bottom_nav_plants"
-        android:title="@string/title_bottom_nav_plants" />
+        android:title="@string/title_bottom_nav_plants"
+        android:icon="@drawable/ic_plant_24"/>
 </menu>

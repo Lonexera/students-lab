@@ -4,35 +4,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_search_plants"
+    <SearchView
+        android:id="@+id/search_view_plants"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:elevation="@dimen/search_view_plants_elevation"
+        android:iconifiedByDefault="false"
+        android:queryBackground="@android:color/transparent"
+        android:background="@color/white"
         android:layout_marginTop="@dimen/margin_8dp"
         android:layout_marginStart="@dimen/margin_8dp"
         android:layout_marginEnd="@dimen/margin_8dp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:startIconDrawable="@drawable/ic_baseline_search_24"
-        style="@style/Widget.Plant.TextInputLayout">
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/et_search_plants"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:hint="@string/hint_search_plants" />
-    </com.google.android.material.textfield.TextInputLayout>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+    </SearchView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_plants"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:clipToPadding="false"
         android:paddingTop="@dimen/margin_16dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:paddingBottom="@dimen/margin_16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/til_search_plants"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_view_plants" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add_plant"

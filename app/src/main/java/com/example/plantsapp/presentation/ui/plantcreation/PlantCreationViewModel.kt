@@ -21,6 +21,9 @@ class PlantCreationViewModel(
     private val _selectedPicture: MutableLiveData<Uri> = MutableLiveData()
     val selectedPicture: LiveData<Uri> get() = _selectedPicture
 
+    val wateringFrequencyValues: List<String> =
+        (1..MAX_WATERING_FREQUENCY).map { "$it days" }
+
     fun saveData(
         plantName: String,
         speciesName: String,
@@ -36,7 +39,9 @@ class PlantCreationViewModel(
                     Plant.Name(plantName),
                     speciesName,
                     selectedPicture.value,
-                    wateringFrequency.toInt()
+                    wateringFrequency
+                        .takeWhile { it in ('0'..'9') }
+                        .toInt()
                 )
             )
 
@@ -46,5 +51,9 @@ class PlantCreationViewModel(
 
     fun onImageSelected(uri: Uri) {
         _selectedPicture.value = uri
+    }
+
+    companion object {
+        private const val MAX_WATERING_FREQUENCY = 31
     }
 }

@@ -37,6 +37,8 @@ class PlantDetailFragment : Fragment(R.layout.fragment_plant_detail) {
         with(binding) {
             Glide.with(requireContext())
                 .load(plant.plantPicture)
+                .centerCrop()
+                .placeholder(R.drawable.ic_baseline_image_24)
                 .into(ivDetailPlant)
 
             tvDetailPlantName.text = plant.name.value

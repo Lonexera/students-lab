@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="plant_card_image_size">96dp</dimen>
+    <dimen name="plant_card_image_size">64dp</dimen>
     <dimen name="plant_detail_image_size">200dp</dimen>
+
+    <dimen name="cardview_corner_radius_size">10dp</dimen>
+
+    <dimen name="search_view_plants_elevation">10dp</dimen>
+
     <!-- margins -->
     <dimen name="margin_16dp">16dp</dimen>
     <dimen name="margin_8dp">8dp</dimen>
+
+    <dimen name="detail_plant_name_text_size">26sp</dimen>
+    <dimen name="detail_plant_info_text_size">18sp</dimen>
+
+    <dimen name="item_plants_plant_name_size">18sp</dimen>
+    <dimen name="item_plants_species_name_size">14sp</dimen>
 
 </resources>
