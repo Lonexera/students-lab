@@ -49,17 +49,17 @@ class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
 
             wateringFrequencyValues.observe(viewLifecycleOwner) { valuesList ->
 
+                val wateringValueList = valuesList.map {
+                    resources.getQuantityString(
+                        R.plurals.msg_creation_frequency_units, it, it
+                    )
+                }
+
                 binding.etCreationWateringFrequency.setAdapter(
                     ArrayAdapter(
                         requireContext(),
                         R.layout.support_simple_spinner_dropdown_item,
-                        valuesList.map {
-                            resources.getQuantityString(
-                                R.plurals.msg_creation_frequency_units,
-                                it,
-                                it
-                            )
-                        }
+                        wateringValueList
                     )
                 )
 
@@ -70,7 +70,11 @@ class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
             }
 
             wateringSelectedFrequency.observe(viewLifecycleOwner) {
-                binding.etCreationWateringFrequency.setText(it.toString())
+                binding.etCreationWateringFrequency.setText(
+                    resources.getQuantityString(
+                        R.plurals.msg_creation_frequency_units, it, it
+                    )
+                )
             }
         }
 
