@@ -98,19 +98,14 @@
                 android:inputType="none" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@id/btn_creation_save"
-            app:layout_constraintTop_toBottomOf="@id/til_creation_watering_frequency"
-            app:layout_constraintVertical_weight="1" />
-
         <Button
             android:id="@+id/btn_creation_save"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/title_button_save"
+            app:layout_constraintTop_toBottomOf="@id/til_creation_watering_frequency"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="1"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start" />
 

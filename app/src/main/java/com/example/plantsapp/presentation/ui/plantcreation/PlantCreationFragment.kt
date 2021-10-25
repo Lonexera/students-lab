@@ -46,28 +46,38 @@ class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
                     .placeholder(R.drawable.ic_baseline_image_24)
                     .into(binding.ivCreationPlant)
             }
+
+            wateringFrequencyValuesUI.observe(viewLifecycleOwner) { valuesList ->
+                // Watering Frequency Autofill
+                with(binding.etCreationWateringFrequency) {
+                    setAdapter(
+                        ArrayAdapter(
+                            requireContext(),
+                            R.layout.support_simple_spinner_dropdown_item,
+                            valuesList
+                        )
+                    )
+                    isEnabled = true
+                }
+            }
         }
 
         with(binding) {
             btnCreationSave.setOnClickListener {
                 creationViewModel.saveData(
                     etCreationPlantName.text.toString(),
-                    etCreationSpeciesName.text.toString(),
-                    etCreationWateringFrequency.text.toString()
+                    etCreationSpeciesName.text.toString()
                 )
             }
             ivCreationPlant.setOnClickListener {
                 imagePickerLauncher.launch(null)
             }
-
-            // Watering Frequency Autofill
-            etCreationWateringFrequency.setAdapter(
-                ArrayAdapter(
-                    requireContext(),
-                    R.layout.support_simple_spinner_dropdown_item,
-                    creationViewModel.wateringFrequencyValues
-                )
-            )
+            with(etCreationWateringFrequency) {
+                isEnabled = false
+                setOnItemClickListener { _, _, position, _ ->
+                    creationViewModel.onWateringFrequencySelected(position)
+                }
+            }
         }
     }
 }

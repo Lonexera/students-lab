@@ -5,10 +5,9 @@
     <string name="title_bottom_nav_tasks">Tasks</string>
     <string name="title_bottom_nav_plants">Plants</string>
 
-    <!-- Plants Screen -->
-    <string name="hint_search_plants">Search here</string>
-
     <!-- Plant Detail Screen -->
+    <string name="msg_detail_plant_name">Plant name: \n %s</string>
+    <string name="msg_detail_species_name">Species name: \n %s</string>
     <string name="msg_detail_watering_text">Watering frequency: \n every %d days</string>
 
     <!-- Plant Creation Screen -->

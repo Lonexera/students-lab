@@ -45,34 +45,33 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_16dp"
-            android:textAlignment="center"
             android:textSize="@dimen/detail_plant_name_text_size"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@+id/cv_detail_plant_image" />
+            app:layout_constraintTop_toBottomOf="@+id/cv_detail_plant_image"
+            app:layout_constraintBottom_toTopOf="@id/tv_detail_species_name"/>
 
         <TextView
             android:id="@+id/tv_detail_species_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_16dp"
-            android:textAlignment="center"
             android:textSize="@dimen/detail_plant_info_text_size"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@+id/tv_detail_plant_name" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_detail_plant_name"
+            app:layout_constraintBottom_toTopOf="@id/tv_detail_watering_text"/>
 
         <TextView
             android:id="@+id/tv_detail_watering_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_16dp"
-            android:text="@string/msg_detail_watering_text"
-            android:textAlignment="center"
             android:textSize="@dimen/detail_plant_info_text_size"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@id/tv_detail_species_name" />
+            app:layout_constraintTop_toBottomOf="@id/tv_detail_species_name"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

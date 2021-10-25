@@ -11,7 +11,7 @@
     <dimen name="margin_16dp">16dp</dimen>
     <dimen name="margin_8dp">8dp</dimen>
 
-    <dimen name="detail_plant_name_text_size">26sp</dimen>
+    <dimen name="detail_plant_name_text_size">18sp</dimen>
     <dimen name="detail_plant_info_text_size">18sp</dimen>
 
     <dimen name="item_plants_plant_name_size">18sp</dimen>

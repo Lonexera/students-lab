@@ -21,27 +21,30 @@ class PlantCreationViewModel(
     private val _selectedPicture: MutableLiveData<Uri> = MutableLiveData()
     val selectedPicture: LiveData<Uri> get() = _selectedPicture
 
-    val wateringFrequencyValues: List<String> =
-        (1..MAX_WATERING_FREQUENCY).map { "$it days" }
+    private var wateringSelectedPosition: Int? = null
+    private val wateringFrequencyValues: List<Int> =
+        (MIN_WATERING_FREQUENCY..MAX_WATERING_FREQUENCY).toList()
+    val wateringFrequencyValuesUI: LiveData<List<Int>> =
+        MutableLiveData(wateringFrequencyValues)
+
 
     fun saveData(
         plantName: String,
-        speciesName: String,
-        wateringFrequency: String
+        speciesName: String
     ) {
         viewModelScope.launch {
             Timber.d("Plant name: $plantName")
             Timber.d("Plant species name: $speciesName")
-            Timber.d("Watering frequency in days: $wateringFrequency")
+            Timber.d("Watering frequency position: $wateringSelectedPosition")
 
             repository.addPlant(
                 Plant(
                     Plant.Name(plantName),
                     speciesName,
                     selectedPicture.value,
-                    wateringFrequency
-                        .takeWhile { it in ('0'..'9') }
-                        .toInt()
+                    wateringSelectedPosition?.run {
+                        wateringFrequencyValues.get(this)
+                    } ?: 0
                 )
             )
 
@@ -53,7 +56,12 @@ class PlantCreationViewModel(
         _selectedPicture.value = uri
     }
 
+    fun onWateringFrequencySelected(valueId: Int) {
+        wateringSelectedPosition = valueId
+    }
+
     companion object {
+        private const val MIN_WATERING_FREQUENCY = 1
         private const val MAX_WATERING_FREQUENCY = 31
     }
 }
