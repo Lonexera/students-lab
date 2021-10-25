@@ -2,76 +2,113 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp">
 
-        <ImageView
-            android:id="@+id/iv_creation_plant"
-            android:layout_width="@dimen/plant_detail_image_size"
-            android:layout_height="@dimen/plant_detail_image_size"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/ic_baseline_image_24"/>
-
-
-        <EditText
-            android:id="@+id/et_creation_plant_name"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_plant_name"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_creation_plant" />
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="@dimen/margin_8dp" />
 
-
-        <EditText
-            android:id="@+id/et_creation_species_name"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_end"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_species_name"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/et_creation_plant_name" />
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="@dimen/margin_8dp" />
 
-        <TextView
-            android:id="@+id/tv_creation_watering_text"
-            android:layout_width="wrap_content"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardview_plant_image"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/msg_creation_watering_text"
-            app:layout_constraintEnd_toEndOf="@id/et_creation_watering_frequency"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/et_creation_species_name" />
+            android:layout_marginTop="@dimen/margin_16dp"
+            app:cardCornerRadius="@dimen/cardview_corner_radius_size"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toEndOf="@id/guideline_start"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <EditText
-            android:id="@+id/et_creation_watering_frequency"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            app:layout_constraintEnd_toEndOf="@id/tv_creation_watering_units"
-            app:layout_constraintStart_toStartOf="@id/tv_creation_watering_text"
-            app:layout_constraintTop_toTopOf="@id/tv_creation_watering_text" />
+            <ImageView
+                android:id="@+id/iv_creation_plant"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/plant_detail_image_size"
+                android:src="@drawable/ic_baseline_image_24" />
+        </androidx.cardview.widget.CardView>
 
-        <TextView
-            android:id="@+id/tv_creation_watering_units"
-            android:layout_width="wrap_content"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_creation_plant_name"
+            style="@style/Widget.Plant.TextInputLayout"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/msg_creation_frequency_units"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/et_creation_watering_frequency"
-            app:layout_constraintTop_toTopOf="@id/tv_creation_watering_text" />
+            android:layout_marginTop="@dimen/margin_16dp"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@id/cardview_plant_image">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_creation_plant_name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/hint_plant_name"
+                android:inputType="textCapWords" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_creation_species_name"
+            style="@style/Widget.Plant.TextInputLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_16dp"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@id/til_creation_plant_name">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_creation_species_name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="text"
+                android:hint="@string/hint_species_name" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_creation_watering_frequency"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_16dp"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@id/til_creation_species_name">
+
+            <AutoCompleteTextView
+                android:id="@+id/et_creation_watering_frequency"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_watering_frequency"
+                android:enabled="false"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/btn_creation_save"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/title_button_save"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/et_creation_watering_frequency" />
+            app:layout_constraintTop_toBottomOf="@id/til_creation_watering_frequency"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="1"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

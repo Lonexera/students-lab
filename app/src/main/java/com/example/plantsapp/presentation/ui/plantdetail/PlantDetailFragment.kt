@@ -37,10 +37,18 @@ class PlantDetailFragment : Fragment(R.layout.fragment_plant_detail) {
         with(binding) {
             Glide.with(requireContext())
                 .load(plant.plantPicture)
+                .centerCrop()
+                .placeholder(R.drawable.ic_baseline_image_24)
                 .into(ivDetailPlant)
 
-            tvDetailPlantName.text = plant.name.value
-            tvDetailSpeciesName.text = plant.speciesName
+            tvDetailPlantName.text = getString(
+                R.string.msg_detail_plant_name,
+                plant.name.value
+            )
+            tvDetailSpeciesName.text = getString(
+                R.string.msg_detail_species_name,
+                plant.speciesName
+            )
             tvDetailWateringText.text = getString(
                 R.string.msg_detail_watering_text,
                 plant.wateringFrequencyDays

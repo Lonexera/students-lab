@@ -2,6 +2,7 @@ package com.example.plantsapp.presentation.ui.plantcreation
 
 import android.os.Bundle
 import android.view.View
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -45,14 +46,43 @@ class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
                     .placeholder(R.drawable.ic_baseline_image_24)
                     .into(binding.ivCreationPlant)
             }
+
+            wateringFrequencyValues.observe(viewLifecycleOwner) { valuesList ->
+
+                val wateringValueList = valuesList.map {
+                    resources.getQuantityString(
+                        R.plurals.msg_creation_frequency_units, it, it
+                    )
+                }
+
+                binding.etCreationWateringFrequency.setAdapter(
+                    ArrayAdapter(
+                        requireContext(),
+                        R.layout.support_simple_spinner_dropdown_item,
+                        wateringValueList
+                    )
+                )
+
+                binding.etCreationWateringFrequency.setOnItemClickListener { _, _, position, _ ->
+                    creationViewModel.onWateringFrequencySelected(valuesList[position])
+                }
+                binding.etCreationWateringFrequency.isEnabled = true
+            }
+
+            wateringSelectedFrequency.observe(viewLifecycleOwner) {
+                binding.etCreationWateringFrequency.setText(
+                    resources.getQuantityString(
+                        R.plurals.msg_creation_frequency_units, it, it
+                    )
+                )
+            }
         }
 
         with(binding) {
             btnCreationSave.setOnClickListener {
                 creationViewModel.saveData(
                     etCreationPlantName.text.toString(),
-                    etCreationSpeciesName.text.toString(),
-                    etCreationWateringFrequency.text.toString()
+                    etCreationSpeciesName.text.toString()
                 )
             }
             ivCreationPlant.setOnClickListener {

@@ -9,7 +9,6 @@ import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.repository.PlantsRepository
 import com.example.plantsapp.presentation.core.Event
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class PlantCreationViewModel(
     private val repository: PlantsRepository
@@ -21,22 +20,24 @@ class PlantCreationViewModel(
     private val _selectedPicture: MutableLiveData<Uri> = MutableLiveData()
     val selectedPicture: LiveData<Uri> get() = _selectedPicture
 
+    private val _wateringSelectedFrequency: MutableLiveData<Int> = MutableLiveData()
+    val wateringSelectedFrequency: LiveData<Int> get() = _wateringSelectedFrequency
+
+    val wateringFrequencyValues: LiveData<List<Int>> =
+        MutableLiveData((MIN_WATERING_FREQUENCY..MAX_WATERING_FREQUENCY).toList())
+
     fun saveData(
         plantName: String,
-        speciesName: String,
-        wateringFrequency: String
+        speciesName: String
     ) {
         viewModelScope.launch {
-            Timber.d("Plant name: $plantName")
-            Timber.d("Plant species name: $speciesName")
-            Timber.d("Watering frequency in days: $wateringFrequency")
 
             repository.addPlant(
                 Plant(
                     Plant.Name(plantName),
                     speciesName,
                     selectedPicture.value,
-                    wateringFrequency.toInt()
+                    wateringSelectedFrequency.value!!
                 )
             )
 
@@ -46,5 +47,14 @@ class PlantCreationViewModel(
 
     fun onImageSelected(uri: Uri) {
         _selectedPicture.value = uri
+    }
+
+    fun onWateringFrequencySelected(frequency: Int) {
+        _wateringSelectedFrequency.value = frequency
+    }
+
+    companion object {
+        private const val MIN_WATERING_FREQUENCY = 1
+        private const val MAX_WATERING_FREQUENCY = 31
     }
 }

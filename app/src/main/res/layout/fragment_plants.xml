@@ -5,22 +5,32 @@
     android:layout_height="match_parent">
 
     <SearchView
-        android:id="@+id/search_plants"
+        android:id="@+id/search_view_plants"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:elevation="@dimen/search_view_plants_elevation"
+        android:iconifiedByDefault="false"
+        android:queryBackground="@android:color/transparent"
+        android:background="@color/white"
         android:layout_marginTop="@dimen/margin_8dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="@dimen/margin_8dp"
+        android:layout_marginEnd="@dimen/margin_8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+    </SearchView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_plants"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_16dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:paddingTop="@dimen/margin_16dp"
+        android:paddingBottom="@dimen/margin_16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/search_plants"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_view_plants" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add_plant"

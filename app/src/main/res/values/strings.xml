@@ -4,14 +4,20 @@
     <!-- Bottom Navigation -->
     <string name="title_bottom_nav_tasks">Tasks</string>
     <string name="title_bottom_nav_plants">Plants</string>
-    
+
     <!-- Plant Detail Screen -->
+    <string name="msg_detail_plant_name">Plant name: \n %s</string>
+    <string name="msg_detail_species_name">Species name: \n %s</string>
     <string name="msg_detail_watering_text">Watering frequency: \n every %d days</string>
 
     <!-- Plant Creation Screen -->
     <string name="hint_plant_name">Name</string>
     <string name="hint_species_name">Species name</string>
-    <string name="msg_creation_watering_text">Water every</string>
-    <string name="msg_creation_frequency_units">days</string>
+    <string name="hint_watering_frequency">Watering Frequency</string>
     <string name="title_button_save">Save</string>
+
+    <plurals name="msg_creation_frequency_units">
+        <item quantity="one">%d day</item>
+        <item quantity="other">%d days</item>
+    </plurals>
 </resources>
