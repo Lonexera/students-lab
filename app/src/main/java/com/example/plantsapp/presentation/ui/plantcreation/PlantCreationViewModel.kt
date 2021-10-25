@@ -27,7 +27,6 @@ class PlantCreationViewModel(
     val wateringFrequencyValuesUI: LiveData<List<Int>> =
         MutableLiveData(wateringFrequencyValues)
 
-
     fun saveData(
         plantName: String,
         speciesName: String
