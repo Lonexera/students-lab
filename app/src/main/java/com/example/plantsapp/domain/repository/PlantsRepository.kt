@@ -8,4 +8,5 @@ interface PlantsRepository {
     suspend fun fetchPlants(): Flow<List<Plant>>
     suspend fun addPlant(plant: Plant)
     suspend fun getPlantByName(name: Plant.Name): Plant
+    suspend fun checkIfPlantNameIsInDb(name: Plant.Name): Boolean
 }

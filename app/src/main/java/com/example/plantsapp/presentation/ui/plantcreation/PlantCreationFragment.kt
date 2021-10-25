@@ -3,6 +3,7 @@ package com.example.plantsapp.presentation.ui.plantcreation
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -32,6 +33,11 @@ class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setUpObservers()
+        setUpViews()
+    }
+
+    private fun setUpObservers() {
         with(creationViewModel) {
             toNavigateBack.observe(viewLifecycleOwner) {
                 it.getContentIfNotHandled()?.let {
@@ -47,8 +53,15 @@ class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
                     .into(binding.ivCreationPlant)
             }
 
-            wateringFrequencyValues.observe(viewLifecycleOwner) { valuesList ->
+            invalidInput.observe(viewLifecycleOwner) { errorStringId ->
+                Toast.makeText(
+                    requireContext(),
+                    getString(errorStringId),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
 
+            wateringFrequencyValues.observe(viewLifecycleOwner) { valuesList ->
                 val wateringValueList = valuesList.map {
                     resources.getQuantityString(
                         R.plurals.msg_creation_frequency_units, it, it
@@ -77,7 +90,9 @@ class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
                 )
             }
         }
+    }
 
+    private fun setUpViews() {
         with(binding) {
             btnCreationSave.setOnClickListener {
                 creationViewModel.saveData(
