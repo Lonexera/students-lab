@@ -47,18 +47,30 @@ class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
                     .into(binding.ivCreationPlant)
             }
 
-            wateringFrequencyValuesUI.observe(viewLifecycleOwner) { valuesList ->
-                // Watering Frequency Autofill
-                with(binding.etCreationWateringFrequency) {
-                    setAdapter(
-                        ArrayAdapter(
-                            requireContext(),
-                            R.layout.support_simple_spinner_dropdown_item,
-                            valuesList
-                        )
+            wateringFrequencyValues.observe(viewLifecycleOwner) { valuesList ->
+
+                binding.etCreationWateringFrequency.setAdapter(
+                    ArrayAdapter(
+                        requireContext(),
+                        R.layout.support_simple_spinner_dropdown_item,
+                        valuesList.map {
+                            resources.getQuantityString(
+                                R.plurals.msg_creation_frequency_units,
+                                it,
+                                it
+                            )
+                        }
                     )
-                    isEnabled = true
+                )
+
+                binding.etCreationWateringFrequency.setOnItemClickListener { _, _, position, _ ->
+                    creationViewModel.onWateringFrequencySelected(valuesList[position])
                 }
+                binding.etCreationWateringFrequency.isEnabled = true
+            }
+
+            wateringSelectedFrequency.observe(viewLifecycleOwner) {
+                binding.etCreationWateringFrequency.setText(it.toString())
             }
         }
 
@@ -71,12 +83,6 @@ class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
             }
             ivCreationPlant.setOnClickListener {
                 imagePickerLauncher.launch(null)
-            }
-            with(etCreationWateringFrequency) {
-                isEnabled = false
-                setOnItemClickListener { _, _, position, _ ->
-                    creationViewModel.onWateringFrequencySelected(position)
-                }
             }
         }
     }

@@ -9,7 +9,6 @@ import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.repository.PlantsRepository
 import com.example.plantsapp.presentation.core.Event
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class PlantCreationViewModel(
     private val repository: PlantsRepository
@@ -21,29 +20,24 @@ class PlantCreationViewModel(
     private val _selectedPicture: MutableLiveData<Uri> = MutableLiveData()
     val selectedPicture: LiveData<Uri> get() = _selectedPicture
 
-    private var wateringSelectedPosition: Int? = null
-    private val wateringFrequencyValues: List<Int> =
-        (MIN_WATERING_FREQUENCY..MAX_WATERING_FREQUENCY).toList()
-    val wateringFrequencyValuesUI: LiveData<List<Int>> =
-        MutableLiveData(wateringFrequencyValues)
+    private val _wateringSelectedFrequency: MutableLiveData<Int> = MutableLiveData()
+    val wateringSelectedFrequency: LiveData<Int> get() = _wateringSelectedFrequency
+
+    val wateringFrequencyValues: LiveData<List<Int>> =
+        MutableLiveData((MIN_WATERING_FREQUENCY..MAX_WATERING_FREQUENCY).toList())
 
     fun saveData(
         plantName: String,
         speciesName: String
     ) {
         viewModelScope.launch {
-            Timber.d("Plant name: $plantName")
-            Timber.d("Plant species name: $speciesName")
-            Timber.d("Watering frequency position: $wateringSelectedPosition")
 
             repository.addPlant(
                 Plant(
                     Plant.Name(plantName),
                     speciesName,
                     selectedPicture.value,
-                    wateringSelectedPosition?.run {
-                        wateringFrequencyValues.get(this)
-                    } ?: 0
+                    wateringSelectedFrequency.value!!
                 )
             )
 
@@ -55,8 +49,8 @@ class PlantCreationViewModel(
         _selectedPicture.value = uri
     }
 
-    fun onWateringFrequencySelected(valueId: Int) {
-        wateringSelectedPosition = valueId
+    fun onWateringFrequencySelected(frequency: Int) {
+        _wateringSelectedFrequency.value = frequency
     }
 
     companion object {
