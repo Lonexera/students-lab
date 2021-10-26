@@ -5,12 +5,13 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.plantsapp.domain.repository.PlantsRepository
 
 class CreationViewModelFactory(
-    private val repository: PlantsRepository
+    private val repository: PlantsRepository,
+    private val validator: PlantCreationValidator
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(PlantCreationViewModel::class.java)) {
-            return PlantCreationViewModel(repository) as T
+            return PlantCreationViewModel(repository, validator) as T
         } else {
             throw IllegalArgumentException("ViewModel Class Is Not Found!")
         }

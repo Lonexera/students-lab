@@ -14,7 +14,8 @@ import timber.log.Timber
 import kotlin.Exception
 
 class PlantCreationViewModel(
-    private val repository: PlantsRepository
+    private val repository: PlantsRepository,
+    private val validator: PlantCreationValidator
 ) : ViewModel() {
 
     private val _toNavigateBack: MutableLiveData<Event<Unit>> = MutableLiveData()
@@ -38,7 +39,7 @@ class PlantCreationViewModel(
     ) {
         viewModelScope.launch {
 
-            val validationResult = PlantCreationValidator().validate(
+            val validationResult = validator.validate(
                 plantName,
                 speciesName,
                 wateringSelectedFrequency.value
@@ -46,23 +47,12 @@ class PlantCreationViewModel(
 
             when (validationResult) {
                 is PlantCreationValidator.ValidatorOutput.Success -> {
-                    try {
-                        repository.addPlant(
-                            Plant(
-                                Plant.Name(plantName),
-                                speciesName,
-                                selectedPicture.value,
-                                wateringSelectedFrequency.value!!
-                            )
-                        )
-                        _toNavigateBack.value = Event(Unit)
-                    } catch (
-                        @Suppress("TooGenericExceptionCaught")
-                        e: Exception
-                    ) {
-                        Timber.e(e)
-                        _invalidInput.value = R.string.error_indistinctive_name
-                    }
+                    addPlant(
+                        plantName,
+                        speciesName,
+                        selectedPicture.value,
+                        wateringSelectedFrequency.value!!
+                    )
                 }
 
                 is PlantCreationValidator.ValidatorOutput.Error -> {
@@ -78,6 +68,29 @@ class PlantCreationViewModel(
 
     fun onWateringFrequencySelected(frequency: Int) {
         _wateringSelectedFrequency.value = frequency
+    }
+
+    @Suppress("TooGenericExceptionCaught")
+    private suspend fun addPlant(
+        plantName: String,
+        speciesName: String,
+        plantPicture: Uri?,
+        wateringFrequency: Int
+    ) {
+        try {
+            repository.addPlant(
+                Plant(
+                    Plant.Name(plantName),
+                    speciesName,
+                    plantPicture,
+                    wateringFrequency
+                )
+            )
+            _toNavigateBack.value = Event(Unit)
+        } catch (e: Exception) {
+            Timber.e(e)
+            _invalidInput.value = R.string.error_indistinctive_name
+        }
     }
 
     companion object {

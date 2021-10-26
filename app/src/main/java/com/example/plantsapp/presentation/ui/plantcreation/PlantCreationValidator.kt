@@ -11,18 +11,9 @@ class PlantCreationValidator {
         frequency: Int?
     ): ValidatorOutput {
         return when {
-            plantName.isBlank() -> {
-                ValidatorOutput.Error(R.string.error_invalid_name)
-            }
-
-            speciesName.isBlank() -> {
-                ValidatorOutput.Error(R.string.error_invalid_species)
-            }
-
-            frequency == null -> {
-                ValidatorOutput.Error(R.string.error_invalid_watering_frequency)
-            }
-
+            plantName.isBlank() -> ValidatorOutput.Error(R.string.error_invalid_name)
+            speciesName.isBlank() -> ValidatorOutput.Error(R.string.error_invalid_species)
+            frequency == null -> ValidatorOutput.Error(R.string.error_invalid_watering_frequency)
             else -> ValidatorOutput.Success
         }
     }

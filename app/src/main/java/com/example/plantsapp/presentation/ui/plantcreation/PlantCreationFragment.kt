@@ -18,7 +18,8 @@ class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
     private val creationViewModel: PlantCreationViewModel by viewModels {
         CreationViewModelFactory(
             repository = (requireActivity().application as PlantApplication)
-                .roomPlantsRepository
+                .roomPlantsRepository,
+            validator = PlantCreationValidator()
         )
     }
     private val imagePickerLauncher =
