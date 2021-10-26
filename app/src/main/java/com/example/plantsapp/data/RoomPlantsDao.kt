@@ -14,9 +14,6 @@ interface RoomPlantsDao {
     @Query("SELECT * FROM plants WHERE name = :plantName")
     suspend fun getByName(plantName: String): RoomPlant
 
-    @Query("SELECT COUNT() FROM plants WHERE name = :plantName")
-    suspend fun countPlantsByName(plantName: String): Int
-
     @Insert
     suspend fun insert(plant: RoomPlant)
 }

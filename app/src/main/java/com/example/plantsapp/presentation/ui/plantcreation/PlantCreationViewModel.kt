@@ -10,6 +10,8 @@ import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.repository.PlantsRepository
 import com.example.plantsapp.presentation.core.Event
 import kotlinx.coroutines.launch
+import timber.log.Timber
+import kotlin.Exception
 
 class PlantCreationViewModel(
     private val repository: PlantsRepository
@@ -36,17 +38,36 @@ class PlantCreationViewModel(
     ) {
         viewModelScope.launch {
 
-            if (checkInput(plantName, speciesName)) {
-                repository.addPlant(
-                    Plant(
-                        Plant.Name(plantName),
-                        speciesName,
-                        selectedPicture.value,
-                        wateringSelectedFrequency.value!!
-                    )
-                )
+            val validationResult = PlantCreationValidator().validate(
+                plantName,
+                speciesName,
+                wateringSelectedFrequency.value
+            )
 
-                _toNavigateBack.value = Event(Unit)
+            when (validationResult) {
+                is PlantCreationValidator.ValidatorOutput.Success -> {
+                    try {
+                        repository.addPlant(
+                            Plant(
+                                Plant.Name(plantName),
+                                speciesName,
+                                selectedPicture.value,
+                                wateringSelectedFrequency.value!!
+                            )
+                        )
+                        _toNavigateBack.value = Event(Unit)
+                    } catch (
+                        @Suppress("TooGenericExceptionCaught")
+                        e: Exception
+                    ) {
+                        Timber.e(e)
+                        _invalidInput.value = R.string.error_indistinctive_name
+                    }
+                }
+
+                is PlantCreationValidator.ValidatorOutput.Error -> {
+                    _invalidInput.value = validationResult.errorMessageRes
+                }
             }
         }
     }
@@ -57,31 +78,6 @@ class PlantCreationViewModel(
 
     fun onWateringFrequencySelected(frequency: Int) {
         _wateringSelectedFrequency.value = frequency
-    }
-
-    private suspend fun checkInput(
-        plantName: String,
-        speciesName: String
-    ): Boolean {
-        return when {
-            plantName.isBlank() -> {
-                _invalidInput.value = R.string.error_invalid_name
-                false
-            }
-            repository.checkIfPlantNameIsInDb(Plant.Name(plantName)) -> {
-                _invalidInput.value = R.string.error_indistinctive_name
-                false
-            }
-            speciesName.isBlank() -> {
-                _invalidInput.value = R.string.error_invalid_species
-                false
-            }
-            wateringSelectedFrequency.value == null -> {
-                _invalidInput.value = R.string.error_invalid_watering_frequency
-                false
-            }
-            else -> true
-        }
     }
 
     companion object {

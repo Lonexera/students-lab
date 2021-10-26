@@ -21,9 +21,9 @@
         <item quantity="other">%d days</item>
     </plurals>
     <!-- Error Texts -->
-    <string name="error_invalid_name">Invalid name</string>
-    <string name="error_invalid_species">Invalid species name</string>
-    <string name="error_invalid_watering_frequency">Undefined watering frequency</string>
+    <string name="error_invalid_name">Provide name</string>
+    <string name="error_invalid_species">Provide species name</string>
+    <string name="error_invalid_watering_frequency">Select watering frequency</string>
     <string name="error_indistinctive_name">Plant with this name already exists!</string>
 
 </resources>

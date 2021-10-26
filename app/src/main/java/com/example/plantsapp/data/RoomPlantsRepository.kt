@@ -24,8 +24,4 @@ class RoomPlantsRepository(
     override suspend fun getPlantByName(name: Plant.Name): Plant {
         return plantsDao.getByName(name.value).toPlant()
     }
-
-    override suspend fun checkIfPlantNameIsInDb(name: Plant.Name): Boolean {
-        return plantsDao.countPlantsByName(name.value) > 0
-    }
 }

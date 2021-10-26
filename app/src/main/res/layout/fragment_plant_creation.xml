@@ -55,7 +55,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="@string/hint_plant_name"
-                android:maxLength="15"
                 android:inputType="textCapWords" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -76,7 +75,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:inputType="text"
-                android:maxLength="15"
                 android:hint="@string/hint_species_name" />
 
         </com.google.android.material.textfield.TextInputLayout>
