@@ -1,5 +1,6 @@
 package com.example.plantsapp.presentation.ui.plantcreation
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
@@ -11,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.example.plantsapp.R
 import com.example.plantsapp.databinding.FragmentPlantCreationBinding
 import com.example.plantsapp.presentation.PlantApplication
+import timber.log.Timber
 
 class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
 
@@ -29,6 +31,12 @@ class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
             uri?.let {
                 creationViewModel.onImageSelected(uri)
             }
+        }
+    private val cameraLauncher =
+        registerForActivityResult(
+            CameraContract()
+        ) { uri ->
+            Timber.d("cameraPictureUri - ${uri.toString()}")
         }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -102,8 +110,24 @@ class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
                 )
             }
             ivCreationPlant.setOnClickListener {
-                imagePickerLauncher.launch(null)
+                showDialogIntentPicker()
             }
         }
+    }
+
+    private fun showDialogIntentPicker() {
+        AlertDialog.Builder(requireContext())
+            .setTitle(R.string.title_intent_picker_dialog)
+            .setPositiveButton(R.string.title_intent_picker_dialog_btn_gallery) { _, _ ->
+                imagePickerLauncher.launch(null)
+            }
+            .setNegativeButton(R.string.title_intent_picker_dialog_btn_camera) { _, _ ->
+                cameraLauncher.launch(null)
+            }
+            .setNeutralButton(R.string.title_intent_picker_dialog_btn_cancel) { dialog, _, ->
+                dialog.dismiss()
+            }
+            .create()
+            .show()
     }
 }
