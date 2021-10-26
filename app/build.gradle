@@ -54,6 +54,10 @@ dependencies {
     // viewBinding delegate
     implementation 'com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.4.7'
 
+    // JUnit 4 framework
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.assertj:assertj-core:3.18.1'
+
     detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:1.18.1"
     
 }
