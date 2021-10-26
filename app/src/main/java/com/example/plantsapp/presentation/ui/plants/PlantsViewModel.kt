@@ -14,6 +14,7 @@ class PlantsViewModel(
     private val repository: PlantsRepository
 ) : ViewModel() {
 
+    private val allPlants: MutableLiveData<List<Plant>> = MutableLiveData()
     private val _plants: MutableLiveData<List<Plant>> = MutableLiveData()
     val plants: LiveData<List<Plant>> get() = _plants
 
@@ -25,6 +26,7 @@ class PlantsViewModel(
     init {
         viewModelScope.launch {
             repository.fetchPlants().collect {
+                allPlants.value = it
                 _plants.value = it
             }
         }
@@ -36,5 +38,17 @@ class PlantsViewModel(
 
     fun onAddPlantClicked() {
         _toCreation.value = Event(Unit)
+    }
+
+    fun filterPlants(query: String?) {
+        when {
+            query.isNullOrBlank() -> _plants.value = allPlants.value
+            else -> {
+                _plants.value = allPlants.value?.filter {
+                    it.name.value.contains(query, ignoreCase = true) ||
+                            it.speciesName.contains(query, ignoreCase = true)
+                }
+            }
+        }
     }
 }

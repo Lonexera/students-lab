@@ -2,6 +2,7 @@ package com.example.plantsapp.presentation.ui.plants
 
 import android.os.Bundle
 import android.view.View
+import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -59,6 +60,19 @@ class PlantsFragment : Fragment(R.layout.fragment_plants) {
             fabAddPlant.setOnClickListener {
                 plantsViewModel.onAddPlantClicked()
             }
+
+            searchViewPlants.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    plantsViewModel.filterPlants(newText)
+                    return true
+                }
+
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    plantsViewModel.filterPlants(query)
+                    searchViewPlants.clearFocus()
+                    return true
+                }
+            })
         }
     }
 
