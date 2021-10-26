@@ -5,13 +5,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.plantsapp.R
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.repository.PlantsRepository
 import com.example.plantsapp.presentation.core.Event
 import kotlinx.coroutines.launch
+import timber.log.Timber
+import kotlin.Exception
 
 class PlantCreationViewModel(
-    private val repository: PlantsRepository
+    private val repository: PlantsRepository,
+    private val validator: PlantCreationValidator
 ) : ViewModel() {
 
     private val _toNavigateBack: MutableLiveData<Event<Unit>> = MutableLiveData()
@@ -26,22 +30,35 @@ class PlantCreationViewModel(
     val wateringFrequencyValues: LiveData<List<Int>> =
         MutableLiveData((MIN_WATERING_FREQUENCY..MAX_WATERING_FREQUENCY).toList())
 
+    private val _invalidInput: MutableLiveData<Int> = MutableLiveData()
+    val invalidInput: LiveData<Int> get() = _invalidInput
+
     fun saveData(
         plantName: String,
         speciesName: String
     ) {
         viewModelScope.launch {
 
-            repository.addPlant(
-                Plant(
-                    Plant.Name(plantName),
-                    speciesName,
-                    selectedPicture.value,
-                    wateringSelectedFrequency.value!!
-                )
+            val validationResult = validator.validate(
+                plantName,
+                speciesName,
+                wateringSelectedFrequency.value
             )
 
-            _toNavigateBack.value = Event(Unit)
+            when (validationResult) {
+                is PlantCreationValidator.ValidatorOutput.Success -> {
+                    addPlant(
+                        plantName,
+                        speciesName,
+                        selectedPicture.value,
+                        wateringSelectedFrequency.value!!
+                    )
+                }
+
+                is PlantCreationValidator.ValidatorOutput.Error -> {
+                    _invalidInput.value = validationResult.errorMessageRes
+                }
+            }
         }
     }
 
@@ -51,6 +68,29 @@ class PlantCreationViewModel(
 
     fun onWateringFrequencySelected(frequency: Int) {
         _wateringSelectedFrequency.value = frequency
+    }
+
+    @Suppress("TooGenericExceptionCaught")
+    private suspend fun addPlant(
+        plantName: String,
+        speciesName: String,
+        plantPicture: Uri?,
+        wateringFrequency: Int
+    ) {
+        try {
+            repository.addPlant(
+                Plant(
+                    Plant.Name(plantName),
+                    speciesName,
+                    plantPicture,
+                    wateringFrequency
+                )
+            )
+            _toNavigateBack.value = Event(Unit)
+        } catch (e: Exception) {
+            Timber.e(e)
+            _invalidInput.value = R.string.error_indistinctive_name
+        }
     }
 
     companion object {
