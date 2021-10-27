@@ -32,7 +32,7 @@ class PlantsFragment : Fragment(R.layout.fragment_plants) {
         super.onViewCreated(view, savedInstanceState)
 
         with(plantsViewModel) {
-            plants.observe(viewLifecycleOwner) {
+            filteredPlants.observe(viewLifecycleOwner) {
                 plantsAdapter.submitList(it)
             }
 
@@ -62,13 +62,12 @@ class PlantsFragment : Fragment(R.layout.fragment_plants) {
             }
 
             searchViewPlants.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                override fun onQueryTextChange(newText: String?): Boolean {
-                    plantsViewModel.filterPlants(newText)
+                override fun onQueryTextChange(newText: String): Boolean {
+                    plantsViewModel.onFilterChanged(newText)
                     return true
                 }
 
-                override fun onQueryTextSubmit(query: String?): Boolean {
-                    plantsViewModel.filterPlants(query)
+                override fun onQueryTextSubmit(query: String): Boolean {
                     searchViewPlants.clearFocus()
                     return true
                 }

@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.repository.PlantsRepository
 import com.example.plantsapp.presentation.core.Event
+import com.example.plantsapp.presentation.ui.plantcreation.combineWith
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -14,9 +15,9 @@ class PlantsViewModel(
     private val repository: PlantsRepository
 ) : ViewModel() {
 
-    private val allPlants: MutableLiveData<List<Plant>> = MutableLiveData()
-    private val _plants: MutableLiveData<List<Plant>> = MutableLiveData()
-    val plants: LiveData<List<Plant>> get() = _plants
+    private val allPlants: MutableLiveData<List<Plant>> = MutableLiveData(emptyList())
+    private val filter: MutableLiveData<String> = MutableLiveData("")
+    val filteredPlants: LiveData<List<Plant>>
 
     private val _clickedPlant: MutableLiveData<Event<Plant>> = MutableLiveData()
     val clickedPlant: LiveData<Event<Plant>> get() = _clickedPlant
@@ -24,10 +25,13 @@ class PlantsViewModel(
     val toCreation: LiveData<Event<Unit>> get() = _toCreation
 
     init {
+        filteredPlants = allPlants.combineWith(filter) { plants, filter ->
+            filter(plants!!, filter!!)
+        }
+
         viewModelScope.launch {
             repository.fetchPlants().collect {
                 allPlants.value = it
-                _plants.value = it
             }
         }
     }
@@ -40,13 +44,17 @@ class PlantsViewModel(
         _toCreation.value = Event(Unit)
     }
 
-    fun filterPlants(query: String?) {
-        when {
-            query.isNullOrBlank() -> _plants.value = allPlants.value
+    fun onFilterChanged(query: String) {
+        filter.value = query
+    }
+
+    private fun filter(allPlants: List<Plant>, filter: String): List<Plant> {
+        return when {
+            filter.isBlank() -> allPlants
             else -> {
-                _plants.value = allPlants.value?.filter {
-                    it.name.value.contains(query, ignoreCase = true) ||
-                            it.speciesName.contains(query, ignoreCase = true)
+                allPlants.filter {
+                    it.name.value.contains(filter, ignoreCase = true) ||
+                            it.speciesName.contains(filter, ignoreCase = true)
                 }
             }
         }
