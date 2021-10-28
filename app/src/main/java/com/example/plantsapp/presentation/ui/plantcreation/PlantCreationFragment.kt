@@ -97,7 +97,8 @@ class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
                 binding.etCreationWateringFrequency.setText(
                     resources.getQuantityString(
                         R.plurals.msg_creation_frequency_units, it, it
-                    )
+                    ),
+                    false
                 )
             }
         }
