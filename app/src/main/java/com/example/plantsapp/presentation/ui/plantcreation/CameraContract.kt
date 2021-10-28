@@ -7,15 +7,24 @@ import android.net.Uri
 import android.provider.MediaStore
 import androidx.activity.result.contract.ActivityResultContract
 
-class CameraContract : ActivityResultContract<Unit, Uri?>() {
+class CameraContract : ActivityResultContract<Uri, Uri?>() {
 
-    override fun createIntent(context: Context, input: Unit?): Intent {
-        return Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+    private var photoUri: Uri? = null
+
+    override fun createIntent(context: Context, input: Uri?): Intent {
+        photoUri = input
+
+        return Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
+            putExtra(
+                MediaStore.EXTRA_OUTPUT,
+                input
+            )
+        }
     }
 
     override fun parseResult(resultCode: Int, intent: Intent?): Uri? {
         return if (resultCode == Activity.RESULT_OK) {
-            intent?.data
+            photoUri
         } else {
             null
         }

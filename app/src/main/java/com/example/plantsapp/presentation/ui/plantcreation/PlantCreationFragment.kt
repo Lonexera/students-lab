@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide
 import com.example.plantsapp.R
 import com.example.plantsapp.databinding.FragmentPlantCreationBinding
 import com.example.plantsapp.presentation.PlantApplication
-import timber.log.Timber
+import com.example.plantsapp.presentation.ui.utils.getCameraImageOutputUri
 
 class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
 
@@ -36,7 +36,9 @@ class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
         registerForActivityResult(
             CameraContract()
         ) { uri ->
-            Timber.d("cameraPictureUri - ${uri.toString()}")
+            uri?.let {
+                creationViewModel.onImageSelected(uri)
+            }
         }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -122,9 +124,11 @@ class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
                 imagePickerLauncher.launch(null)
             }
             .setNegativeButton(R.string.title_intent_picker_dialog_btn_camera) { _, _ ->
-                cameraLauncher.launch(null)
+                cameraLauncher.launch(
+                    requireContext().getCameraImageOutputUri()
+                )
             }
-            .setNeutralButton(R.string.title_intent_picker_dialog_btn_cancel) { dialog, _, ->
+            .setNeutralButton(R.string.title_intent_picker_dialog_btn_cancel) { dialog, _ ->
                 dialog.dismiss()
             }
             .create()
