@@ -26,4 +26,11 @@
     <string name="error_invalid_watering_frequency">Select watering frequency</string>
     <string name="error_indistinctive_name">Plant with this name already exists!</string>
 
+    <!-- Plants Screen -->
+    <string name="title_intent_picker_dialog">Select plant picture</string>
+    <string name="msg_intent_picker_dialog">Choose from where you what to get picture</string>
+    <string name="title_intent_picker_dialog_btn_gallery">Upload from Gallery</string>
+    <string name="title_intent_picker_dialog_btn_camera">Upload from Camera</string>
+    <string name="title_intent_picker_dialog_btn_cancel">Cancel</string>
+
 </resources>
