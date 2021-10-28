@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.repository.PlantsRepository
 import com.example.plantsapp.presentation.core.Event
-import com.example.plantsapp.presentation.ui.plantcreation.combineWith
+import com.example.plantsapp.presentation.ui.utils.combineWith
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -17,7 +17,12 @@ class PlantsViewModel(
 
     private val allPlants: MutableLiveData<List<Plant>> = MutableLiveData(emptyList())
     private val filter: MutableLiveData<String> = MutableLiveData("")
-    val filteredPlants: LiveData<List<Plant>>
+    val filteredPlants: LiveData<List<Plant>> = allPlants.combineWith(filter) { plants, filter ->
+        plants!!.filter {
+            it.name.value.contains(filter!!.trim(), ignoreCase = true) ||
+                    it.speciesName.contains(filter.trim(), ignoreCase = true)
+        }
+    }
 
     private val _clickedPlant: MutableLiveData<Event<Plant>> = MutableLiveData()
     val clickedPlant: LiveData<Event<Plant>> get() = _clickedPlant
@@ -25,10 +30,6 @@ class PlantsViewModel(
     val toCreation: LiveData<Event<Unit>> get() = _toCreation
 
     init {
-        filteredPlants = allPlants.combineWith(filter) { plants, filter ->
-            filter(plants!!, filter!!)
-        }
-
         viewModelScope.launch {
             repository.fetchPlants().collect {
                 allPlants.value = it
@@ -46,17 +47,5 @@ class PlantsViewModel(
 
     fun onFilterChanged(query: String) {
         filter.value = query
-    }
-
-    private fun filter(allPlants: List<Plant>, filter: String): List<Plant> {
-        return when {
-            filter.isBlank() -> allPlants
-            else -> {
-                allPlants.filter {
-                    it.name.value.contains(filter, ignoreCase = true) ||
-                            it.speciesName.contains(filter, ignoreCase = true)
-                }
-            }
-        }
     }
 }

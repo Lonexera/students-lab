@@ -1,4 +1,4 @@
-package com.example.plantsapp.presentation.ui.plantcreation
+package com.example.plantsapp.presentation.ui.utils
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
