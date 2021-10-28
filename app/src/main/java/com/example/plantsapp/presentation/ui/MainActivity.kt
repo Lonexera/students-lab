@@ -3,6 +3,8 @@ package com.example.plantsapp.presentation.ui
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.commit
 import com.example.plantsapp.R
 import com.example.plantsapp.databinding.ActivityMainBinding
 import com.example.plantsapp.presentation.ui.plants.PlantsFragment
@@ -26,9 +28,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun openFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, fragment)
-            .addToBackStack(fragment.tag)
-            .commit()
+        supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        supportFragmentManager.commit {
+            replace(R.id.fragment_container, fragment)
+        }
     }
 }
