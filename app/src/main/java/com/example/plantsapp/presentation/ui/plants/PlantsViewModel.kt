@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.repository.PlantsRepository
 import com.example.plantsapp.presentation.core.Event
+import com.example.plantsapp.presentation.ui.utils.combineWith
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -14,8 +15,14 @@ class PlantsViewModel(
     private val repository: PlantsRepository
 ) : ViewModel() {
 
-    private val _plants: MutableLiveData<List<Plant>> = MutableLiveData()
-    val plants: LiveData<List<Plant>> get() = _plants
+    private val allPlants: MutableLiveData<List<Plant>> = MutableLiveData(emptyList())
+    private val filter: MutableLiveData<String> = MutableLiveData("")
+    val filteredPlants: LiveData<List<Plant>> = allPlants.combineWith(filter) { plants, filter ->
+        plants!!.filter {
+            it.name.value.contains(filter!!.trim(), ignoreCase = true) ||
+                    it.speciesName.contains(filter.trim(), ignoreCase = true)
+        }
+    }
 
     private val _clickedPlant: MutableLiveData<Event<Plant>> = MutableLiveData()
     val clickedPlant: LiveData<Event<Plant>> get() = _clickedPlant
@@ -25,7 +32,7 @@ class PlantsViewModel(
     init {
         viewModelScope.launch {
             repository.fetchPlants().collect {
-                _plants.value = it
+                allPlants.value = it
             }
         }
     }
@@ -36,5 +43,9 @@ class PlantsViewModel(
 
     fun onAddPlantClicked() {
         _toCreation.value = Event(Unit)
+    }
+
+    fun onFilterChanged(query: String) {
+        filter.value = query
     }
 }
