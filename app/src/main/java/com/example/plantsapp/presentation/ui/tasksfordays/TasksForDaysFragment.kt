@@ -9,6 +9,7 @@ import com.example.plantsapp.R
 import com.example.plantsapp.databinding.FragmentTasksForDaysBinding
 import com.example.plantsapp.presentation.ui.tasks.TasksFragment
 import com.example.plantsapp.presentation.ui.tasksfordays.adapter.TasksForDaysPagerAdapter
+import com.google.android.material.tabs.TabLayoutMediator
 
 class TasksForDaysFragment : Fragment(R.layout.fragment_tasks_for_days) {
 
@@ -26,6 +27,10 @@ class TasksForDaysFragment : Fragment(R.layout.fragment_tasks_for_days) {
                     requireActivity(),
                     it
                 ) { TasksFragment() }
+
+                TabLayoutMediator(binding.tlDays, binding.vpTasks) { tab, position ->
+                    tab.text = position.toString()
+                }.attach()
             }
         }
     }
