@@ -8,7 +8,7 @@ import androidx.fragment.app.commit
 import com.example.plantsapp.R
 import com.example.plantsapp.databinding.ActivityMainBinding
 import com.example.plantsapp.presentation.ui.plants.PlantsFragment
-import com.example.plantsapp.presentation.ui.tasks.TasksFragment
+import com.example.plantsapp.presentation.ui.tasksfordays.TasksForDaysFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.bottomNavigation.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.bottom_nav_tasks -> openFragment(TasksFragment())
+                R.id.bottom_nav_tasks -> openFragment(TasksForDaysFragment())
                 R.id.bottom_nav_plants -> openFragment(PlantsFragment())
             }
             true
