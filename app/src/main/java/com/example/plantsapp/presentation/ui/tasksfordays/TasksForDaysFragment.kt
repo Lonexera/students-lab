@@ -27,11 +27,9 @@ class TasksForDaysFragment : Fragment(R.layout.fragment_tasks_for_days) {
                     requireActivity(),
                     it
                 ) { TasksFragment() }
-            }
 
-            tabTexts.observe(viewLifecycleOwner) {
                 TabLayoutMediator(binding.tlDays, binding.vpTasks) { tab, position ->
-                    tab.text = it[position]
+                    tab.text = position.toString()
                 }.attach()
             }
         }
