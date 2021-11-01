@@ -4,6 +4,7 @@ import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.repository.PlantsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import java.util.Date
 
 class RoomPlantsRepository(
     private val plantsDao: RoomPlantsDao
@@ -17,8 +18,9 @@ class RoomPlantsRepository(
         }
     }
 
+    // TODO remove date setting from repository
     override suspend fun addPlant(plant: Plant) {
-        plantsDao.insert(RoomPlant.from(plant))
+        plantsDao.insert(RoomPlant.from(plant, Date()))
     }
 
     override suspend fun getPlantByName(name: Plant.Name): Plant {

@@ -1,23 +1,27 @@
 package com.example.plantsapp.presentation.ui.tasks
 
-import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.plantsapp.domain.model.Task
+import com.example.plantsapp.domain.repository.TasksRepository
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import java.util.Date
 
-class TasksViewModel : ViewModel() {
+class TasksViewModel(
+    private val repository: TasksRepository
+) : ViewModel() {
 
-    val tasks: LiveData<List<Task>> = MutableLiveData(
-        listOf(
-            Task(WATERING_ACTION, "Hector", PLANT_PICTURE.toUri()),
-            Task(WATERING_ACTION, "Elvis", PLANT_PICTURE.toUri()),
-            Task(WATERING_ACTION, "Arthur", PLANT_PICTURE.toUri()),
-            Task(WATERING_ACTION, "Silvia", PLANT_PICTURE.toUri()),
-            Task(WATERING_ACTION, "Robert", PLANT_PICTURE.toUri()),
-        )
-    )
+    private val _tasks: MutableLiveData<List<Task>> = MutableLiveData()
+    val tasks: LiveData<List<Task>> = _tasks
+
+    init {
+        viewModelScope.launch {
+             repository.getTasksForDate(Date()).collect {
+                 _tasks.value = it
+            }
+        }
+    }
 }
-
-private const val PLANT_PICTURE = "https://www.vippng.com/png/detail/41-414674_house-plant-png.png"
-private const val WATERING_ACTION = "Water"
