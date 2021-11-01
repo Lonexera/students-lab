@@ -18,7 +18,7 @@ class TasksFragment : Fragment(R.layout.fragment_tasks) {
         TasksViewModelFactory(
             repository =
             (requireActivity().application as PlantApplication)
-                .roomPlantsRepository
+                .roomTasksRepository
         )
     }
     private val tasksAdapter = TasksAdapter()
