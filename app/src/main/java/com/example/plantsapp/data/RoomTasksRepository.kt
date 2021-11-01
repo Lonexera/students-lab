@@ -15,8 +15,11 @@ class RoomTasksRepository(
         return plantsDao.getAll()
             .map { plants ->
                 plants.filter {
-                    ((date.time - it.lastWatered) / DAY_IN_MILLISECONDS) %
-                            it.wateringFrequencyDays == 0L
+                    checkIfDateIsWithinInterval(
+                        date.time,
+                        it.creationDateMillis,
+                        it.wateringFrequencyDays
+                    )
                 }
                     .map {
                         Task(
@@ -28,7 +31,16 @@ class RoomTasksRepository(
                     }
             }
     }
+
+    private fun checkIfDateIsWithinInterval(
+        dateMillis: Long,
+        startDateMillis: Long,
+        intervalDays: Int
+    ): Boolean {
+        return ((dateMillis - startDateMillis) / DAY_IN_MILLISECONDS) %
+                intervalDays == 0L
+    }
 }
 
-private const val DAY_IN_MILLISECONDS = 86400000
+private const val DAY_IN_MILLISECONDS = 1000 * 60 * 60 * 24
 private const val WATERING_ACTION = "Water"

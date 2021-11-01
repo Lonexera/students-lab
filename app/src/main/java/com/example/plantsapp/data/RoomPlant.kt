@@ -13,17 +13,17 @@ data class RoomPlant(
     @ColumnInfo(name = "species_name") val speciesName: String,
     @ColumnInfo(name = "plant_picture") val plantPicture: String?,
     @ColumnInfo(name = "watering_frequency") val wateringFrequencyDays: Int,
-    @ColumnInfo(name = "last_watered") val lastWatered: Long
+    @ColumnInfo(name = "creation_date") val creationDateMillis: Long
 
 ) {
     companion object {
-        fun from(plant: Plant, lastWatered: Date): RoomPlant {
+        fun from(plant: Plant, creationDate: Date): RoomPlant {
             return RoomPlant(
                 plant.name.value,
                 plant.speciesName,
                 plant.plantPicture?.toString(),
                 plant.wateringFrequencyDays,
-                lastWatered.time
+                creationDate.time
             )
         }
     }
