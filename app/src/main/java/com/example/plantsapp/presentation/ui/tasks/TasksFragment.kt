@@ -55,9 +55,8 @@ class TasksFragment : Fragment(R.layout.fragment_tasks) {
 
         fun newInstance(date: Date): TasksFragment {
             val fragment = TasksFragment()
-            fragment.arguments = with(bundleOf()) {
+            fragment.arguments = bundleOf().apply {
                 this.date = date
-                this
             }
             return fragment
         }
