@@ -44,7 +44,7 @@ class TasksFragment : Fragment(R.layout.fragment_tasks) {
     }
 
     companion object {
-        private const val ARGUMENT_DATE = "DATE"
+        private const val ARGUMENT_DATE = "ARGUMENT_DATE"
         private var Bundle.date: Date
             get() = Date(
                 getLong(ARGUMENT_DATE)
@@ -54,11 +54,12 @@ class TasksFragment : Fragment(R.layout.fragment_tasks) {
             }
 
         fun newInstance(date: Date): TasksFragment {
-            val tasksFragment = TasksFragment()
-            val args = bundleOf()
-            args.date = date
-            tasksFragment.arguments = args
-            return tasksFragment
+            val fragment = TasksFragment()
+            fragment.arguments = with(bundleOf()) {
+                this.date = date
+                this
+            }
+            return fragment
         }
     }
 }

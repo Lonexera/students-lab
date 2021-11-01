@@ -22,6 +22,8 @@ class TasksForDaysFragment : Fragment(R.layout.fragment_tasks_for_days) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val todayDate = Date()
+
         with(viewModel) {
             numberOfDays.observe(viewLifecycleOwner) {
                 binding.vpTasks.adapter = TasksForDaysPagerAdapter(
@@ -30,7 +32,7 @@ class TasksForDaysFragment : Fragment(R.layout.fragment_tasks_for_days) {
                 ) { position ->
                     TasksFragment.newInstance(
                         getDateWithOffset(
-                            startDate = Date(),
+                            startDate = todayDate,
                             offsetInDays = position
                         )
                     )
