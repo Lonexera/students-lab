@@ -4,14 +4,14 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tl_days"
-        android:layout_width="0dp"
+    <TextView
+        android:id="@+id/tv_current_date"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:tabMode="scrollable"
+        android:textSize="@dimen/text_size_normal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/vp_tasks"
@@ -19,6 +19,6 @@
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tl_days"
+        app:layout_constraintTop_toBottomOf="@id/tv_current_date"
         app:layout_constraintBottom_toBottomOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
