@@ -3,16 +3,20 @@ package com.example.plantsapp.presentation.ui.tasksfordays.adapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.example.plantsapp.presentation.ui.tasks.TasksFragment
+import com.example.plantsapp.presentation.ui.utils.plusDays
+import java.util.Date
 
 class TasksForDaysPagerAdapter(
     fragmentActivity: FragmentActivity,
-    private val numberOfPages: Int,
-    private val fragmentConstructor: (Int) -> Fragment
+    private val todayDate: Date
 ) : FragmentStateAdapter(fragmentActivity) {
 
-    override fun getItemCount(): Int = numberOfPages
+    override fun getItemCount(): Int = Int.MAX_VALUE
 
     override fun createFragment(position: Int): Fragment {
-        return fragmentConstructor(position)
+        return TasksFragment.newInstance(
+            todayDate.plusDays(position)
+        )
     }
 }
