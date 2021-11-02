@@ -2,6 +2,7 @@ package com.example.plantsapp.presentation.ui.tasks
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -10,6 +11,7 @@ import com.example.plantsapp.R
 import com.example.plantsapp.databinding.FragmentTasksBinding
 import com.example.plantsapp.presentation.PlantApplication
 import com.example.plantsapp.presentation.ui.tasks.adapter.TasksAdapter
+import java.util.Date
 
 class TasksFragment : Fragment(R.layout.fragment_tasks) {
 
@@ -18,7 +20,8 @@ class TasksFragment : Fragment(R.layout.fragment_tasks) {
         TasksViewModelFactory(
             repository =
             (requireActivity().application as PlantApplication)
-                .roomTasksRepository
+                .roomTasksRepository,
+            date = requireArguments().date
         )
     }
     private val tasksAdapter = TasksAdapter()
@@ -37,6 +40,25 @@ class TasksFragment : Fragment(R.layout.fragment_tasks) {
                 layoutManager = LinearLayoutManager(context)
                 adapter = tasksAdapter
             }
+        }
+    }
+
+    companion object {
+        private const val ARGUMENT_DATE = "ARGUMENT_DATE"
+        private var Bundle.date: Date
+            get() = Date(
+                getLong(ARGUMENT_DATE)
+            )
+            set(date) {
+                putLong(ARGUMENT_DATE, date.time)
+            }
+
+        fun newInstance(date: Date): TasksFragment {
+            val fragment = TasksFragment()
+            fragment.arguments = bundleOf().apply {
+                this.date = date
+            }
+            return fragment
         }
     }
 }

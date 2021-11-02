@@ -10,6 +10,7 @@ import com.example.plantsapp.databinding.FragmentTasksForDaysBinding
 import com.example.plantsapp.presentation.ui.tasks.TasksFragment
 import com.example.plantsapp.presentation.ui.tasksfordays.adapter.TasksForDaysPagerAdapter
 import com.google.android.material.tabs.TabLayoutMediator
+import java.util.Date
 
 class TasksForDaysFragment : Fragment(R.layout.fragment_tasks_for_days) {
 
@@ -22,11 +23,20 @@ class TasksForDaysFragment : Fragment(R.layout.fragment_tasks_for_days) {
         super.onViewCreated(view, savedInstanceState)
 
         with(viewModel) {
+            // TODO move date setting to viewModel
+            val todayDate = Date()
             numberOfDays.observe(viewLifecycleOwner) {
                 binding.vpTasks.adapter = TasksForDaysPagerAdapter(
                     requireActivity(),
                     it
-                ) { TasksFragment() }
+                ) { position ->
+                    TasksFragment.newInstance(
+                        getDateWithOffset(
+                            startDate = todayDate,
+                            offsetInDays = position
+                        )
+                    )
+                }
 
                 TabLayoutMediator(binding.tlDays, binding.vpTasks) { tab, position ->
                     tab.text = position.toString()
@@ -34,4 +44,13 @@ class TasksForDaysFragment : Fragment(R.layout.fragment_tasks_for_days) {
             }
         }
     }
+
+    private fun getDateWithOffset(
+        startDate: Date,
+        offsetInDays: Int
+    ): Date {
+        return Date(startDate.time + (offsetInDays * DAY_IN_MILLISECONDS))
+    }
 }
+
+private const val DAY_IN_MILLISECONDS = 1000 * 60 * 60 * 24

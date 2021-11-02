@@ -11,7 +11,8 @@ import kotlinx.coroutines.launch
 import java.util.Date
 
 class TasksViewModel(
-    private val repository: TasksRepository
+    private val repository: TasksRepository,
+    private val date: Date
 ) : ViewModel() {
 
     private val _tasks: MutableLiveData<List<Task>> = MutableLiveData()
@@ -19,7 +20,7 @@ class TasksViewModel(
 
     init {
         viewModelScope.launch {
-             repository.getTasksForDate(Date()).collect {
+             repository.getTasksForDate(date).collect {
                  _tasks.value = it
             }
         }

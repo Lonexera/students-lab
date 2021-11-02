@@ -7,12 +7,12 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 class TasksForDaysPagerAdapter(
     fragmentActivity: FragmentActivity,
     private val numberOfPages: Int,
-    private val fragmentConstructor: () -> Fragment
+    private val fragmentConstructor: (Int) -> Fragment
 ) : FragmentStateAdapter(fragmentActivity) {
 
     override fun getItemCount(): Int = numberOfPages
 
     override fun createFragment(position: Int): Fragment {
-        return fragmentConstructor()
+        return fragmentConstructor(position)
     }
 }

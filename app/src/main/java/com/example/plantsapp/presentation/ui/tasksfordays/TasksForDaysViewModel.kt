@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 
 class TasksForDaysViewModel : ViewModel() {
 
-    val numberOfDays: LiveData<Int> = MutableLiveData(THREE_DAYS)
+    val numberOfDays: LiveData<Int> = MutableLiveData(THIRTY_DAYS)
 }
 
-private const val THREE_DAYS = 3
+private const val THIRTY_DAYS = 30
