@@ -53,4 +53,4 @@ class TasksForDaysFragment : Fragment(R.layout.fragment_tasks_for_days) {
     }
 }
 
-private const val DAY_IN_MILLISECONDS = 1000 * 60 * 60 * 24
+private const val DAY_IN_MILLISECONDS = 1000 * 60 * 60 * 24L
