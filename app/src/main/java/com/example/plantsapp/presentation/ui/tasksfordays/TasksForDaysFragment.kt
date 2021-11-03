@@ -29,7 +29,19 @@ class TasksForDaysFragment : Fragment(R.layout.fragment_tasks_for_days) {
             }
 
             currentPageDate.observe(viewLifecycleOwner) {
-                binding.tvCurrentDate.text = it.toString()
+                binding.tvCurrentDate.text = it
+            }
+
+            prevButtonVisibility.observe(viewLifecycleOwner) {
+                binding.btnPrevDate.visibility = it
+            }
+
+            prevPageDate.observe(viewLifecycleOwner) {
+                binding.btnPrevDate.text = it
+            }
+
+            nextPageDate.observe(viewLifecycleOwner) {
+                binding.btnNextDate.text = it
             }
         }
 
@@ -40,6 +52,9 @@ class TasksForDaysFragment : Fragment(R.layout.fragment_tasks_for_days) {
                     viewModel.onCurrentPageChange(position)
                 }
             })
+
+            btnPrevDate.setOnClickListener { vpTasks.currentItem -= 1 }
+            btnNextDate.setOnClickListener { vpTasks.currentItem += 1 }
         }
     }
 }
