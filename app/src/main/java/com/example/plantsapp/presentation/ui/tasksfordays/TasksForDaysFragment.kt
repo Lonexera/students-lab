@@ -1,5 +1,6 @@
 package com.example.plantsapp.presentation.ui.tasksfordays
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -9,6 +10,10 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.plantsapp.R
 import com.example.plantsapp.databinding.FragmentTasksForDaysBinding
 import com.example.plantsapp.presentation.ui.tasksfordays.adapter.TasksForDaysPagerAdapter
+import com.example.plantsapp.presentation.ui.utils.formatDateToStandard
+import com.example.plantsapp.presentation.ui.utils.formatDateWithoutYear
+import com.example.plantsapp.presentation.ui.utils.plusDays
+import java.util.Date
 
 class TasksForDaysFragment : Fragment(R.layout.fragment_tasks_for_days) {
 
@@ -26,35 +31,49 @@ class TasksForDaysFragment : Fragment(R.layout.fragment_tasks_for_days) {
                     requireActivity(),
                     it
                 )
-            }
 
-            currentPageDate.observe(viewLifecycleOwner) {
-                binding.tvCurrentDate.text = it
-            }
+                binding.vpTasks.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                    override fun onPageSelected(position: Int) {
+                        super.onPageSelected(position)
 
-            prevButtonVisibility.observe(viewLifecycleOwner) {
-                binding.btnPrevDate.visibility = it
-            }
+                        binding.btnPrevDate.text = requireContext().onPageChangeText(it, position - 1)
+                        binding.btnNextDate.text = requireContext().onPageChangeText(it, position + 1)
+                        binding.tvCurrentDate.text = requireContext().onPageChangeText(it, position, true)
 
-            prevPageDate.observe(viewLifecycleOwner) {
-                binding.btnPrevDate.text = it
-            }
-
-            nextPageDate.observe(viewLifecycleOwner) {
-                binding.btnNextDate.text = it
+                        binding.btnPrevDate.visibility = onPageChangeVisibility(position)
+                    }
+                })
             }
         }
 
         with(binding) {
-            vpTasks.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-                override fun onPageSelected(position: Int) {
-                    super.onPageSelected(position)
-                    viewModel.onCurrentPageChange(position)
-                }
-            })
-
             btnPrevDate.setOnClickListener { vpTasks.currentItem -= 1 }
             btnNextDate.setOnClickListener { vpTasks.currentItem += 1 }
+        }
+    }
+
+    private fun Context.onPageChangeText(date: Date, offset: Int, showWithYear: Boolean = false): String {
+        return when (offset) {
+            0 -> {
+                resources.getString(R.string.title_today_date)
+            }
+            1 -> {
+                resources.getString(R.string.title_tomorrow_date)
+            }
+            else -> {
+                if (showWithYear) {
+                    date.plusDays(offset).formatDateToStandard()
+                } else {
+                    date.plusDays(offset).formatDateWithoutYear()
+                }
+            }
+        }
+    }
+
+    private fun onPageChangeVisibility(offset: Int): Int {
+        return when (offset) {
+            0 -> View.GONE
+            else -> View.VISIBLE
         }
     }
 }
