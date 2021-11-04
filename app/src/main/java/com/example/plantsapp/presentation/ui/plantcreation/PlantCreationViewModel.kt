@@ -97,15 +97,15 @@ class PlantCreationViewModel(
         sprayingFrequency: Int,
         looseningFrequency: Int
     ) {
-        Timber.d("spraying - $sprayingFrequency")
-        Timber.d("loosening - $looseningFrequency")
         try {
             repository.addPlant(
                 Plant(
                     Plant.Name(plantName),
                     speciesName,
                     plantPicture,
-                    wateringFrequency
+                    wateringFrequency,
+                    sprayingFrequency,
+                    looseningFrequency
                 )
             )
             _toNavigateBack.value = Event(Unit)

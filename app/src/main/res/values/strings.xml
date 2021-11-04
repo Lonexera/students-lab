@@ -40,5 +40,8 @@
     <!-- Tasks Screen -->
     <string name="title_today_date">Today</string>
     <string name="title_tomorrow_date">Tomorrow</string>
+    <string name="title_watering_task">Water %s</string>
+    <string name="title_spraying_task">Spray %s</string>
+    <string name="title_loosening_task">Loose soil for %s</string>
 
 </resources>

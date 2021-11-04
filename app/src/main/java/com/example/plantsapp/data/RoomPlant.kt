@@ -13,6 +13,8 @@ data class RoomPlant(
     @ColumnInfo(name = "species_name") val speciesName: String,
     @ColumnInfo(name = "plant_picture") val plantPicture: String?,
     @ColumnInfo(name = "watering_frequency") val wateringFrequencyDays: Int,
+    @ColumnInfo(name = "spraying_frequency") val sprayingFrequencyDays: Int,
+    @ColumnInfo(name = "loosening_frequency") val looseningFrequencyDays: Int,
     @ColumnInfo(name = "creation_date") val creationDateMillis: Long
 
 ) {
@@ -23,6 +25,8 @@ data class RoomPlant(
                 plant.speciesName,
                 plant.plantPicture?.toString(),
                 plant.wateringFrequencyDays,
+                plant.sprayingFrequency,
+                plant.looseningFrequency,
                 creationDate.time
             )
         }
@@ -33,7 +37,9 @@ data class RoomPlant(
             Plant.Name(name),
             speciesName,
             plantPicture?.toUri(),
-            wateringFrequencyDays
+            wateringFrequencyDays,
+            sprayingFrequencyDays,
+            looseningFrequencyDays
         )
     }
 }

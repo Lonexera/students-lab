@@ -4,7 +4,8 @@ import android.net.Uri
 
 // TODO refactor Task class
 data class Task(
-    val taskAction: String,
+    val taskIcon: Int,
+    val taskAction: Int,
     val plantName: String,
     val plantPicture: Uri?
 )
