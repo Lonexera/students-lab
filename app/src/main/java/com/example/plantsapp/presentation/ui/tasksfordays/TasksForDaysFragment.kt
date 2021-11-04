@@ -40,7 +40,7 @@ class TasksForDaysFragment : Fragment(R.layout.fragment_tasks_for_days) {
                         binding.btnNextDate.text = requireContext().getNewPageText(it, position + 1)
                         binding.tvCurrentDate.text = requireContext().getNewPageText(it, position, true)
 
-                        binding.btnPrevDate.isVisible = isPrevButtonVisible(position)
+                        binding.btnPrevDate.isVisible = position != 0
                     }
                 })
             }
@@ -54,22 +54,20 @@ class TasksForDaysFragment : Fragment(R.layout.fragment_tasks_for_days) {
 
     private fun Context.getNewPageText(date: Date, offset: Int, showWithYear: Boolean = false): String {
         return when (offset) {
-            0 -> resources.getString(R.string.title_today_date)
-            1 -> resources.getString(R.string.title_tomorrow_date)
+            0 -> getString(R.string.title_today_date)
+            1 -> getString(R.string.title_tomorrow_date)
             else -> {
                 if (showWithYear) {
-                    date.plusDays(offset).formatDate("d MMM YYYY")
+                    date.plusDays(offset).formatDate(DATE_FORMAT_WITH_YEAR)
                 } else {
-                    date.plusDays(offset).formatDate("d MMM")
+                    date.plusDays(offset).formatDate(DATE_FORMAT_WITHOUT_YEAR)
                 }
             }
         }
     }
 
-    private fun isPrevButtonVisible(offset: Int): Boolean {
-        return when (offset) {
-            0 -> false
-            else -> true
-        }
+    private companion object {
+        const val DATE_FORMAT_WITH_YEAR = "d MMM YYYY"
+        const val DATE_FORMAT_WITHOUT_YEAR = "d MMM"
     }
 }
