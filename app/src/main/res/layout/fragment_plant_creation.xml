@@ -99,12 +99,50 @@
                 android:inputType="none" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_creation_spraying_frequency"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_16dp"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@id/til_creation_watering_frequency">
+
+            <AutoCompleteTextView
+                android:id="@+id/et_creation_spraying_frequency"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_spraying_frequency"
+                android:enabled="false"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_creation_loosening_frequency"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_16dp"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@id/til_creation_spraying_frequency">
+
+            <AutoCompleteTextView
+                android:id="@+id/et_creation_loosening_frequency"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_loosening_frequency"
+                android:enabled="false"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
         <Button
             android:id="@+id/btn_creation_save"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/title_button_save"
-            app:layout_constraintTop_toBottomOf="@id/til_creation_watering_frequency"
+            app:layout_constraintTop_toBottomOf="@id/til_creation_loosening_frequency"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintVertical_bias="1"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"

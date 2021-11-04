@@ -8,12 +8,16 @@ class PlantCreationValidator {
     fun validate(
         plantName: String,
         speciesName: String,
-        frequency: Int?
+        wateringFrequency: Int?,
+        sprayingFrequency: Int?,
+        looseningFrequency: Int?
     ): ValidatorOutput {
         return when {
             plantName.isBlank() -> ValidatorOutput.Error(R.string.error_invalid_name)
             speciesName.isBlank() -> ValidatorOutput.Error(R.string.error_invalid_species)
-            frequency == null -> ValidatorOutput.Error(R.string.error_invalid_watering_frequency)
+            wateringFrequency == null -> ValidatorOutput.Error(R.string.error_invalid_watering_frequency)
+            sprayingFrequency == null -> ValidatorOutput.Error(R.string.error_invalid_spraying_frequency)
+            looseningFrequency == null -> ValidatorOutput.Error(R.string.error_invalid_loosening_frequency)
             else -> ValidatorOutput.Success
         }
     }

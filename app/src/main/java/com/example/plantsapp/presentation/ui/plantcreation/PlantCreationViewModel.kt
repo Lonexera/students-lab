@@ -27,7 +27,13 @@ class PlantCreationViewModel(
     private val _wateringSelectedFrequency: MutableLiveData<Int> = MutableLiveData()
     val wateringSelectedFrequency: LiveData<Int> get() = _wateringSelectedFrequency
 
-    val wateringFrequencyValues: LiveData<List<Int>> =
+    private val _sprayingSelectedFrequency: MutableLiveData<Int> = MutableLiveData()
+    val sprayingSelectedFrequency: LiveData<Int> get() = _sprayingSelectedFrequency
+
+    private val _looseningSelectedFrequency: MutableLiveData<Int> = MutableLiveData()
+    val looseningSelectedFrequency: LiveData<Int> get() = _looseningSelectedFrequency
+
+    val frequencyValues: LiveData<List<Int>> =
         MutableLiveData((MIN_WATERING_FREQUENCY..MAX_WATERING_FREQUENCY).toList())
 
     private val _invalidInput: MutableLiveData<Int> = MutableLiveData()
@@ -42,7 +48,9 @@ class PlantCreationViewModel(
             val validationResult = validator.validate(
                 plantName,
                 speciesName,
-                wateringSelectedFrequency.value
+                wateringSelectedFrequency.value,
+                sprayingSelectedFrequency.value,
+                looseningSelectedFrequency.value
             )
 
             when (validationResult) {
@@ -51,7 +59,9 @@ class PlantCreationViewModel(
                         plantName,
                         speciesName,
                         selectedPicture.value,
-                        wateringSelectedFrequency.value!!
+                        wateringSelectedFrequency.value!!,
+                        sprayingSelectedFrequency.value!!,
+                        looseningSelectedFrequency.value!!
                     )
                 }
 
@@ -70,13 +80,25 @@ class PlantCreationViewModel(
         _wateringSelectedFrequency.value = frequency
     }
 
+    fun onSprayingFrequencySelected(frequency: Int) {
+        _sprayingSelectedFrequency.value = frequency
+    }
+
+    fun onLooseningFrequencySelected(frequency: Int) {
+        _looseningSelectedFrequency.value = frequency
+    }
+
     @Suppress("TooGenericExceptionCaught")
     private suspend fun addPlant(
         plantName: String,
         speciesName: String,
         plantPicture: Uri?,
-        wateringFrequency: Int
+        wateringFrequency: Int,
+        sprayingFrequency: Int,
+        looseningFrequency: Int
     ) {
+        Timber.d("spraying - $sprayingFrequency")
+        Timber.d("loosening - $looseningFrequency")
         try {
             repository.addPlant(
                 Plant(

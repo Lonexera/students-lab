@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -72,34 +73,20 @@ class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
                 ).show()
             }
 
-            wateringFrequencyValues.observe(viewLifecycleOwner) { valuesList ->
-                val wateringValueList = valuesList.map {
-                    resources.getQuantityString(
-                        R.plurals.msg_creation_frequency_units, it, it
-                    )
-                }
-
-                binding.etCreationWateringFrequency.setAdapter(
-                    ArrayAdapter(
-                        requireContext(),
-                        R.layout.support_simple_spinner_dropdown_item,
-                        wateringValueList
-                    )
-                )
-
-                binding.etCreationWateringFrequency.setOnItemClickListener { _, _, position, _ ->
-                    creationViewModel.onWateringFrequencySelected(valuesList[position])
-                }
-                binding.etCreationWateringFrequency.isEnabled = true
+            frequencyValues.observe(viewLifecycleOwner) {
+                setUpFrequencyViews(it)
             }
 
             wateringSelectedFrequency.observe(viewLifecycleOwner) {
-                binding.etCreationWateringFrequency.setText(
-                    resources.getQuantityString(
-                        R.plurals.msg_creation_frequency_units, it, it
-                    ),
-                    false
-                )
+                binding.etCreationWateringFrequency.setTextWithUnits(it)
+            }
+
+            sprayingSelectedFrequency.observe(viewLifecycleOwner) {
+                binding.etCreationSprayingFrequency.setTextWithUnits(it)
+            }
+
+            looseningSelectedFrequency.observe(viewLifecycleOwner) {
+                binding.etCreationLooseningFrequency.setTextWithUnits(it)
             }
         }
     }
@@ -116,6 +103,61 @@ class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
                 showDialogIntentPicker()
             }
         }
+    }
+
+    private fun setUpFrequencyViews(valuesList: List<Int>) {
+        val wateringValueList = valuesList.map {
+            resources.getQuantityString(
+                R.plurals.msg_creation_frequency_units, it, it
+            )
+        }
+
+        val frequencyAdapter = ArrayAdapter(
+            requireContext(),
+            R.layout.support_simple_spinner_dropdown_item,
+            wateringValueList
+        )
+
+        binding.etCreationWateringFrequency.setUpWithAdapter(
+            frequencyAdapter,
+            valuesList,
+            creationViewModel::onWateringFrequencySelected
+        )
+
+        binding.etCreationSprayingFrequency.setUpWithAdapter(
+            frequencyAdapter,
+            valuesList,
+            creationViewModel::onSprayingFrequencySelected
+        )
+
+        binding.etCreationLooseningFrequency.setUpWithAdapter(
+            frequencyAdapter,
+            valuesList,
+            creationViewModel::onLooseningFrequencySelected
+        )
+    }
+
+    private fun <T> AutoCompleteTextView.setUpWithAdapter(
+        adapter: ArrayAdapter<T>,
+        valuesList: List<Int>,
+        onItemClick: (Int) -> Unit
+    ) {
+        setAdapter(adapter)
+
+        setOnItemClickListener { _, _, position, _ ->
+            onItemClick(valuesList[position])
+        }
+
+        isEnabled = true
+    }
+
+    private fun AutoCompleteTextView.setTextWithUnits(value: Int) {
+        setText(
+            resources.getQuantityString(
+                R.plurals.msg_creation_frequency_units, value, value
+            ),
+            false
+        )
     }
 
     private fun showDialogIntentPicker() {

@@ -13,7 +13,7 @@ class PlantCreationValidatorTest {
         val validatorResult = validator.validate(
             plantName = "",
             speciesName = "",
-            frequency = null
+            wateringFrequency = null
         )
 
         val expectedResult = PlantCreationValidator.ValidatorOutput.Error(R.string.error_invalid_name)
@@ -27,7 +27,7 @@ class PlantCreationValidatorTest {
         val validatorResult = validator.validate(
             plantName = "",
             speciesName = "tjf",
-            frequency = 9
+            wateringFrequency = 9
         )
 
         val expectedResult = PlantCreationValidator.ValidatorOutput.Error(R.string.error_invalid_name)
@@ -41,7 +41,7 @@ class PlantCreationValidatorTest {
         val validatorResult = validator.validate(
             plantName = "Jackob",
             speciesName = "",
-            frequency = 9
+            wateringFrequency = 9
         )
 
         val expectedResult = PlantCreationValidator.ValidatorOutput.Error(R.string.error_invalid_species)
@@ -55,7 +55,7 @@ class PlantCreationValidatorTest {
         val validatorResult = validator.validate(
             plantName = "Jackob",
             speciesName = "Cactus",
-            frequency = null
+            wateringFrequency = null
         )
 
         val expectedResult = PlantCreationValidator.ValidatorOutput.Error(R.string.error_invalid_watering_frequency)
@@ -69,7 +69,7 @@ class PlantCreationValidatorTest {
         val validatorResult = validator.validate(
             plantName = "",
             speciesName = "",
-            frequency = 5
+            wateringFrequency = 5
         )
 
         val expectedResult = PlantCreationValidator.ValidatorOutput.Error(R.string.error_invalid_name)
@@ -83,7 +83,7 @@ class PlantCreationValidatorTest {
         val validatorResult = validator.validate(
             plantName = "Jackob",
             speciesName = "",
-            frequency = null
+            wateringFrequency = null
         )
 
         val expectedResult = PlantCreationValidator.ValidatorOutput.Error(R.string.error_invalid_species)
@@ -97,7 +97,7 @@ class PlantCreationValidatorTest {
         val validatorResult = validator.validate(
             plantName = "",
             speciesName = "Cactus",
-            frequency = null
+            wateringFrequency = null
         )
 
         val expectedResult = PlantCreationValidator.ValidatorOutput.Error(R.string.error_invalid_name)
@@ -111,7 +111,7 @@ class PlantCreationValidatorTest {
         val validatorResult = validator.validate(
             plantName = "Jackob",
             speciesName = "Cactus",
-            frequency = 3
+            wateringFrequency = 3
         )
 
         val expectedResult = PlantCreationValidator.ValidatorOutput.Success

@@ -14,6 +14,8 @@
     <string name="hint_plant_name">Name</string>
     <string name="hint_species_name">Species name</string>
     <string name="hint_watering_frequency">Watering Frequency</string>
+    <string name="hint_spraying_frequency">Spraying Frequency</string>
+    <string name="hint_loosening_frequency">Loosening Frequency</string>
     <string name="title_button_save">Save</string>
 
     <plurals name="msg_creation_frequency_units">
@@ -24,6 +26,8 @@
     <string name="error_invalid_name">Provide name</string>
     <string name="error_invalid_species">Provide species name</string>
     <string name="error_invalid_watering_frequency">Select watering frequency</string>
+    <string name="error_invalid_spraying_frequency">Select spraying frequency</string>
+    <string name="error_invalid_loosening_frequency">Select loosening frequency</string>
     <string name="error_indistinctive_name">Plant with this name already exists!</string>
 
     <!-- Plants Screen -->
