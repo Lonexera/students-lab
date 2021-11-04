@@ -32,13 +32,15 @@ class TasksForDaysFragment : Fragment(R.layout.fragment_tasks_for_days) {
                     it
                 )
 
-                binding.vpTasks.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                binding.vpTasks.registerOnPageChangeCallback(object :
+                    ViewPager2.OnPageChangeCallback() {
                     override fun onPageSelected(position: Int) {
                         super.onPageSelected(position)
 
                         binding.btnPrevDate.text = requireContext().getNewPageText(it, position - 1)
                         binding.btnNextDate.text = requireContext().getNewPageText(it, position + 1)
-                        binding.tvCurrentDate.text = requireContext().getNewPageText(it, position, true)
+                        binding.tvCurrentDate.text =
+                            requireContext().getNewPageText(it, position, true)
 
                         binding.btnPrevDate.isVisible = position != 0
                     }
@@ -52,22 +54,27 @@ class TasksForDaysFragment : Fragment(R.layout.fragment_tasks_for_days) {
         }
     }
 
-    private fun Context.getNewPageText(date: Date, offset: Int, showWithYear: Boolean = false): String {
+    private fun Context.getNewPageText(
+        date: Date,
+        offset: Int,
+        showWithYear: Boolean = false
+    ): String {
         return when (offset) {
             0 -> getString(R.string.title_today_date)
             1 -> getString(R.string.title_tomorrow_date)
             else -> {
-                if (showWithYear) {
-                    date.plusDays(offset).formatDate(DATE_FORMAT_WITH_YEAR)
+                val format = if (showWithYear) {
+                    DATE_FORMAT_WITH_YEAR
                 } else {
-                    date.plusDays(offset).formatDate(DATE_FORMAT_WITHOUT_YEAR)
+                    DATE_FORMAT_WITHOUT_YEAR
                 }
+                date.plusDays(offset).formatDate(format)
             }
         }
     }
 
-    private companion object {
-        const val DATE_FORMAT_WITH_YEAR = "d MMM YYYY"
-        const val DATE_FORMAT_WITHOUT_YEAR = "d MMM"
+    companion object {
+        private const val DATE_FORMAT_WITH_YEAR = "d MMM YYYY"
+        private const val DATE_FORMAT_WITHOUT_YEAR = "d MMM"
     }
 }
