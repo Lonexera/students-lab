@@ -7,14 +7,8 @@ fun Date.plusDays(numberOfDays: Int): Date {
     return Date(this.time + (numberOfDays * DAY_IN_MILLISECONDS))
 }
 
-fun Date.formatDateToStandard(): String {
-    val simpleFormatter = SimpleDateFormat("d MMM yyyy")
-
-    return simpleFormatter.format(this)
-}
-
-fun Date.formatDateWithoutYear(): String {
-    val simpleFormatter = SimpleDateFormat("d MMM")
+fun Date.formatDate(pattern: String): String {
+    val simpleFormatter = SimpleDateFormat(pattern)
 
     return simpleFormatter.format(this)
 }

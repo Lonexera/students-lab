@@ -3,6 +3,7 @@ package com.example.plantsapp.presentation.ui.tasksfordays
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
@@ -10,8 +11,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.plantsapp.R
 import com.example.plantsapp.databinding.FragmentTasksForDaysBinding
 import com.example.plantsapp.presentation.ui.tasksfordays.adapter.TasksForDaysPagerAdapter
-import com.example.plantsapp.presentation.ui.utils.formatDateToStandard
-import com.example.plantsapp.presentation.ui.utils.formatDateWithoutYear
+import com.example.plantsapp.presentation.ui.utils.formatDate
 import com.example.plantsapp.presentation.ui.utils.plusDays
 import java.util.Date
 
@@ -36,11 +36,11 @@ class TasksForDaysFragment : Fragment(R.layout.fragment_tasks_for_days) {
                     override fun onPageSelected(position: Int) {
                         super.onPageSelected(position)
 
-                        binding.btnPrevDate.text = requireContext().onPageChangeText(it, position - 1)
-                        binding.btnNextDate.text = requireContext().onPageChangeText(it, position + 1)
-                        binding.tvCurrentDate.text = requireContext().onPageChangeText(it, position, true)
+                        binding.btnPrevDate.text = requireContext().getNewPageText(it, position - 1)
+                        binding.btnNextDate.text = requireContext().getNewPageText(it, position + 1)
+                        binding.tvCurrentDate.text = requireContext().getNewPageText(it, position, true)
 
-                        binding.btnPrevDate.visibility = onPageChangeVisibility(position)
+                        binding.btnPrevDate.isVisible = isPrevButtonVisible(position)
                     }
                 })
             }
@@ -52,28 +52,24 @@ class TasksForDaysFragment : Fragment(R.layout.fragment_tasks_for_days) {
         }
     }
 
-    private fun Context.onPageChangeText(date: Date, offset: Int, showWithYear: Boolean = false): String {
+    private fun Context.getNewPageText(date: Date, offset: Int, showWithYear: Boolean = false): String {
         return when (offset) {
-            0 -> {
-                resources.getString(R.string.title_today_date)
-            }
-            1 -> {
-                resources.getString(R.string.title_tomorrow_date)
-            }
+            0 -> resources.getString(R.string.title_today_date)
+            1 -> resources.getString(R.string.title_tomorrow_date)
             else -> {
                 if (showWithYear) {
-                    date.plusDays(offset).formatDateToStandard()
+                    date.plusDays(offset).formatDate("d MMM YYYY")
                 } else {
-                    date.plusDays(offset).formatDateWithoutYear()
+                    date.plusDays(offset).formatDate("d MMM")
                 }
             }
         }
     }
 
-    private fun onPageChangeVisibility(offset: Int): Int {
+    private fun isPrevButtonVisible(offset: Int): Boolean {
         return when (offset) {
-            0 -> View.GONE
-            else -> View.VISIBLE
+            0 -> false
+            else -> true
         }
     }
 }
