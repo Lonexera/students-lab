@@ -33,4 +33,8 @@
     <string name="title_intent_picker_dialog_btn_camera">Upload from Camera</string>
     <string name="title_intent_picker_dialog_btn_cancel">Cancel</string>
 
+    <!-- Tasks Screen -->
+    <string name="title_today_date">Today</string>
+    <string name="title_tomorrow_date">Tomorrow</string>
+
 </resources>
