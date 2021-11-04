@@ -7,14 +7,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.plantsapp.R
 import com.example.plantsapp.domain.model.Plant
+import com.example.plantsapp.domain.model.Task
 import com.example.plantsapp.domain.repository.PlantsRepository
+import com.example.plantsapp.domain.repository.TasksRepository
 import com.example.plantsapp.presentation.core.Event
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import kotlin.Exception
 
 class PlantCreationViewModel(
-    private val repository: PlantsRepository,
+    private val plantsRepository: PlantsRepository,
+    private val tasksRepository: TasksRepository,
     private val validator: PlantCreationValidator
 ) : ViewModel() {
 
@@ -98,7 +101,7 @@ class PlantCreationViewModel(
         looseningFrequency: Int
     ) {
         try {
-            repository.addPlant(
+            plantsRepository.addPlant(
                 Plant(
                     Plant.Name(plantName),
                     speciesName,
@@ -108,6 +111,32 @@ class PlantCreationViewModel(
                     looseningFrequency
                 )
             )
+            tasksRepository.addTasks(
+                listOf(
+                    Task(
+                        WATERING_ICON,
+                        WATERING_ACTION,
+                        plantName,
+                        plantPicture,
+                        wateringFrequency
+                    ),
+                    Task(
+                        SPRAYING_ICON,
+                        SPRAYING_ACTION,
+                        plantName,
+                        plantPicture,
+                        sprayingFrequency
+                    ),
+                    Task(
+                        LOOSENING_ICON,
+                        LOOSENING_ACTION,
+                        plantName,
+                        plantPicture,
+                        looseningFrequency
+                    ),
+                )
+            )
+
             _toNavigateBack.value = Event(Unit)
         } catch (e: Exception) {
             Timber.e(e)
@@ -120,3 +149,10 @@ class PlantCreationViewModel(
         private const val MAX_WATERING_FREQUENCY = 31
     }
 }
+
+private const val WATERING_ACTION = R.string.title_watering_task
+private const val SPRAYING_ACTION = R.string.title_spraying_task
+private const val LOOSENING_ACTION = R.string.title_loosening_task
+private const val WATERING_ICON = R.drawable.ic_watering
+private const val SPRAYING_ICON = R.drawable.ic_spraying
+private const val LOOSENING_ICON = R.drawable.ic_watering

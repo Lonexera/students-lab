@@ -7,5 +7,6 @@ data class Task(
     val taskIcon: Int,
     val taskAction: Int,
     val plantName: String,
-    val plantPicture: Uri?
+    val plantPicture: Uri?,
+    val frequencyInDays: Int
 )

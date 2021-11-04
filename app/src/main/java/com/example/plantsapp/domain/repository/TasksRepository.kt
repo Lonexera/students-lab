@@ -6,5 +6,6 @@ import java.util.Date
 
 interface TasksRepository {
 
+    suspend fun addTasks(tasks: List<Task>)
     suspend fun getTasksForDate(date: Date): Flow<List<Task>>
 }

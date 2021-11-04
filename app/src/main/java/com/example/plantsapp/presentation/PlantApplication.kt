@@ -16,7 +16,7 @@ class PlantApplication : Application() {
         RoomPlantsRepository(roomPlantsDatabase.plantDao())
     }
     val roomTasksRepository: RoomTasksRepository by lazy {
-        RoomTasksRepository(roomPlantsDatabase.plantDao())
+        RoomTasksRepository(roomPlantsDatabase.plantsWithTasksDao())
     }
 
     override fun onCreate() {

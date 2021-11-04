@@ -20,8 +20,10 @@ class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
     private val binding: FragmentPlantCreationBinding by viewBinding(FragmentPlantCreationBinding::bind)
     private val creationViewModel: PlantCreationViewModel by viewModels {
         CreationViewModelFactory(
-            repository = (requireActivity().application as PlantApplication)
+            plantsRepository = (requireActivity().application as PlantApplication)
                 .roomPlantsRepository,
+            tasksRepository = (requireActivity().application as PlantApplication)
+                .roomTasksRepository,
             validator = PlantCreationValidator()
         )
     }
