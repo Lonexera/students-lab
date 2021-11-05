@@ -105,36 +105,16 @@ class PlantCreationViewModel(
                 Plant(
                     Plant.Name(plantName),
                     speciesName,
-                    plantPicture,
-                    wateringFrequency,
-                    sprayingFrequency,
-                    looseningFrequency
+                    plantPicture
                 )
             )
-            tasksRepository.addTasks(
-                listOf(
-                    Task(
-                        WATERING_ICON,
-                        WATERING_ACTION,
-                        plantName,
-                        plantPicture,
-                        wateringFrequency
-                    ),
-                    Task(
-                        SPRAYING_ICON,
-                        SPRAYING_ACTION,
-                        plantName,
-                        plantPicture,
-                        sprayingFrequency
-                    ),
-                    Task(
-                        LOOSENING_ICON,
-                        LOOSENING_ACTION,
-                        plantName,
-                        plantPicture,
-                        looseningFrequency
-                    ),
-                )
+
+            addTasks(
+                plantName,
+                plantPicture,
+                wateringFrequency,
+                sprayingFrequency,
+                looseningFrequency
             )
 
             _toNavigateBack.value = Event(Unit)
@@ -144,15 +124,36 @@ class PlantCreationViewModel(
         }
     }
 
+    private suspend fun addTasks(
+        plantName: String,
+        plantPicture: Uri?,
+        wateringFrequency: Int,
+        sprayingFrequency: Int,
+        looseningFrequency: Int
+    ) {
+        tasksRepository.addTasks(
+            listOf(
+                Task.WateringTask(
+                    plantName,
+                    plantPicture,
+                    wateringFrequency
+                ),
+                Task.SprayingTask(
+                    plantName,
+                    plantPicture,
+                    sprayingFrequency
+                ),
+                Task.LooseningTask(
+                    plantName,
+                    plantPicture,
+                    looseningFrequency
+                )
+            )
+        )
+    }
+
     companion object {
         private const val MIN_WATERING_FREQUENCY = 1
         private const val MAX_WATERING_FREQUENCY = 31
     }
 }
-
-private const val WATERING_ACTION = R.string.title_watering_task
-private const val SPRAYING_ACTION = R.string.title_spraying_task
-private const val LOOSENING_ACTION = R.string.title_loosening_task
-private const val WATERING_ICON = R.drawable.ic_watering
-private const val SPRAYING_ICON = R.drawable.ic_spraying
-private const val LOOSENING_ICON = R.drawable.ic_watering

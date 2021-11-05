@@ -31,13 +31,7 @@ class RoomTasksRepository(
                         )
                     }
                         .map {
-                            Task(
-                                it.icon,
-                                it.action,
-                                it.plantName,
-                                plantWithTasks.plant.plantPicture?.toUri(),
-                                it.frequency
-                            )
+                            it.toTask(plantWithTasks.plant.plantPicture?.toUri())
                         }
                 }
                     .flatten()

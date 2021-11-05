@@ -49,10 +49,10 @@ class PlantDetailFragment : Fragment(R.layout.fragment_plant_detail) {
                 R.string.msg_detail_species_name,
                 plant.speciesName
             )
-            tvDetailWateringText.text = getString(
+            /*tvDetailWateringText.text = getString(
                 R.string.msg_detail_watering_text,
                 plant.wateringFrequencyDays
-            )
+            )*/
         }
     }
 

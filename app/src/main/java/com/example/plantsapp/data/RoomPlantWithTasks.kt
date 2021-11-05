@@ -7,7 +7,7 @@ data class RoomPlantWithTasks(
     @Embedded val plant: RoomPlant,
     @Relation(
         parentColumn = "name",
-        entityColumn = "plantName"
+        entityColumn = "plant_name"
     )
     val tasks: List<RoomTask>
 )
