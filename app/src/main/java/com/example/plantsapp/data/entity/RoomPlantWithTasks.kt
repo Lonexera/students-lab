@@ -1,4 +1,4 @@
-package com.example.plantsapp.data
+package com.example.plantsapp.data.entity
 
 import androidx.room.Embedded
 import androidx.room.Relation

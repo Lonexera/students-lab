@@ -1,12 +1,9 @@
-package com.example.plantsapp.data
+package com.example.plantsapp.data.entity
 
 import android.net.Uri
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.plantsapp.data.utils.KEY_LOOSENING_TASK
-import com.example.plantsapp.data.utils.KEY_SPRAYING_TASK
-import com.example.plantsapp.data.utils.KEY_WATERING_TASK
 import com.example.plantsapp.domain.model.Task
 
 @Entity(tableName = "tasks")
@@ -31,6 +28,10 @@ data class RoomTask(
                 task.frequencyInDays
             )
         }
+
+        private const val KEY_WATERING_TASK = "KEY_WATERING_TASK"
+        private const val KEY_SPRAYING_TASK = "KEY_SPRAYING_TASK"
+        private const val KEY_LOOSENING_TASK = "KEY_LOOSENING_TASK"
     }
 
     fun toTask(plantPicture: Uri?): Task {

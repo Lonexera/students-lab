@@ -1,4 +1,4 @@
-package com.example.plantsapp.data
+package com.example.plantsapp.data.entity
 
 import androidx.core.net.toUri
 import androidx.room.ColumnInfo

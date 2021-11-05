@@ -91,7 +91,10 @@ class PlantCreationViewModel(
         _looseningSelectedFrequency.value = frequency
     }
 
-    @Suppress("TooGenericExceptionCaught")
+    @Suppress(
+        "TooGenericExceptionCaught",
+        "LongParameterList"
+    )
     private suspend fun addPlant(
         plantName: String,
         speciesName: String,
