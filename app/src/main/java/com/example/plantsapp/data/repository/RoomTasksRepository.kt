@@ -1,4 +1,4 @@
-package com.example.plantsapp.data
+package com.example.plantsapp.data.repository
 
 import androidx.core.net.toUri
 import com.example.plantsapp.data.dao.RoomPlantWithTasksDao
