@@ -4,6 +4,7 @@ import com.example.plantsapp.data.dao.RoomPlantWithTasksDao
 import com.example.plantsapp.data.entity.RoomPlantWithTasks
 import com.example.plantsapp.data.entity.RoomTask
 import com.example.plantsapp.domain.model.Plant
+import com.example.plantsapp.domain.model.PlantWithTasks
 import com.example.plantsapp.domain.model.Task
 import com.example.plantsapp.domain.repository.TasksRepository
 import kotlinx.coroutines.flow.Flow
@@ -20,27 +21,31 @@ class RoomTasksRepository(
         )
     }
 
-    override suspend fun getTasksForDate(date: Date): Flow<List<Task>> {
+    override suspend fun getPlantsWithTasksForDate(date: Date): Flow<List<PlantWithTasks>> {
         return plantsWithTasksDao.getPlantsWithTasks()
             .map {
-                it.getAllFittingTasks(date)
+                it.getPlantsWithFittingTasks(date)
             }
     }
 
-    private fun List<RoomPlantWithTasks>.getAllFittingTasks(date: Date): List<Task> {
-        return this.flatMap {
-            it.tasks
-                .filter { roomTask ->
-                    checkIfDateIsRepeatedWithInterval(
-                        date,
-                        Date(it.plant.creationDateMillis),
-                        roomTask.frequency
-                    )
-                }
-                .map { roomTask ->
-                    roomTask.toTask()
-                }
+    private fun List<RoomPlantWithTasks>.getPlantsWithFittingTasks(date: Date): List<PlantWithTasks> {
+        return this.map {
+            PlantWithTasks(
+                it.plant.toPlant(),
+                it.tasks
+                    .filter { roomTask ->
+                        checkIfDateIsRepeatedWithInterval(
+                            date,
+                            Date(it.plant.creationDateMillis),
+                            roomTask.frequency
+                        )
+                    }
+                    .map { roomTask ->
+                        roomTask.toTask()
+                    }
+            )
         }
+            .filter { it.tasks.isNotEmpty() }
     }
 
     private fun checkIfDateIsRepeatedWithInterval(

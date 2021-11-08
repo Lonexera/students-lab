@@ -10,7 +10,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.plantsapp.R
 import com.example.plantsapp.databinding.FragmentTasksBinding
 import com.example.plantsapp.presentation.PlantApplication
-import com.example.plantsapp.presentation.ui.tasks.adapter.TasksAdapter
+import com.example.plantsapp.presentation.ui.tasks.adapter.PlantWithTasksAdapter
 import java.util.Date
 
 class TasksFragment : Fragment(R.layout.fragment_tasks) {
@@ -24,21 +24,21 @@ class TasksFragment : Fragment(R.layout.fragment_tasks) {
             date = requireArguments().date
         )
     }
-    private val tasksAdapter = TasksAdapter()
+    private val plantsWithTasksAdapter = PlantWithTasksAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         with(tasksViewModel) {
-            tasks.observe(viewLifecycleOwner) {
-                tasksAdapter.submitList(it)
+            plantsWithTasks.observe(viewLifecycleOwner) {
+                plantsWithTasksAdapter.submitList(it)
             }
         }
 
         with(binding) {
             rvTasks.apply {
                 layoutManager = LinearLayoutManager(context)
-                adapter = tasksAdapter
+                adapter = plantsWithTasksAdapter
             }
         }
     }
