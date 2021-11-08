@@ -4,7 +4,7 @@ import android.app.Application
 import com.example.plantsapp.BuildConfig
 import com.example.plantsapp.data.RoomPlantsDatabase
 import com.example.plantsapp.data.repository.RoomPlantsRepository
-import com.example.plantsapp.data.RoomTasksRepository
+import com.example.plantsapp.data.repository.RoomTasksRepository
 import timber.log.Timber
 
 class PlantApplication : Application() {

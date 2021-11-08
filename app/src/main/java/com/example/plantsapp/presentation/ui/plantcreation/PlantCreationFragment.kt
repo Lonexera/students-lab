@@ -79,16 +79,16 @@ class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
                 setUpFrequencyViews(it)
             }
 
-            wateringSelectedFrequency.observe(viewLifecycleOwner) {
-                binding.etCreationWateringFrequency.setTextWithUnits(it)
-            }
-
-            sprayingSelectedFrequency.observe(viewLifecycleOwner) {
-                binding.etCreationSprayingFrequency.setTextWithUnits(it)
-            }
-
-            looseningSelectedFrequency.observe(viewLifecycleOwner) {
-                binding.etCreationLooseningFrequency.setTextWithUnits(it)
+            frequencies.observe(viewLifecycleOwner) { frequenciesModel ->
+                frequenciesModel.wateringFrequency?.let {
+                    binding.etCreationWateringFrequency.setTextWithUnits(it)
+                }
+                frequenciesModel.sprayingFrequency?.let {
+                    binding.etCreationSprayingFrequency.setTextWithUnits(it)
+                }
+                frequenciesModel.looseningFrequency?.let {
+                    binding.etCreationLooseningFrequency.setTextWithUnits(it)
+                }
             }
         }
     }

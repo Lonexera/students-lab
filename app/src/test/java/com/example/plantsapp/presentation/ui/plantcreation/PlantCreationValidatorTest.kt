@@ -6,15 +6,19 @@ import org.junit.Test
 
 class PlantCreationValidatorTest {
 
+    private val defaultFrequencies = PlantCreationViewModel.Frequency(null, null, null)
+
+    private fun PlantCreationValidator.validateDefault(
+        plantName: String = "",
+        speciesName: String = "",
+        frequencies: PlantCreationViewModel.Frequency = defaultFrequencies
+    ) = validate(plantName, speciesName, frequencies)
+
     @Test
     fun `validator return error when all fields are empty`() {
         val validator = PlantCreationValidator()
 
-        val validatorResult = validator.validate(
-            plantName = "",
-            speciesName = "",
-            wateringFrequency = null
-        )
+        val validatorResult = validator.validateDefault()
 
         val expectedResult = PlantCreationValidator.ValidatorOutput.Error(R.string.error_invalid_name)
         assertEquals(validatorResult, expectedResult)
@@ -24,10 +28,13 @@ class PlantCreationValidatorTest {
     fun `validator return error when name field is empty`() {
         val validator = PlantCreationValidator()
 
-        val validatorResult = validator.validate(
-            plantName = "",
+        val validatorResult = validator.validateDefault(
             speciesName = "tjf",
-            wateringFrequency = 9
+            frequencies = defaultFrequencies.copy(
+                wateringFrequency = 1,
+                sprayingFrequency = 3,
+                looseningFrequency = 5
+            )
         )
 
         val expectedResult = PlantCreationValidator.ValidatorOutput.Error(R.string.error_invalid_name)
@@ -38,10 +45,13 @@ class PlantCreationValidatorTest {
     fun `validator return error when species name field is empty`() {
         val validator = PlantCreationValidator()
 
-        val validatorResult = validator.validate(
+        val validatorResult = validator.validateDefault(
             plantName = "Jackob",
-            speciesName = "",
-            wateringFrequency = 9
+            frequencies = defaultFrequencies.copy(
+                wateringFrequency = 3,
+                sprayingFrequency = 4,
+                looseningFrequency = 1
+            )
         )
 
         val expectedResult = PlantCreationValidator.ValidatorOutput.Error(R.string.error_invalid_species)
@@ -52,10 +62,13 @@ class PlantCreationValidatorTest {
     fun `validator return error when watering field is empty`() {
         val validator = PlantCreationValidator()
 
-        val validatorResult = validator.validate(
+        val validatorResult = validator.validateDefault(
             plantName = "Jackob",
             speciesName = "Cactus",
-            wateringFrequency = null
+            frequencies = defaultFrequencies.copy(
+                sprayingFrequency = 3,
+                looseningFrequency = 5
+            )
         )
 
         val expectedResult = PlantCreationValidator.ValidatorOutput.Error(R.string.error_invalid_watering_frequency)
@@ -63,13 +76,49 @@ class PlantCreationValidatorTest {
     }
 
     @Test
+    fun `validator return error when spraying field is empty`() {
+        val validator = PlantCreationValidator()
+
+        val validatorResult = validator.validateDefault(
+            plantName = "Jackob",
+            speciesName = "Cactus",
+            frequencies = defaultFrequencies.copy(
+                wateringFrequency = 4,
+                looseningFrequency = 5
+            )
+        )
+
+        val expectedResult = PlantCreationValidator.ValidatorOutput.Error(R.string.error_invalid_spraying_frequency)
+        assertEquals(validatorResult, expectedResult)
+    }
+
+    @Test
+    fun `validator return error when loosening field is empty`() {
+        val validator = PlantCreationValidator()
+
+        val validatorResult = validator.validateDefault(
+            plantName = "Jackob",
+            speciesName = "Cactus",
+            frequencies = defaultFrequencies.copy(
+                wateringFrequency = 3,
+                sprayingFrequency = 3
+            )
+        )
+
+        val expectedResult = PlantCreationValidator.ValidatorOutput.Error(R.string.error_invalid_loosening_frequency)
+        assertEquals(validatorResult, expectedResult)
+    }
+
+    @Test
     fun `validator return error when name and species name fields are empty`() {
         val validator = PlantCreationValidator()
 
-        val validatorResult = validator.validate(
-            plantName = "",
-            speciesName = "",
-            wateringFrequency = 5
+        val validatorResult = validator.validateDefault(
+            frequencies = defaultFrequencies.copy(
+                wateringFrequency = 2,
+                sprayingFrequency = 4,
+                looseningFrequency = 22
+            )
         )
 
         val expectedResult = PlantCreationValidator.ValidatorOutput.Error(R.string.error_invalid_name)
@@ -77,13 +126,11 @@ class PlantCreationValidatorTest {
     }
 
     @Test
-    fun `validator return error when species name and watering fields are empty`() {
+    fun `validator return error when species name and frequency fields are empty`() {
         val validator = PlantCreationValidator()
 
-        val validatorResult = validator.validate(
-            plantName = "Jackob",
-            speciesName = "",
-            wateringFrequency = null
+        val validatorResult = validator.validateDefault(
+            plantName = "Jackob"
         )
 
         val expectedResult = PlantCreationValidator.ValidatorOutput.Error(R.string.error_invalid_species)
@@ -94,10 +141,12 @@ class PlantCreationValidatorTest {
     fun `validator return error when watering and name fields are empty`() {
         val validator = PlantCreationValidator()
 
-        val validatorResult = validator.validate(
-            plantName = "",
+        val validatorResult = validator.validateDefault(
             speciesName = "Cactus",
-            wateringFrequency = null
+            frequencies = defaultFrequencies.copy(
+                sprayingFrequency = 3,
+                looseningFrequency = 4
+            )
         )
 
         val expectedResult = PlantCreationValidator.ValidatorOutput.Error(R.string.error_invalid_name)
@@ -111,7 +160,11 @@ class PlantCreationValidatorTest {
         val validatorResult = validator.validate(
             plantName = "Jackob",
             speciesName = "Cactus",
-            wateringFrequency = 3
+            frequencies = defaultFrequencies.copy(
+                wateringFrequency = 3,
+                sprayingFrequency = 4,
+                looseningFrequency = 12
+            )
         )
 
         val expectedResult = PlantCreationValidator.ValidatorOutput.Success

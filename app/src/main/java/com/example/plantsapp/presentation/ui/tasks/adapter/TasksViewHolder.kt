@@ -2,7 +2,6 @@ package com.example.plantsapp.presentation.ui.tasks.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.plantsapp.R
@@ -21,16 +20,11 @@ class TasksViewHolder(
                 task.plantName
             )
 
-            tvTaskTitle.setCompoundDrawablesWithIntrinsicBounds(
-                ResourcesCompat.getDrawable(
-                    root.resources,
-                    task.getIconRes(),
-                    null
-                ),
-                null,
-                null,
-                null
-            )
+            Glide.with(binding.root)
+                .load(task.getIconRes())
+                .centerCrop()
+                .into(ivTaskIcon)
+
             Glide.with(binding.root)
                 .load(task.plantPicture)
                 .centerCrop()

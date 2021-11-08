@@ -1,19 +1,20 @@
 package com.example.plantsapp.data.entity
 
 import android.net.Uri
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.model.Task
 
 @Entity(tableName = "tasks")
 data class RoomTask(
-    @ColumnInfo(name = "task_key") val taskKey: String,
-    @ColumnInfo(name = "plant_name") val plantName: String,
-    @ColumnInfo(name = "frequency") val frequency: Int
+    val taskKey: String,
+    val plantName: String,
+    val frequency: Int
 ) {
     @PrimaryKey(autoGenerate = true) var id: Int = 0
 
+    // TODO remove plantPicture from task
     fun toTask(plantPicture: Uri?): Task {
         return when (TaskKeys.getFromKey(taskKey)) {
             TaskKeys.WATERING_TASK -> Task.WateringTask(plantName, plantPicture, frequency)
@@ -24,10 +25,10 @@ data class RoomTask(
     }
 
     companion object {
-        fun from(task: Task): RoomTask {
+        fun from(plant: Plant, task: Task): RoomTask {
             return RoomTask(
                 TaskKeys.from(task).key,
-                task.plantName,
+                plant.name.value,
                 task.frequencyInDays
             )
         }

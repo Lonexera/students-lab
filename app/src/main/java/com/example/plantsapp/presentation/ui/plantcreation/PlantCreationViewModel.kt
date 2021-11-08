@@ -21,20 +21,22 @@ class PlantCreationViewModel(
     private val validator: PlantCreationValidator
 ) : ViewModel() {
 
+    data class Frequency(
+        val wateringFrequency: Int?,
+        val sprayingFrequency: Int?,
+        val looseningFrequency: Int?
+    )
+
     private val _toNavigateBack: MutableLiveData<Event<Unit>> = MutableLiveData()
     val toNavigateBack: LiveData<Event<Unit>> get() = _toNavigateBack
 
     private val _selectedPicture: MutableLiveData<Uri> = MutableLiveData()
     val selectedPicture: LiveData<Uri> get() = _selectedPicture
 
-    private val _wateringSelectedFrequency: MutableLiveData<Int> = MutableLiveData()
-    val wateringSelectedFrequency: LiveData<Int> get() = _wateringSelectedFrequency
-
-    private val _sprayingSelectedFrequency: MutableLiveData<Int> = MutableLiveData()
-    val sprayingSelectedFrequency: LiveData<Int> get() = _sprayingSelectedFrequency
-
-    private val _looseningSelectedFrequency: MutableLiveData<Int> = MutableLiveData()
-    val looseningSelectedFrequency: LiveData<Int> get() = _looseningSelectedFrequency
+    private val _frequencies: MutableLiveData<Frequency> = MutableLiveData(
+        Frequency(null, null, null)
+    )
+    val frequencies: LiveData<Frequency> = _frequencies
 
     val frequencyValues: LiveData<List<Int>> =
         MutableLiveData((MIN_WATERING_FREQUENCY..MAX_WATERING_FREQUENCY).toList())
@@ -51,9 +53,7 @@ class PlantCreationViewModel(
             val validationResult = validator.validate(
                 plantName,
                 speciesName,
-                wateringSelectedFrequency.value,
-                sprayingSelectedFrequency.value,
-                looseningSelectedFrequency.value
+                frequencies.value!!
             )
 
             when (validationResult) {
@@ -62,9 +62,7 @@ class PlantCreationViewModel(
                         plantName,
                         speciesName,
                         selectedPicture.value,
-                        wateringSelectedFrequency.value!!,
-                        sprayingSelectedFrequency.value!!,
-                        looseningSelectedFrequency.value!!
+                        frequencies.value!!
                     )
                 }
 
@@ -80,15 +78,15 @@ class PlantCreationViewModel(
     }
 
     fun onWateringFrequencySelected(frequency: Int) {
-        _wateringSelectedFrequency.value = frequency
+        _frequencies.value = _frequencies.value?.copy(wateringFrequency = frequency)
     }
 
     fun onSprayingFrequencySelected(frequency: Int) {
-        _sprayingSelectedFrequency.value = frequency
+        _frequencies.value = _frequencies.value?.copy(sprayingFrequency = frequency)
     }
 
     fun onLooseningFrequencySelected(frequency: Int) {
-        _looseningSelectedFrequency.value = frequency
+        _frequencies.value = _frequencies.value?.copy(looseningFrequency = frequency)
     }
 
     @Suppress(
@@ -99,26 +97,17 @@ class PlantCreationViewModel(
         plantName: String,
         speciesName: String,
         plantPicture: Uri?,
-        wateringFrequency: Int,
-        sprayingFrequency: Int,
-        looseningFrequency: Int
+        frequencies: Frequency
     ) {
         try {
-            plantsRepository.addPlant(
-                Plant(
-                    Plant.Name(plantName),
-                    speciesName,
-                    plantPicture
-                )
+            val createdPlant = Plant(
+                Plant.Name(plantName),
+                speciesName,
+                plantPicture
             )
 
-            addTasks(
-                plantName,
-                plantPicture,
-                wateringFrequency,
-                sprayingFrequency,
-                looseningFrequency
-            )
+            plantsRepository.addPlant(createdPlant)
+            addTasks(createdPlant, frequencies)
 
             _toNavigateBack.value = Event(Unit)
         } catch (e: Exception) {
@@ -128,28 +117,26 @@ class PlantCreationViewModel(
     }
 
     private suspend fun addTasks(
-        plantName: String,
-        plantPicture: Uri?,
-        wateringFrequency: Int,
-        sprayingFrequency: Int,
-        looseningFrequency: Int
+        plant: Plant,
+        frequencies: Frequency
     ) {
         tasksRepository.addTasks(
+            plant,
             listOf(
                 Task.WateringTask(
-                    plantName,
-                    plantPicture,
-                    wateringFrequency
+                    plant.name.value,
+                    plant.plantPicture,
+                    frequencies.wateringFrequency!!
                 ),
                 Task.SprayingTask(
-                    plantName,
-                    plantPicture,
-                    sprayingFrequency
+                    plant.name.value,
+                    plant.plantPicture,
+                    frequencies.sprayingFrequency!!
                 ),
                 Task.LooseningTask(
-                    plantName,
-                    plantPicture,
-                    looseningFrequency
+                    plant.name.value,
+                    plant.plantPicture,
+                    frequencies.looseningFrequency!!
                 )
             )
         )

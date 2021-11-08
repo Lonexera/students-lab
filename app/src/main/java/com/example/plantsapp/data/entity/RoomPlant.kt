@@ -1,7 +1,6 @@
 package com.example.plantsapp.data.entity
 
 import androidx.core.net.toUri
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.plantsapp.domain.model.Plant
@@ -10,9 +9,9 @@ import java.util.Date
 @Entity(tableName = "plants")
 data class RoomPlant(
     @PrimaryKey val name: String,
-    @ColumnInfo(name = "species_name") val speciesName: String,
-    @ColumnInfo(name = "plant_picture") val plantPicture: String?,
-    @ColumnInfo(name = "creation_date") val creationDateMillis: Long
+    val speciesName: String,
+    val plantPicture: String?,
+    val creationDateMillis: Long
 ) {
     companion object {
         fun from(plant: Plant, creationDate: Date): RoomPlant {

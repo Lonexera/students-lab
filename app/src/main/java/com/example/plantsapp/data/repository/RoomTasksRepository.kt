@@ -2,7 +2,9 @@ package com.example.plantsapp.data.repository
 
 import androidx.core.net.toUri
 import com.example.plantsapp.data.dao.RoomPlantWithTasksDao
+import com.example.plantsapp.data.entity.RoomPlantWithTasks
 import com.example.plantsapp.data.entity.RoomTask
+import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.model.Task
 import com.example.plantsapp.domain.repository.TasksRepository
 import kotlinx.coroutines.flow.Flow
@@ -13,39 +15,43 @@ class RoomTasksRepository(
     private val plantsWithTasksDao: RoomPlantWithTasksDao
 ) : TasksRepository {
 
-    override suspend fun addTasks(tasks: List<Task>) {
+    override suspend fun addTasks(plant: Plant, tasks: List<Task>) {
         tasks.forEach {
             plantsWithTasksDao.insert(
-                RoomTask.from(it)
+                RoomTask.from(plant, it)
             )
         }
     }
 
     override suspend fun getTasksForDate(date: Date): Flow<List<Task>> {
         return plantsWithTasksDao.getPlantsWithTasks()
-            .map { plantsWithTasks ->
-                plantsWithTasks.map { plantWithTasks ->
-                    plantWithTasks.tasks.filter {
-                        checkIfDateIsWithinInterval(
-                            date.time,
-                            plantWithTasks.plant.creationDateMillis,
-                            it.frequency
-                        )
-                    }
-                        .map {
-                            it.toTask(plantWithTasks.plant.plantPicture?.toUri())
-                        }
-                }
-                    .flatten()
+            .map {
+                it.getAllFittingTasks(date)
             }
     }
 
-    private fun checkIfDateIsWithinInterval(
-        dateMillis: Long,
-        startDateMillis: Long,
+    private fun List<RoomPlantWithTasks>.getAllFittingTasks(date: Date): List<Task> {
+        return this.flatMap {
+            it.tasks
+                .filter { roomTask ->
+                    checkIfDateIsRepeatedWithInterval(
+                        date,
+                        Date(it.plant.creationDateMillis),
+                        roomTask.frequency
+                    )
+                }
+                .map { roomTask ->
+                    roomTask.toTask(it.plant.plantPicture?.toUri())
+                }
+        }
+    }
+
+    private fun checkIfDateIsRepeatedWithInterval(
+        date: Date,
+        startDate: Date,
         intervalDays: Int
     ): Boolean {
-        return ((dateMillis - startDateMillis) / DAY_IN_MILLISECONDS) %
+        return ((date.time - startDate.time) / DAY_IN_MILLISECONDS) %
                 intervalDays == 0L
     }
 }
