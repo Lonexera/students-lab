@@ -14,6 +14,7 @@ import com.example.plantsapp.R
 import com.example.plantsapp.databinding.FragmentPlantCreationBinding
 import com.example.plantsapp.presentation.PlantApplication
 import com.example.plantsapp.presentation.ui.utils.getCameraImageOutputUri
+import com.example.plantsapp.presentation.ui.utils.setUpWithAdapter
 
 class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
 
@@ -137,20 +138,6 @@ class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
             valuesList,
             creationViewModel::onLooseningFrequencySelected
         )
-    }
-
-    private fun <T> AutoCompleteTextView.setUpWithAdapter(
-        adapter: ArrayAdapter<T>,
-        valuesList: List<Int>,
-        onItemClick: (Int) -> Unit
-    ) {
-        setAdapter(adapter)
-
-        setOnItemClickListener { _, _, position, _ ->
-            onItemClick(valuesList[position])
-        }
-
-        isEnabled = true
     }
 
     private fun AutoCompleteTextView.setTextWithUnits(value: Int) {

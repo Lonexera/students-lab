@@ -21,7 +21,7 @@ class PlantCreationViewModel(
     private val validator: PlantCreationValidator
 ) : ViewModel() {
 
-    data class Frequency(
+    data class PlantTaskFrequencies(
         val wateringFrequency: Int?,
         val sprayingFrequency: Int?,
         val looseningFrequency: Int?
@@ -33,10 +33,10 @@ class PlantCreationViewModel(
     private val _selectedPicture: MutableLiveData<Uri> = MutableLiveData()
     val selectedPicture: LiveData<Uri> get() = _selectedPicture
 
-    private val _frequencies: MutableLiveData<Frequency> = MutableLiveData(
-        Frequency(null, null, null)
+    private val _frequencies: MutableLiveData<PlantTaskFrequencies> = MutableLiveData(
+        PlantTaskFrequencies(null, null, null)
     )
-    val frequencies: LiveData<Frequency> = _frequencies
+    val frequencies: LiveData<PlantTaskFrequencies> = _frequencies
 
     val frequencyValues: LiveData<List<Int>> =
         MutableLiveData((MIN_WATERING_FREQUENCY..MAX_WATERING_FREQUENCY).toList())
@@ -97,7 +97,7 @@ class PlantCreationViewModel(
         plantName: String,
         speciesName: String,
         plantPicture: Uri?,
-        frequencies: Frequency
+        frequencies: PlantTaskFrequencies
     ) {
         try {
             val createdPlant = Plant(
@@ -118,26 +118,14 @@ class PlantCreationViewModel(
 
     private suspend fun addTasks(
         plant: Plant,
-        frequencies: Frequency
+        frequencies: PlantTaskFrequencies
     ) {
         tasksRepository.addTasks(
             plant,
             listOf(
-                Task.WateringTask(
-                    plant.name.value,
-                    plant.plantPicture,
-                    frequencies.wateringFrequency!!
-                ),
-                Task.SprayingTask(
-                    plant.name.value,
-                    plant.plantPicture,
-                    frequencies.sprayingFrequency!!
-                ),
-                Task.LooseningTask(
-                    plant.name.value,
-                    plant.plantPicture,
-                    frequencies.looseningFrequency!!
-                )
+                Task.WateringTask(frequencies.wateringFrequency!!),
+                Task.SprayingTask(frequencies.sprayingFrequency!!),
+                Task.LooseningTask(frequencies.looseningFrequency!!)
             )
         )
     }

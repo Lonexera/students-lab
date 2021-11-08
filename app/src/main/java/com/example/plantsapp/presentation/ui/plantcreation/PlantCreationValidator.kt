@@ -8,7 +8,7 @@ class PlantCreationValidator {
     fun validate(
         plantName: String,
         speciesName: String,
-        frequencies: PlantCreationViewModel.Frequency
+        frequencies: PlantCreationViewModel.PlantTaskFrequencies
     ): ValidatorOutput {
         return when {
             plantName.isBlank() -> ValidatorOutput.Error(R.string.error_invalid_name)

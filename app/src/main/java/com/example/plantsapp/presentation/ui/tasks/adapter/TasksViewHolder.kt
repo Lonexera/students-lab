@@ -16,19 +16,13 @@ class TasksViewHolder(
         with(binding) {
 
             tvTaskTitle.text = root.context.getString(
-                task.getTitleRes(),
-                task.plantName
+                task.getTitleRes()
             )
 
             Glide.with(binding.root)
                 .load(task.getIconRes())
                 .centerCrop()
                 .into(ivTaskIcon)
-
-            Glide.with(binding.root)
-                .load(task.plantPicture)
-                .centerCrop()
-                .into(ivPlant)
         }
     }
 

@@ -1,6 +1,5 @@
 package com.example.plantsapp.data.repository
 
-import androidx.core.net.toUri
 import com.example.plantsapp.data.dao.RoomPlantWithTasksDao
 import com.example.plantsapp.data.entity.RoomPlantWithTasks
 import com.example.plantsapp.data.entity.RoomTask
@@ -16,11 +15,9 @@ class RoomTasksRepository(
 ) : TasksRepository {
 
     override suspend fun addTasks(plant: Plant, tasks: List<Task>) {
-        tasks.forEach {
-            plantsWithTasksDao.insert(
-                RoomTask.from(plant, it)
-            )
-        }
+        plantsWithTasksDao.insert(
+            tasks.map { RoomTask.from(plant, it) }
+        )
     }
 
     override suspend fun getTasksForDate(date: Date): Flow<List<Task>> {
@@ -41,7 +38,7 @@ class RoomTasksRepository(
                     )
                 }
                 .map { roomTask ->
-                    roomTask.toTask(it.plant.plantPicture?.toUri())
+                    roomTask.toTask()
                 }
         }
     }

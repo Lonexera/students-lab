@@ -1,6 +1,5 @@
 package com.example.plantsapp.data.entity
 
-import android.net.Uri
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.plantsapp.domain.model.Plant
@@ -14,12 +13,11 @@ data class RoomTask(
 ) {
     @PrimaryKey(autoGenerate = true) var id: Int = 0
 
-    // TODO remove plantPicture from task
-    fun toTask(plantPicture: Uri?): Task {
+    fun toTask(): Task {
         return when (TaskKeys.getFromKey(taskKey)) {
-            TaskKeys.WATERING_TASK -> Task.WateringTask(plantName, plantPicture, frequency)
-            TaskKeys.SPRAYING_TASK -> Task.SprayingTask(plantName, plantPicture, frequency)
-            TaskKeys.LOOSENING_TASK -> Task.LooseningTask(plantName, plantPicture, frequency)
+            TaskKeys.WATERING_TASK -> Task.WateringTask(frequency)
+            TaskKeys.SPRAYING_TASK -> Task.SprayingTask(frequency)
+            TaskKeys.LOOSENING_TASK -> Task.LooseningTask(frequency)
             else -> throw NoSuchElementException("Undefined Task Type!")
         }
     }

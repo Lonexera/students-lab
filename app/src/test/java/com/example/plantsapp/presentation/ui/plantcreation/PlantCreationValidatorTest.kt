@@ -6,12 +6,12 @@ import org.junit.Test
 
 class PlantCreationValidatorTest {
 
-    private val defaultFrequencies = PlantCreationViewModel.Frequency(null, null, null)
+    private val defaultFrequencies = PlantCreationViewModel.PlantTaskFrequencies(null, null, null)
 
     private fun PlantCreationValidator.validateDefault(
         plantName: String = "",
         speciesName: String = "",
-        frequencies: PlantCreationViewModel.Frequency = defaultFrequencies
+        frequencies: PlantCreationViewModel.PlantTaskFrequencies = defaultFrequencies
     ) = validate(plantName, speciesName, frequencies)
 
     @Test

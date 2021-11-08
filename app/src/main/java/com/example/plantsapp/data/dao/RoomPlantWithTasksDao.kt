@@ -16,5 +16,5 @@ interface RoomPlantWithTasksDao {
     fun getPlantsWithTasks(): Flow<List<RoomPlantWithTasks>>
 
     @Insert
-    suspend fun insert(task: RoomTask)
+    suspend fun insert(tasks: List<RoomTask>)
 }
