@@ -1,0 +1,34 @@
+package com.example.plantsapp.data.entity
+
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.example.plantsapp.domain.model.Plant
+import com.example.plantsapp.domain.model.Task
+
+@Entity(tableName = "tasks")
+data class RoomTask(
+    val taskKey: String,
+    val plantName: String,
+    val frequency: Int
+) {
+    @PrimaryKey(autoGenerate = true) var id: Int = 0
+
+    fun toTask(): Task {
+        return when (TaskKeys.getFromKey(taskKey)) {
+            TaskKeys.WATERING_TASK -> Task.WateringTask(frequency)
+            TaskKeys.SPRAYING_TASK -> Task.SprayingTask(frequency)
+            TaskKeys.LOOSENING_TASK -> Task.LooseningTask(frequency)
+            else -> throw NoSuchElementException("Undefined Task Type!")
+        }
+    }
+
+    companion object {
+        fun from(plant: Plant, task: Task): RoomTask {
+            return RoomTask(
+                TaskKeys.from(task).key,
+                plant.name.value,
+                task.frequencyInDays
+            )
+        }
+    }
+}

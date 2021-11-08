@@ -7,16 +7,25 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.plantsapp.R
 import com.example.plantsapp.domain.model.Plant
+import com.example.plantsapp.domain.model.Task
 import com.example.plantsapp.domain.repository.PlantsRepository
+import com.example.plantsapp.domain.repository.TasksRepository
 import com.example.plantsapp.presentation.core.Event
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import kotlin.Exception
 
 class PlantCreationViewModel(
-    private val repository: PlantsRepository,
+    private val plantsRepository: PlantsRepository,
+    private val tasksRepository: TasksRepository,
     private val validator: PlantCreationValidator
 ) : ViewModel() {
+
+    data class PlantTaskFrequencies(
+        val wateringFrequency: Int?,
+        val sprayingFrequency: Int?,
+        val looseningFrequency: Int?
+    )
 
     private val _toNavigateBack: MutableLiveData<Event<Unit>> = MutableLiveData()
     val toNavigateBack: LiveData<Event<Unit>> get() = _toNavigateBack
@@ -24,10 +33,12 @@ class PlantCreationViewModel(
     private val _selectedPicture: MutableLiveData<Uri> = MutableLiveData()
     val selectedPicture: LiveData<Uri> get() = _selectedPicture
 
-    private val _wateringSelectedFrequency: MutableLiveData<Int> = MutableLiveData()
-    val wateringSelectedFrequency: LiveData<Int> get() = _wateringSelectedFrequency
+    private val _frequencies: MutableLiveData<PlantTaskFrequencies> = MutableLiveData(
+        PlantTaskFrequencies(null, null, null)
+    )
+    val frequencies: LiveData<PlantTaskFrequencies> = _frequencies
 
-    val wateringFrequencyValues: LiveData<List<Int>> =
+    val frequencyValues: LiveData<List<Int>> =
         MutableLiveData((MIN_WATERING_FREQUENCY..MAX_WATERING_FREQUENCY).toList())
 
     private val _invalidInput: MutableLiveData<Int> = MutableLiveData()
@@ -42,7 +53,7 @@ class PlantCreationViewModel(
             val validationResult = validator.validate(
                 plantName,
                 speciesName,
-                wateringSelectedFrequency.value
+                frequencies.value!!
             )
 
             when (validationResult) {
@@ -51,7 +62,7 @@ class PlantCreationViewModel(
                         plantName,
                         speciesName,
                         selectedPicture.value,
-                        wateringSelectedFrequency.value!!
+                        frequencies.value!!
                     )
                 }
 
@@ -67,30 +78,56 @@ class PlantCreationViewModel(
     }
 
     fun onWateringFrequencySelected(frequency: Int) {
-        _wateringSelectedFrequency.value = frequency
+        _frequencies.value = _frequencies.value?.copy(wateringFrequency = frequency)
     }
 
-    @Suppress("TooGenericExceptionCaught")
+    fun onSprayingFrequencySelected(frequency: Int) {
+        _frequencies.value = _frequencies.value?.copy(sprayingFrequency = frequency)
+    }
+
+    fun onLooseningFrequencySelected(frequency: Int) {
+        _frequencies.value = _frequencies.value?.copy(looseningFrequency = frequency)
+    }
+
+    @Suppress(
+        "TooGenericExceptionCaught",
+        "LongParameterList"
+    )
     private suspend fun addPlant(
         plantName: String,
         speciesName: String,
         plantPicture: Uri?,
-        wateringFrequency: Int
+        frequencies: PlantTaskFrequencies
     ) {
         try {
-            repository.addPlant(
-                Plant(
-                    Plant.Name(plantName),
-                    speciesName,
-                    plantPicture,
-                    wateringFrequency
-                )
+            val createdPlant = Plant(
+                Plant.Name(plantName),
+                speciesName,
+                plantPicture
             )
+
+            plantsRepository.addPlant(createdPlant)
+            addTasks(createdPlant, frequencies)
+
             _toNavigateBack.value = Event(Unit)
         } catch (e: Exception) {
             Timber.e(e)
             _invalidInput.value = R.string.error_indistinctive_name
         }
+    }
+
+    private suspend fun addTasks(
+        plant: Plant,
+        frequencies: PlantTaskFrequencies
+    ) {
+        tasksRepository.addTasks(
+            plant,
+            listOf(
+                Task.WateringTask(frequencies.wateringFrequency!!),
+                Task.SprayingTask(frequencies.sprayingFrequency!!),
+                Task.LooseningTask(frequencies.looseningFrequency!!)
+            )
+        )
     }
 
     companion object {

@@ -1,5 +1,7 @@
-package com.example.plantsapp.data
+package com.example.plantsapp.data.repository
 
+import com.example.plantsapp.data.dao.RoomPlantsDao
+import com.example.plantsapp.data.entity.RoomPlant
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.repository.PlantsRepository
 import kotlinx.coroutines.flow.Flow

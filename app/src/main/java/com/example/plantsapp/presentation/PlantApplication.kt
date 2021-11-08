@@ -3,8 +3,8 @@ package com.example.plantsapp.presentation
 import android.app.Application
 import com.example.plantsapp.BuildConfig
 import com.example.plantsapp.data.RoomPlantsDatabase
-import com.example.plantsapp.data.RoomPlantsRepository
-import com.example.plantsapp.data.RoomTasksRepository
+import com.example.plantsapp.data.repository.RoomPlantsRepository
+import com.example.plantsapp.data.repository.RoomTasksRepository
 import timber.log.Timber
 
 class PlantApplication : Application() {
@@ -16,7 +16,7 @@ class PlantApplication : Application() {
         RoomPlantsRepository(roomPlantsDatabase.plantDao())
     }
     val roomTasksRepository: RoomTasksRepository by lazy {
-        RoomTasksRepository(roomPlantsDatabase.plantDao())
+        RoomTasksRepository(roomPlantsDatabase.plantsWithTasksDao())
     }
 
     override fun onCreate() {

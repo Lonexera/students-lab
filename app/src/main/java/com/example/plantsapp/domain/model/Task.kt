@@ -1,10 +1,17 @@
 package com.example.plantsapp.domain.model
 
-import android.net.Uri
+sealed class Task {
+    abstract val frequencyInDays: Int
 
-// TODO refactor Task class
-data class Task(
-    val taskAction: String,
-    val plantName: String,
-    val plantPicture: Uri?
-)
+    data class WateringTask(
+        override val frequencyInDays: Int
+    ) : Task()
+
+    data class SprayingTask(
+        override val frequencyInDays: Int
+    ) : Task()
+
+    data class LooseningTask(
+        override val frequencyInDays: Int
+    ) : Task()
+}

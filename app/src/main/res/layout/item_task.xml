@@ -20,7 +20,16 @@
             android:layout_height="@dimen/plant_card_image_size"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:src="@drawable/ic_baseline_image_24"/>
+
+        <ImageView
+            android:id="@+id/iv_task_icon"
+            android:layout_width="@dimen/task_icon_image_size"
+            android:layout_height="@dimen/task_icon_image_size"
+            app:layout_constraintTop_toTopOf="@id/tv_task_title"
+            app:layout_constraintBottom_toBottomOf="@id/tv_task_title"
+            app:layout_constraintStart_toEndOf="@id/iv_plant" />
 
         <TextView
             android:id="@+id/tv_task_title"
@@ -28,7 +37,7 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_size_normal"
             android:layout_marginStart="@dimen/margin_8dp"
-            app:layout_constraintStart_toEndOf="@id/iv_plant"
+            app:layout_constraintStart_toEndOf="@id/iv_task_icon"
             card_view:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
