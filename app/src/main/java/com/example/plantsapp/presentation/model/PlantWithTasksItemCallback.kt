@@ -1,15 +1,22 @@
 package com.example.plantsapp.presentation.model
 
 import androidx.recyclerview.widget.DiffUtil
-import com.example.plantsapp.domain.model.PlantWithTasks
+import com.example.plantsapp.domain.model.Plant
+import com.example.plantsapp.domain.model.Task
 
-class PlantWithTasksItemCallback : DiffUtil.ItemCallback<PlantWithTasks>() {
+class PlantWithTasksItemCallback : DiffUtil.ItemCallback<Pair<Plant, List<Task>>>() {
 
-    override fun areItemsTheSame(oldItem: PlantWithTasks, newItem: PlantWithTasks): Boolean {
-        return oldItem.plant == newItem.plant
+    override fun areItemsTheSame(
+        oldItem: Pair<Plant, List<Task>>,
+        newItem: Pair<Plant, List<Task>>
+    ): Boolean {
+        return oldItem.first == newItem.first
     }
 
-    override fun areContentsTheSame(oldItem: PlantWithTasks, newItem: PlantWithTasks): Boolean {
+    override fun areContentsTheSame(
+        oldItem: Pair<Plant, List<Task>>,
+        newItem: Pair<Plant, List<Task>>
+    ): Boolean {
         return oldItem == newItem
     }
 }

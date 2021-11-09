@@ -7,20 +7,22 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.plantsapp.R
 import com.example.plantsapp.databinding.ItemPlantWithTasksBinding
-import com.example.plantsapp.domain.model.PlantWithTasks
+import com.example.plantsapp.domain.model.Plant
+import com.example.plantsapp.domain.model.Task
 
+// TODO Maybe add shared RecyclerViewPool
 class PlantWithTasksViewHolder(
     private val binding: ItemPlantWithTasksBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
     private val tasksAdapter = TasksAdapter()
 
-    fun bind(plantWithTasks: PlantWithTasks) {
+    fun bind(plant: Plant, tasks: List<Task>) {
         with(binding) {
-            tvTasksPlantName.text = plantWithTasks.plant.name.value
+            tvTasksPlantName.text = plant.name.value
 
             Glide.with(binding.root)
-                .load(plantWithTasks.plant.plantPicture)
+                .load(plant.plantPicture)
                 .placeholder(R.drawable.ic_baseline_image_24)
                 .centerCrop()
                 .into(ivTasksPlantPicture)
@@ -30,7 +32,7 @@ class PlantWithTasksViewHolder(
                 adapter = tasksAdapter
             }
 
-            tasksAdapter.submitList(plantWithTasks.tasks)
+            tasksAdapter.submitList(tasks)
         }
     }
 
