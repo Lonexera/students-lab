@@ -8,5 +8,5 @@ import java.util.Date
 interface TasksRepository {
 
     suspend fun addTasks(plant: Plant, tasks: List<Task>)
-    suspend fun getTasksForDate(date: Date): Flow<List<Task>>
+    suspend fun getPlantsWithTasksForDate(date: Date): Flow<List<Pair<Plant, List<Task>>>>
 }

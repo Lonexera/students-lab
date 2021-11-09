@@ -1,6 +1,7 @@
 package com.example.plantsapp.data.repository
 
 import com.example.plantsapp.data.dao.RoomPlantWithTasksDao
+import com.example.plantsapp.data.entity.RoomPlant
 import com.example.plantsapp.data.entity.RoomPlantWithTasks
 import com.example.plantsapp.data.entity.RoomTask
 import com.example.plantsapp.domain.model.Plant
@@ -20,27 +21,20 @@ class RoomTasksRepository(
         )
     }
 
-    override suspend fun getTasksForDate(date: Date): Flow<List<Task>> {
+    override suspend fun getPlantsWithTasksForDate(date: Date): Flow<List<Pair<Plant, List<Task>>>> {
         return plantsWithTasksDao.getPlantsWithTasks()
             .map {
-                it.getAllFittingTasks(date)
+                it.getPlantsWithFittingTasks(date)
             }
     }
 
-    private fun List<RoomPlantWithTasks>.getAllFittingTasks(date: Date): List<Task> {
-        return this.flatMap {
-            it.tasks
-                .filter { roomTask ->
-                    checkIfDateIsRepeatedWithInterval(
-                        date,
-                        Date(it.plant.creationDateMillis),
-                        roomTask.frequency
-                    )
-                }
-                .map { roomTask ->
-                    roomTask.toTask()
-                }
+    private fun List<RoomPlantWithTasks>.getPlantsWithFittingTasks(date: Date): List<Pair<Plant, List<Task>>> {
+        return this.map {
+            it.plant.toPlant() to
+                    getFittingTasksForPlant(it.plant, it.tasks, date)
+                        .map { it.toTask() }
         }
+            .filter { it.second.isNotEmpty() }
     }
 
     private fun checkIfDateIsRepeatedWithInterval(
@@ -50,6 +44,20 @@ class RoomTasksRepository(
     ): Boolean {
         return ((date.time - startDate.time) / DAY_IN_MILLISECONDS) %
                 intervalDays == 0L
+    }
+
+    private fun getFittingTasksForPlant(
+        plant: RoomPlant,
+        tasks: List<RoomTask>,
+        currentDate: Date
+    ): List<RoomTask> {
+        return tasks.filter { roomTask ->
+            checkIfDateIsRepeatedWithInterval(
+                currentDate,
+                Date(plant.creationDateMillis),
+                roomTask.frequency
+            )
+        }
     }
 }
 
