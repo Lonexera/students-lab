@@ -30,8 +30,8 @@ class RoomPlantsRepository(
     }
 
     // TODO delete date setting from here
-    // TODO listen to todo above!!!
     override suspend fun deletePlant(plant: Plant) {
         plantsDao.delete(RoomPlant.from(plant, Date()))
+        plantsDao.deleteTasksByPlantName(plant.name.value)
     }
 }
