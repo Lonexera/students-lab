@@ -27,8 +27,18 @@ class PlantDetailFragment : Fragment(R.layout.fragment_plant_detail) {
         super.onViewCreated(view, savedInstanceState)
 
         with(detailViewModel) {
-            plant.observe(viewLifecycleOwner) {
-                showPlantDetail(it)
+            plant.observe(viewLifecycleOwner) { plant ->
+                showPlantDetail(plant)
+
+                binding.btnDelete.setOnClickListener {
+                    detailViewModel.onDelete(plant)
+                }
+            }
+
+            toNavigateBack.observe(viewLifecycleOwner) {
+                it.getContentIfNotHandled()?.let {
+                    requireActivity().supportFragmentManager.popBackStack()
+                }
             }
         }
     }

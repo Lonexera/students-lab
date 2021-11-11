@@ -28,4 +28,10 @@ class RoomPlantsRepository(
     override suspend fun getPlantByName(name: Plant.Name): Plant {
         return plantsDao.getByName(name.value).toPlant()
     }
+
+    // TODO delete date setting from here
+    // TODO listen to todo above!!!
+    override suspend fun deletePlant(plant: Plant) {
+        plantsDao.delete(RoomPlant.from(plant, Date()))
+    }
 }
