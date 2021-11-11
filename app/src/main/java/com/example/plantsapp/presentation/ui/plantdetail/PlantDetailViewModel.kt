@@ -26,9 +26,9 @@ class PlantDetailViewModel(
         }
     }
 
-    fun onDelete(plant: Plant) {
+    fun onDelete() {
         viewModelScope.launch {
-            repository.deletePlant(plant)
+            repository.deletePlant(plant.value!!)
 
             _toNavigateBack.value = Event(Unit)
         }

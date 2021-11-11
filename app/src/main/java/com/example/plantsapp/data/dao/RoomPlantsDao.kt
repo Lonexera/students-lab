@@ -21,7 +21,4 @@ interface RoomPlantsDao {
 
     @Delete
     suspend fun delete(plant: RoomPlant)
-
-    @Query("DELETE FROM tasks WHERE plantName = :plantName")
-    suspend fun deleteTasksByPlantName(plantName: String)
 }

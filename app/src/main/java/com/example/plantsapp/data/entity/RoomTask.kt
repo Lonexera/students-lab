@@ -1,17 +1,30 @@
 package com.example.plantsapp.data.entity
 
 import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.ForeignKey.CASCADE
 import androidx.room.PrimaryKey
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.model.Task
 
-@Entity(tableName = "tasks")
+@Entity(
+    tableName = "tasks",
+    foreignKeys = [
+        ForeignKey(
+            onDelete = CASCADE,
+            entity = RoomPlant::class,
+            parentColumns = ["name"],
+            childColumns = ["plantName"]
+        )
+    ]
+)
 data class RoomTask(
     val taskKey: String,
     val plantName: String,
     val frequency: Int
 ) {
-    @PrimaryKey(autoGenerate = true) var id: Int = 0
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
 
     fun toTask(): Task {
         return when (TaskKeys.getFromKey(taskKey)) {

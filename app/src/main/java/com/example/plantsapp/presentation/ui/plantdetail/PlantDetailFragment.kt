@@ -29,16 +29,18 @@ class PlantDetailFragment : Fragment(R.layout.fragment_plant_detail) {
         with(detailViewModel) {
             plant.observe(viewLifecycleOwner) { plant ->
                 showPlantDetail(plant)
-
-                binding.btnDelete.setOnClickListener {
-                    detailViewModel.onDelete(plant)
-                }
             }
 
             toNavigateBack.observe(viewLifecycleOwner) {
                 it.getContentIfNotHandled()?.let {
                     requireActivity().supportFragmentManager.popBackStack()
                 }
+            }
+        }
+
+        with(binding) {
+            btnDelete.setOnClickListener {
+                detailViewModel.onDelete()
             }
         }
     }
@@ -60,6 +62,8 @@ class PlantDetailFragment : Fragment(R.layout.fragment_plant_detail) {
                 plant.speciesName
             )
             // TODO show all tasks for plant
+
+            btnDelete.isEnabled = true
         }
     }
 
