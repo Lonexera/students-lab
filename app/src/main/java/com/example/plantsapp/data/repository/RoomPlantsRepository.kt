@@ -7,8 +7,9 @@ import com.example.plantsapp.domain.repository.PlantsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.util.Date
+import javax.inject.Inject
 
-class RoomPlantsRepository(
+class RoomPlantsRepository @Inject constructor(
     private val plantsDao: RoomPlantsDao
 ) : PlantsRepository {
 

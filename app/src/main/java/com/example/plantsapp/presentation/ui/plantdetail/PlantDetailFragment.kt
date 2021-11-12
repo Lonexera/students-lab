@@ -10,15 +10,18 @@ import com.bumptech.glide.Glide
 import com.example.plantsapp.R
 import com.example.plantsapp.databinding.FragmentPlantDetailBinding
 import com.example.plantsapp.domain.model.Plant
-import com.example.plantsapp.presentation.PlantApplication
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class PlantDetailFragment : Fragment(R.layout.fragment_plant_detail) {
 
     private val binding: FragmentPlantDetailBinding by viewBinding(FragmentPlantDetailBinding::bind)
+    @Inject
+    lateinit var assistedFactory: DetailViewModelAssistedFactory
     private val detailViewModel: PlantDetailViewModel by viewModels {
         DetailViewModelFactory(
-            repository = (requireActivity().application as PlantApplication)
-                .roomPlantsRepository,
+            assistedFactory = assistedFactory,
             plantName = requireArguments().plantName
         )
     }

@@ -7,11 +7,13 @@ import androidx.lifecycle.viewModelScope
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.repository.PlantsRepository
 import com.example.plantsapp.presentation.core.Event
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
 
-class PlantDetailViewModel(
+class PlantDetailViewModel @AssistedInject constructor(
     private val repository: PlantsRepository,
-    private val plantName: Plant.Name
+    @Assisted plantName: String
 ) : ViewModel() {
 
     private val _plant: MutableLiveData<Plant> = MutableLiveData()
@@ -22,7 +24,7 @@ class PlantDetailViewModel(
 
     init {
         viewModelScope.launch {
-            _plant.value = repository.getPlantByName(plantName)
+            _plant.value = repository.getPlantByName(Plant.Name(plantName))
         }
     }
 

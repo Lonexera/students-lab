@@ -9,18 +9,20 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.plantsapp.R
 import com.example.plantsapp.databinding.FragmentTasksBinding
-import com.example.plantsapp.presentation.PlantApplication
 import com.example.plantsapp.presentation.ui.tasks.adapter.PlantWithTasksAdapter
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.Date
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class TasksFragment : Fragment(R.layout.fragment_tasks) {
 
     private val binding: FragmentTasksBinding by viewBinding(FragmentTasksBinding::bind)
+    @Inject
+    lateinit var assistedFactory: TasksViewModelAssistedFactory
     private val tasksViewModel: TasksViewModel by viewModels {
         TasksViewModelFactory(
-            repository =
-            (requireActivity().application as PlantApplication)
-                .roomTasksRepository,
+            assistedFactory = assistedFactory,
             date = requireArguments().date
         )
     }

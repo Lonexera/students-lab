@@ -9,7 +9,9 @@ import com.example.plantsapp.R
 import com.example.plantsapp.databinding.ActivityMainBinding
 import com.example.plantsapp.presentation.ui.plants.PlantsFragment
 import com.example.plantsapp.presentation.ui.tasksfordays.TasksForDaysFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
