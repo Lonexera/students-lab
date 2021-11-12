@@ -1,6 +1,7 @@
 package com.example.plantsapp.data.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.example.plantsapp.data.entity.RoomPlant
@@ -17,4 +18,7 @@ interface RoomPlantsDao {
 
     @Insert
     suspend fun insert(plant: RoomPlant)
+
+    @Delete
+    suspend fun delete(plant: RoomPlant)
 }
