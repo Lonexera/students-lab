@@ -7,13 +7,15 @@ import androidx.lifecycle.viewModelScope
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.model.Task
 import com.example.plantsapp.domain.repository.TasksRepository
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.util.Date
 
-class TasksViewModel(
+class TasksViewModel @AssistedInject constructor(
     private val repository: TasksRepository,
-    private val date: Date
+    @Assisted private val date: Date
 ) : ViewModel() {
 
     private val _plantsWithTasks: MutableLiveData<List<Pair<Plant, List<Task>>>> = MutableLiveData()

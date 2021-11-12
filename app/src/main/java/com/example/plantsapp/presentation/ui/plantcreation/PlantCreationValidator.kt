@@ -2,8 +2,9 @@ package com.example.plantsapp.presentation.ui.plantcreation
 
 import androidx.annotation.StringRes
 import com.example.plantsapp.R
+import javax.inject.Inject
 
-class PlantCreationValidator {
+class PlantCreationValidator @Inject constructor() {
 
     fun validate(
         plantName: String,

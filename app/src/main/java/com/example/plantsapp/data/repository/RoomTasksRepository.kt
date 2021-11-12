@@ -10,8 +10,9 @@ import com.example.plantsapp.domain.repository.TasksRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.util.Date
+import javax.inject.Inject
 
-class RoomTasksRepository(
+class RoomTasksRepository @Inject constructor(
     private val plantsWithTasksDao: RoomPlantWithTasksDao
 ) : TasksRepository {
 

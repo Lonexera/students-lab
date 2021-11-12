@@ -13,14 +13,14 @@ import com.example.plantsapp.databinding.FragmentTasksForDaysBinding
 import com.example.plantsapp.presentation.ui.tasksfordays.adapter.TasksForDaysPagerAdapter
 import com.example.plantsapp.presentation.ui.utils.formatDate
 import com.example.plantsapp.presentation.ui.utils.plusDays
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.Date
 
+@AndroidEntryPoint
 class TasksForDaysFragment : Fragment(R.layout.fragment_tasks_for_days) {
 
     private val binding: FragmentTasksForDaysBinding by viewBinding(FragmentTasksForDaysBinding::bind)
-    private val viewModel: TasksForDaysViewModel by viewModels {
-        TasksForDaysViewModelFactory()
-    }
+    private val viewModel: TasksForDaysViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

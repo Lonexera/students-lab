@@ -11,11 +11,14 @@ import com.example.plantsapp.domain.model.Task
 import com.example.plantsapp.domain.repository.PlantsRepository
 import com.example.plantsapp.domain.repository.TasksRepository
 import com.example.plantsapp.presentation.core.Event
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 import kotlin.Exception
 
-class PlantCreationViewModel(
+@HiltViewModel
+class PlantCreationViewModel @Inject constructor(
     private val plantsRepository: PlantsRepository,
     private val tasksRepository: TasksRepository,
     private val validator: PlantCreationValidator

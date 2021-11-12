@@ -12,22 +12,15 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
 import com.example.plantsapp.R
 import com.example.plantsapp.databinding.FragmentPlantCreationBinding
-import com.example.plantsapp.presentation.PlantApplication
 import com.example.plantsapp.presentation.ui.utils.getCameraImageOutputUri
 import com.example.plantsapp.presentation.ui.utils.setUpWithAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
 
     private val binding: FragmentPlantCreationBinding by viewBinding(FragmentPlantCreationBinding::bind)
-    private val creationViewModel: PlantCreationViewModel by viewModels {
-        CreationViewModelFactory(
-            plantsRepository = (requireActivity().application as PlantApplication)
-                .roomPlantsRepository,
-            tasksRepository = (requireActivity().application as PlantApplication)
-                .roomTasksRepository,
-            validator = PlantCreationValidator()
-        )
-    }
+    private val creationViewModel: PlantCreationViewModel by viewModels()
     private val imagePickerLauncher =
         registerForActivityResult(
             ImagePickerContract()

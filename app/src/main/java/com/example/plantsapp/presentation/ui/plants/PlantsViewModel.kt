@@ -8,10 +8,13 @@ import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.repository.PlantsRepository
 import com.example.plantsapp.presentation.core.Event
 import com.example.plantsapp.presentation.ui.utils.combineWith
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class PlantsViewModel(
+@HiltViewModel
+class PlantsViewModel @Inject constructor(
     private val repository: PlantsRepository
 ) : ViewModel() {
 
