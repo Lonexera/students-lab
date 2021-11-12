@@ -13,10 +13,8 @@ import kotlinx.coroutines.launch
 
 class PlantDetailViewModel @AssistedInject constructor(
     private val repository: PlantsRepository,
-    @Assisted _plantName: String
+    @Assisted plantName: String
 ) : ViewModel() {
-
-    private val plantName = Plant.Name(_plantName)
 
     private val _plant: MutableLiveData<Plant> = MutableLiveData()
     val plant: LiveData<Plant> get() = _plant
@@ -26,7 +24,7 @@ class PlantDetailViewModel @AssistedInject constructor(
 
     init {
         viewModelScope.launch {
-            _plant.value = repository.getPlantByName(plantName)
+            _plant.value = repository.getPlantByName(Plant.Name(plantName))
         }
     }
 
