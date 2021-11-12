@@ -3,6 +3,7 @@ package com.example.plantsapp.data.repository
 import com.example.plantsapp.data.dao.RoomPlantsDao
 import com.example.plantsapp.data.entity.RoomPlant
 import com.example.plantsapp.domain.model.Plant
+import com.example.plantsapp.domain.model.Task
 import com.example.plantsapp.domain.repository.PlantsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -26,8 +27,11 @@ class RoomPlantsRepository @Inject constructor(
         plantsDao.insert(RoomPlant.from(plant, Date()))
     }
 
-    override suspend fun getPlantByName(name: Plant.Name): Plant {
-        return plantsDao.getByName(name.value).toPlant()
+    override suspend fun getPlantByName(name: Plant.Name): Pair<Plant, List<Task>> {
+        val plantWithTasks = plantsDao.getByName(name.value)
+        return plantWithTasks.run {
+            plant.toPlant() to tasks.map { it.toTask() }
+        }
     }
 
     // TODO delete date setting from here

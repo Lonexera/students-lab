@@ -5,11 +5,13 @@ import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
 import com.example.plantsapp.R
 import com.example.plantsapp.databinding.FragmentPlantDetailBinding
 import com.example.plantsapp.domain.model.Plant
+import com.example.plantsapp.presentation.ui.plantdetail.adapter.DetailTasksAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -25,6 +27,7 @@ class PlantDetailFragment : Fragment(R.layout.fragment_plant_detail) {
             plantName = requireArguments().plantName
         )
     }
+    private val tasksAdapter = DetailTasksAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -38,6 +41,10 @@ class PlantDetailFragment : Fragment(R.layout.fragment_plant_detail) {
                 it.getContentIfNotHandled()?.let {
                     requireActivity().supportFragmentManager.popBackStack()
                 }
+            }
+
+            tasks.observe(viewLifecycleOwner) {
+                tasksAdapter.submitList(it)
             }
         }
 
@@ -64,7 +71,11 @@ class PlantDetailFragment : Fragment(R.layout.fragment_plant_detail) {
                 R.string.msg_detail_species_name,
                 plant.speciesName
             )
-            // TODO show all tasks for plant
+
+            rvDetailTasks.apply {
+                layoutManager = LinearLayoutManager(context)
+                adapter = tasksAdapter
+            }
 
             btnDelete.isEnabled = true
         }

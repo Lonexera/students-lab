@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.example.plantsapp.data.entity.RoomPlant
+import com.example.plantsapp.data.entity.RoomPlantWithTasks
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -14,7 +15,7 @@ interface RoomPlantsDao {
     fun getAll(): Flow<List<RoomPlant>>
 
     @Query("SELECT * FROM plants WHERE name = :plantName")
-    suspend fun getByName(plantName: String): RoomPlant
+    suspend fun getByName(plantName: String): RoomPlantWithTasks
 
     @Insert
     suspend fun insert(plant: RoomPlant)

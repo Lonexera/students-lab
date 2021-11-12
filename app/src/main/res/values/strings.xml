@@ -10,6 +10,8 @@
     <string name="msg_detail_species_name">Species name: \n %s</string>
     <string name="msg_detail_watering_text">Watering frequency: \n every %d days</string>
     <string name="title_button_delete">Delete</string>
+    <string name="title_task_name">%s:</string>
+    <string name="msg_task_frequency">every %s</string>
 
     <!-- Plant Creation Screen -->
     <string name="hint_plant_name">Name</string>
