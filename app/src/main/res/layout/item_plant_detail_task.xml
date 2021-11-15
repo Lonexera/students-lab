@@ -16,23 +16,12 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/tv_task_title"
+        android:id="@+id/tv_task_detail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textSize="@dimen/text_size_normal"
         android:layout_marginStart="@dimen/margin_8dp"
         app:layout_constraintStart_toEndOf="@id/iv_task_icon"
-        app:layout_constraintEnd_toStartOf="@id/tv_task_frequency"
-        app:layout_constraintTop_toTopOf="@id/iv_task_icon"
-        app:layout_constraintBottom_toBottomOf="@id/iv_task_icon"/>
-
-    <TextView
-        android:id="@+id/tv_task_frequency"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/text_size_normal"
-        android:layout_marginStart="@dimen/margin_8dp"
-        app:layout_constraintStart_toEndOf="@id/tv_task_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/iv_task_icon"
         app:layout_constraintBottom_toBottomOf="@id/iv_task_icon"/>

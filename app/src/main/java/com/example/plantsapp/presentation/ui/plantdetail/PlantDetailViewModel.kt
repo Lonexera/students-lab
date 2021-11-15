@@ -27,10 +27,9 @@ class PlantDetailViewModel @AssistedInject constructor(
 
     init {
         viewModelScope.launch {
-            repository.getPlantByName(Plant.Name(plantName)).run {
-                _plant.value = this.first
-                _tasks.value = this.second
-            }
+            val (plant, tasks) = repository.getPlantByName(Plant.Name(plantName))
+            _plant.value = plant
+            _tasks.value = tasks
         }
     }
 

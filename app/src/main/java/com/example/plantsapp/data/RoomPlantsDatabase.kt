@@ -20,6 +20,7 @@ abstract class RoomPlantsDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: RoomPlantsDatabase? = null
 
+        // TODO move creation to Database Module (Hilt)
         fun getInstance(context: Context): RoomPlantsDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(

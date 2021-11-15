@@ -22,25 +22,18 @@ class DetailTasksViewHolder(
                 .centerCrop()
                 .into(ivTaskIcon)
 
-            tvTaskTitle.text = root.context.getTaskTitleText(task)
-            tvTaskFrequency.text = root.context.getFrequencyText(task.frequencyInDays)
+            tvTaskDetail.text = root.context.getTaskDetailText(task)
         }
     }
 
-    private fun Context.getTaskTitleText(task: Task): String {
+    private fun Context.getTaskDetailText(task: Task): String {
         return getString(
-            R.string.title_task_name,
-            getString(task.getTitleRes())
-        )
-    }
-
-    private fun Context.getFrequencyText(frequency: Int): String {
-        return getString(
-            R.string.msg_task_frequency,
+            R.string.title_task_detail,
+            getString(task.getTitleRes()),
             resources.getQuantityString(
                 R.plurals.msg_creation_frequency_units,
-                frequency,
-                frequency
+                task.frequencyInDays,
+                task.frequencyInDays
             )
         )
     }
