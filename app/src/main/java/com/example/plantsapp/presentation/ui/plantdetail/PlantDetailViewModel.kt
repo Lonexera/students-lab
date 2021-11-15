@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.plantsapp.domain.model.Plant
+import com.example.plantsapp.domain.model.Task
 import com.example.plantsapp.domain.repository.PlantsRepository
 import com.example.plantsapp.presentation.core.Event
 import dagger.assisted.Assisted
@@ -18,13 +19,17 @@ class PlantDetailViewModel @AssistedInject constructor(
 
     private val _plant: MutableLiveData<Plant> = MutableLiveData()
     val plant: LiveData<Plant> get() = _plant
+    private val _tasks: MutableLiveData<List<Task>> = MutableLiveData()
+    val tasks: LiveData<List<Task>> get() = _tasks
 
     private val _toNavigateBack: MutableLiveData<Event<Unit>> = MutableLiveData()
     val toNavigateBack: LiveData<Event<Unit>> get() = _toNavigateBack
 
     init {
         viewModelScope.launch {
-            _plant.value = repository.getPlantByName(Plant.Name(plantName))
+            val (plant, tasks) = repository.getPlantByName(Plant.Name(plantName))
+            _plant.value = plant
+            _tasks.value = tasks
         }
     }
 
