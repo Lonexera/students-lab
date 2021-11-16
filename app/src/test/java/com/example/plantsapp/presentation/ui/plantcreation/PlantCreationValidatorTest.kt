@@ -46,7 +46,7 @@ class PlantCreationValidatorTest {
         val validator = PlantCreationValidator()
 
         val validatorResult = validator.validateDefault(
-            plantName = "Jackob",
+            plantName = "",
             frequencies = defaultFrequencies.copy(
                 wateringFrequency = 3,
                 sprayingFrequency = 4,
