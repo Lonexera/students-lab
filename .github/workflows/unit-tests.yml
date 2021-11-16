@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: [ develop, main ]
 jobs:
-  unit-tests:
+  Unit-tests:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
