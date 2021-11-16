@@ -27,6 +27,8 @@ class NotificationWorker @AssistedInject constructor(
     private val repository: TasksRepository
 ) : Worker(context, workerParams) {
 
+    private var notificationId = 0
+
     override fun doWork(): Result {
         runBlocking {
             val plantsWithTasks =
@@ -54,7 +56,6 @@ class NotificationWorker @AssistedInject constructor(
 
         val notifications = tasks.map {
             NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
-                .setNumber(NOTIFICATION_ID)
                 .setSmallIcon(R.drawable.ic_plant_24)
                 .setContentTitle(plant.name.value)
                 .setContentText(
@@ -75,9 +76,9 @@ class NotificationWorker @AssistedInject constructor(
             .build()
 
         notifications.forEach {
-            NotificationManagerCompat.from(context).notify(NOTIFICATION_ID++, it)
+            NotificationManagerCompat.from(context).notify(notificationId++, it)
         }
-        NotificationManagerCompat.from(context).notify(NOTIFICATION_ID++, summaryNotification)
+        NotificationManagerCompat.from(context).notify(notificationId++, summaryNotification)
     }
 
     private fun createChannel(context: Context) {
@@ -113,7 +114,6 @@ class NotificationWorker @AssistedInject constructor(
         const val NOTIFICATION_WORK_NAME = "com.example.plantsapp.NOTIFICATION_WORK"
 
         private const val NOTIFICATION_CHANNEL_ID = "CHANNEL_TASK_NOTIFICATION_ID"
-        private var NOTIFICATION_ID = 213
         private const val NOTIFICATION_GROUP_KEY = "GROUP_PLANT_TASKS"
     }
 }
