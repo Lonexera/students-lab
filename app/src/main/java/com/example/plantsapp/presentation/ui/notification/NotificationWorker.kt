@@ -84,8 +84,11 @@ class NotificationWorker @AssistedInject constructor(
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = context.getString(R.string.title_notification_channel)
             val description = context.getString(R.string.msg_notification_description)
-            val importance = NotificationManager.IMPORTANCE_HIGH
-            val channel = NotificationChannel(NOTIFICATION_CHANNEL_ID, name, importance)
+            val channel = NotificationChannel(
+                NOTIFICATION_CHANNEL_ID,
+                name,
+                NotificationManager.IMPORTANCE_HIGH
+            )
             channel.description = description
 
             val notificationManager =
