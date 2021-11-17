@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.example.plantsapp.R
 import com.example.plantsapp.databinding.FragmentPlantCreationBinding
 import com.example.plantsapp.presentation.ui.utils.getCameraImageOutputUri
+import com.example.plantsapp.presentation.ui.utils.saveImageInAppStorage
 import com.example.plantsapp.presentation.ui.utils.setUpWithAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -26,7 +27,9 @@ class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
             ImagePickerContract()
         ) { uri ->
             uri?.let {
-                creationViewModel.onImageSelected(uri)
+                requireContext().saveImageInAppStorage(it)?.let { savedUri ->
+                    creationViewModel.onImageSelected(savedUri)
+                }
             }
         }
     private val cameraLauncher =
