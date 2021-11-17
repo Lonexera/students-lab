@@ -35,11 +35,6 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
-
-        startNotificationWorker(
-            context = applicationContext,
-            startDate = Calendar.getInstance()
-        )
     }
 
     private fun openFragment(fragment: Fragment) {
@@ -47,25 +42,5 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.commit {
             replace(R.id.fragment_container, fragment)
         }
-    }
-
-    private fun startNotificationWorker(context: Context, startDate: Calendar) {
-        val notificationRequest =
-            PeriodicWorkRequestBuilder<NotificationWorker>(1, TimeUnit.DAYS)
-                .setInitialDelay(
-                    startDate.calculateDelay(nextDayHour = HOUR_OF_WORK_STARTING),
-                    TimeUnit.MILLISECONDS
-                )
-                .build()
-
-        WorkManager.getInstance(context).enqueueUniquePeriodicWork(
-            NotificationWorker.NOTIFICATION_WORK_NAME,
-            ExistingPeriodicWorkPolicy.REPLACE,
-            notificationRequest
-        )
-    }
-
-    companion object {
-        private const val HOUR_OF_WORK_STARTING = 10
     }
 }
