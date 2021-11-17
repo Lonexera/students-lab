@@ -7,6 +7,7 @@ import androidx.work.Configuration
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
+import com.bumptech.glide.Glide
 import com.example.plantsapp.BuildConfig
 import com.example.plantsapp.presentation.ui.notification.NotificationWorker
 import com.example.plantsapp.presentation.ui.utils.calculateDelay
@@ -27,6 +28,11 @@ class PlantApplication : Application(), Configuration.Provider {
 
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
+
+            Thread {
+                Glide.get(this).clearDiskCache()
+            }.start()
+            Glide.get(this).clearMemory()
         }
 
         startNotificationWorker(
