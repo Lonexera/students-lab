@@ -16,7 +16,6 @@ import javax.inject.Inject
 class TaskNotificationManager @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
-
     private var notificationId = 0
 
     fun showTaskNotifications(

@@ -12,7 +12,7 @@ import com.example.plantsapp.presentation.ui.notification.NotificationWorker
 import com.example.plantsapp.presentation.ui.utils.calculateDelay
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
-import java.util.*
+import java.util.Calendar
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -43,15 +43,15 @@ class PlantApplication : Application(), Configuration.Provider {
     private fun startNotificationWorker(context: Context, startDate: Calendar) {
         val notificationRequest =
             PeriodicWorkRequestBuilder<NotificationWorker>(1, TimeUnit.DAYS)
-                /*.setInitialDelay(
+                .setInitialDelay(
                     startDate.calculateDelay(nextDayHour = HOUR_OF_WORK_STARTING),
                     TimeUnit.MILLISECONDS
-                )*/
+                )
                 .build()
 
         WorkManager.getInstance(context).enqueueUniquePeriodicWork(
             NotificationWorker.NOTIFICATION_WORK_NAME,
-            ExistingPeriodicWorkPolicy.REPLACE,
+            ExistingPeriodicWorkPolicy.KEEP,
             notificationRequest
         )
     }

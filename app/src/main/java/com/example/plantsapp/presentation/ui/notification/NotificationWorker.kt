@@ -29,7 +29,6 @@ class NotificationWorker @AssistedInject constructor(
             notificationManager.showTaskNotifications(plant, tasks)
         }
 
-
         return Result.success()
     }
 
