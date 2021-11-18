@@ -21,7 +21,8 @@ import kotlin.Exception
 class PlantCreationViewModel @Inject constructor(
     private val plantsRepository: PlantsRepository,
     private val tasksRepository: TasksRepository,
-    private val validator: PlantCreationValidator
+    private val validator: PlantCreationValidator,
+    private val saveUriInStorageUseCase: SaveUriInStorageUseCase
 ) : ViewModel() {
 
     data class PlantTaskFrequencies(
@@ -76,8 +77,20 @@ class PlantCreationViewModel @Inject constructor(
         }
     }
 
-    fun onImageSelected(uri: Uri) {
+    fun onImageCaptured(uri: Uri) {
         _selectedPicture.value = uri
+    }
+
+    fun onImageSelected(uri: Uri) {
+        val savingResult = saveUriInStorageUseCase.saveImage(uri)
+        when (savingResult) {
+            is SaveUriInStorageUseCase.SavingUriOutput.Success -> {
+                _selectedPicture.value = savingResult.uri
+            }
+            is SaveUriInStorageUseCase.SavingUriOutput.Failure -> {
+                _invalidInput.value = R.string.error_copying_image
+            }
+        }
     }
 
     fun onWateringFrequencySelected(frequency: Int) {
