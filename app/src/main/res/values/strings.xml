@@ -47,4 +47,12 @@
     <string name="title_loosening_task">Loosening soil</string>
     <string name="title_plant_tasks">Tasks:</string>
 
+    <!-- Task Notification -->
+    <string name="title_notification_channel">Notification</string>
+    <string name="msg_notification_description">Description</string>
+    <string name="msg_notification_task_watering">Don\'t forget to water %s</string>
+    <string name="msg_notification_task_spraying">Don\'t forget to spray %s</string>
+    <string name="msg_notification_task_loosening">Don\'t forget to loosen soil for %s</string>
+
+
 </resources>
