@@ -7,11 +7,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.bumptech.glide.Glide
 import com.example.plantsapp.R
 import com.example.plantsapp.databinding.FragmentPlantDetailBinding
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.presentation.ui.plantdetail.adapter.DetailTasksAdapter
+import com.example.plantsapp.presentation.ui.utils.loadPicture
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -57,11 +57,10 @@ class PlantDetailFragment : Fragment(R.layout.fragment_plant_detail) {
 
     private fun showPlantDetail(plant: Plant) {
         with(binding) {
-            Glide.with(requireContext())
-                .load(plant.plantPicture)
-                .centerCrop()
-                .placeholder(R.drawable.ic_baseline_image_24)
-                .into(ivDetailPlant)
+            ivDetailPlant.loadPicture(
+                    context = requireContext(),
+                    picture = plant.plantPicture
+                )
 
             tvDetailPlantName.text = getString(
                 R.string.msg_detail_plant_name,

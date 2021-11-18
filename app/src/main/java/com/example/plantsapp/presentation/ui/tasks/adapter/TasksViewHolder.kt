@@ -3,11 +3,11 @@ package com.example.plantsapp.presentation.ui.tasks.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.plantsapp.databinding.ItemTaskBinding
 import com.example.plantsapp.domain.model.Task
 import com.example.plantsapp.presentation.ui.utils.getIconRes
 import com.example.plantsapp.presentation.ui.utils.getTitleRes
+import com.example.plantsapp.presentation.ui.utils.loadPicture
 
 class TasksViewHolder(
     private val binding: ItemTaskBinding
@@ -20,10 +20,10 @@ class TasksViewHolder(
                 task.getTitleRes()
             )
 
-            Glide.with(binding.root)
-                .load(task.getIconRes())
-                .centerCrop()
-                .into(ivTaskIcon)
+            ivTaskIcon.loadPicture(
+                context = root.context,
+                picture = task.getIconRes()
+            )
         }
     }
 

@@ -4,11 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.example.plantsapp.R
 import com.example.plantsapp.databinding.ItemPlantWithTasksBinding
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.model.Task
+import com.example.plantsapp.presentation.ui.utils.loadPicture
 
 // TODO Maybe add shared RecyclerViewPool
 class PlantWithTasksViewHolder(
@@ -21,11 +20,10 @@ class PlantWithTasksViewHolder(
         with(binding) {
             tvTasksPlantName.text = plant.name.value
 
-            Glide.with(binding.root)
-                .load(plant.plantPicture)
-                .placeholder(R.drawable.ic_baseline_image_24)
-                .centerCrop()
-                .into(ivTasksPlantPicture)
+            ivTasksPlantPicture.loadPicture(
+                context = root.context,
+                picture = plant.plantPicture
+            )
 
             rvPlantsWithTasks.apply {
                 layoutManager = LinearLayoutManager(binding.root.context)

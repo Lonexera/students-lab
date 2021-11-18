@@ -9,10 +9,10 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.bumptech.glide.Glide
 import com.example.plantsapp.R
 import com.example.plantsapp.databinding.FragmentPlantCreationBinding
 import com.example.plantsapp.presentation.ui.utils.getCameraImageOutputUri
+import com.example.plantsapp.presentation.ui.utils.loadPicture
 import com.example.plantsapp.presentation.ui.utils.saveImageInAppStorage
 import com.example.plantsapp.presentation.ui.utils.setUpWithAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -57,11 +57,10 @@ class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
             }
 
             selectedPicture.observe(viewLifecycleOwner) { picture ->
-                Glide.with(this@PlantCreationFragment)
-                    .load(picture)
-                    .centerCrop()
-                    .placeholder(R.drawable.ic_baseline_image_24)
-                    .into(binding.ivCreationPlant)
+                binding.ivCreationPlant.loadPicture(
+                    context = requireContext(),
+                    picture = picture
+                )
             }
 
             invalidInput.observe(viewLifecycleOwner) { errorStringId ->
