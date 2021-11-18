@@ -1,0 +1,15 @@
+name: unit-tests
+
+on:
+  pull_request:
+    branches: [ develop, main ]
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: run unit-tests
+        uses: eskatos/gradle-command-action@v1
+        with:
+          arguments: :app:testDebugUnitTest
