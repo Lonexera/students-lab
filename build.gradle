@@ -15,12 +15,6 @@ buildscript {
     }
 }
 
-tasks.register("unit-tests") {
-    dependsOn(":app:testDebugUnitTest")
-    group = "custom"
-    description = "./gradlew unit-tests"
-}
-
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
