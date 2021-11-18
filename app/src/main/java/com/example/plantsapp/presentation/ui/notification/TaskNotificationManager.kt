@@ -3,14 +3,17 @@ package com.example.plantsapp.presentation.ui.notification
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
 import android.graphics.Bitmap
+import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.plantsapp.R
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.model.Task
+import com.example.plantsapp.presentation.ui.MainActivity
 import com.example.plantsapp.presentation.ui.utils.getBitmapWithPlaceholder
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -28,13 +31,16 @@ class TaskNotificationManager @Inject constructor(
         plant: Plant,
         tasks: List<Task>
     ) {
+        val pendingIntent = createPendingIntent()
+
         val notificationPicture = plant.plantPicture.getBitmapWithPlaceholder(context)
 
         val notifications = tasks.map {
             prepareTaskNotification(
                 plantName = plant.name.value,
                 plantPicture = notificationPicture,
-                task = it
+                task = it,
+                pendingIntent = pendingIntent
             )
         }
 
@@ -64,10 +70,21 @@ class TaskNotificationManager @Inject constructor(
         }
     }
 
+    private fun createPendingIntent(): PendingIntent {
+        val intent = Intent(context, MainActivity::class.java)
+        return PendingIntent.getActivity(
+            context,
+            0,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+        )
+    }
+
     private fun prepareTaskNotification(
         plantName: String,
         plantPicture: Bitmap,
-        task: Task
+        task: Task,
+        pendingIntent: PendingIntent
     ): Notification {
         return NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_plant_24)
@@ -79,6 +96,7 @@ class TaskNotificationManager @Inject constructor(
                 )
             )
             .setLargeIcon(plantPicture)
+			.setContentIntent(pendingIntent)
             .setGroup(plantName)
             .build()
     }
