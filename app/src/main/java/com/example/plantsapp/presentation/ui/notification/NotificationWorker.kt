@@ -9,17 +9,14 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.first
 import java.util.Date
-import javax.inject.Inject
 
 @HiltWorker
 class NotificationWorker @AssistedInject constructor(
     @Assisted private val context: Context,
     @Assisted workerParams: WorkerParameters,
-    private val repository: TasksRepository
+    private val repository: TasksRepository,
+    private val notificationManager: TaskNotificationManager
 ) : CoroutineWorker(context, workerParams) {
-
-    @Inject
-    lateinit var notificationManager: TaskNotificationManager
 
     override suspend fun doWork(): Result {
         val plantsWithTasks =

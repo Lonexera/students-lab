@@ -1,8 +1,10 @@
 package com.example.plantsapp.presentation.ui.notification
 
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.graphics.Bitmap
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -18,12 +20,14 @@ class TaskNotificationManager @Inject constructor(
 ) {
     private var notificationId = 0
 
+    init {
+        createChannel(context)
+    }
+
     fun showTaskNotifications(
         plant: Plant,
         tasks: List<Task>
     ) {
-        createChannel(context)
-
         val notificationPicture = Glide.with(context)
             .asBitmap()
             .load(plant.plantPicture ?: R.drawable.ic_baseline_image_24)
@@ -31,25 +35,14 @@ class TaskNotificationManager @Inject constructor(
             .get()
 
         val notifications = tasks.map {
-            NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_plant_24)
-                .setContentTitle(plant.name.value)
-                .setContentText(
-                    context.getNotificationText(
-                        plantName = plant.name.value,
-                        task = it
-                    )
-                )
-                .setLargeIcon(notificationPicture)
-                .setGroup(plant.name.value)
-                .build()
+            prepareTaskNotification(
+                plantName = plant.name.value,
+                plantPicture = notificationPicture,
+                task = it
+            )
         }
 
-        val summaryNotification = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_plant_24)
-            .setGroup(plant.name.value)
-            .setGroupSummary(true)
-            .build()
+        val summaryNotification = prepareSummaryNotification(plant.name.value)
 
         notifications.forEach {
             NotificationManagerCompat.from(context).notify(notificationId++, it)
@@ -73,6 +66,35 @@ class TaskNotificationManager @Inject constructor(
 
             notificationManager?.createNotificationChannel(channel)
         }
+    }
+
+    private fun prepareTaskNotification(
+        plantName: String,
+        plantPicture: Bitmap,
+        task: Task
+    ): Notification {
+        return NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_plant_24)
+            .setContentTitle(plantName)
+            .setContentText(
+                context.getNotificationText(
+                    plantName = plantName,
+                    task = task
+                )
+            )
+            .setLargeIcon(plantPicture)
+            .setGroup(plantName)
+            .build()
+    }
+
+    private fun prepareSummaryNotification(
+        plantName: String
+    ): Notification {
+        return NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_plant_24)
+            .setGroup(plantName)
+            .setGroupSummary(true)
+            .build()
     }
 
     private fun Context.getNotificationText(plantName: String, task: Task): String {

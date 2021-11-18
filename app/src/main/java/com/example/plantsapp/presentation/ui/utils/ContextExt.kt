@@ -25,25 +25,20 @@ fun Context.getCameraImageOutputUri(): Uri? {
     return photoFile?.let { getFileUri(it) }
 }
 
-fun Context.saveImageInAppStorage(imageUri: Uri): Uri? {
-    val newFile = try {
-        val file = createImageFile(this)
+// TODO Move this code to SaveUriToStorageUseCase
+@Throws(IOException::class)
+fun Context.saveImageInAppStorage(imageUri: Uri): Uri {
+    val file = createImageFile(this) ?: throw IOException()
 
-        val inputStream = contentResolver.openInputStream(imageUri)
-        val outputStream = FileOutputStream(file)
+    val inputStream = contentResolver.openInputStream(imageUri)
+    val outputStream = FileOutputStream(file)
 
-        copyStream(inputStream!!, outputStream)
+    copyStream(inputStream!!, outputStream)
 
-        outputStream.close()
-        inputStream.close()
+    outputStream.close()
+    inputStream.close()
 
-        file
-    } catch (exception: IOException) {
-        Timber.e(exception)
-        null
-    }
-
-    return newFile?.let { getFileUri(it) }
+    return getFileUri(file)
 }
 
 private fun Context.getFileUri(file: File): Uri {
