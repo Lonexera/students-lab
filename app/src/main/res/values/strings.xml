@@ -31,6 +31,7 @@
     <string name="error_invalid_spraying_frequency">Select spraying frequency</string>
     <string name="error_invalid_loosening_frequency">Select loosening frequency</string>
     <string name="error_indistinctive_name">Plant with this name already exists!</string>
+    <string name="error_copying_image">Cannot copy image from Gallery</string>
 
     <!-- Plants Screen -->
     <string name="title_intent_picker_dialog">Select plant picture</string>

@@ -13,7 +13,6 @@ import com.example.plantsapp.R
 import com.example.plantsapp.databinding.FragmentPlantCreationBinding
 import com.example.plantsapp.presentation.ui.utils.getCameraImageOutputUri
 import com.example.plantsapp.presentation.ui.utils.loadPicture
-import com.example.plantsapp.presentation.ui.utils.saveImageInAppStorage
 import com.example.plantsapp.presentation.ui.utils.setUpWithAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,9 +26,7 @@ class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
             ImagePickerContract()
         ) { uri ->
             uri?.let {
-                requireContext().saveImageInAppStorage(it)?.let { savedUri ->
-                    creationViewModel.onImageSelected(savedUri)
-                }
+                creationViewModel.onImageSelected(uri)
             }
         }
     private val cameraLauncher =
@@ -37,7 +34,7 @@ class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
             CameraContract()
         ) { uri ->
             uri?.let {
-                creationViewModel.onImageSelected(uri)
+                creationViewModel.onImageCaptured(uri)
             }
         }
 

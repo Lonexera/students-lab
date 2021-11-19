@@ -10,10 +10,12 @@ import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.model.Task
 import com.example.plantsapp.domain.repository.PlantsRepository
 import com.example.plantsapp.domain.repository.TasksRepository
+import com.example.plantsapp.domain.usecase.SaveUriInStorageUseCase
 import com.example.plantsapp.presentation.core.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.io.IOException
 import javax.inject.Inject
 import kotlin.Exception
 
@@ -21,7 +23,8 @@ import kotlin.Exception
 class PlantCreationViewModel @Inject constructor(
     private val plantsRepository: PlantsRepository,
     private val tasksRepository: TasksRepository,
-    private val validator: PlantCreationValidator
+    private val validator: PlantCreationValidator,
+    private val saveUriInStorageUseCase: SaveUriInStorageUseCase
 ) : ViewModel() {
 
     data class PlantTaskFrequencies(
@@ -76,8 +79,18 @@ class PlantCreationViewModel @Inject constructor(
         }
     }
 
-    fun onImageSelected(uri: Uri) {
+    fun onImageCaptured(uri: Uri) {
         _selectedPicture.value = uri
+    }
+
+    fun onImageSelected(uri: Uri) {
+        try {
+            val newSavedUri = saveUriInStorageUseCase.saveImage(uri)
+            _selectedPicture.value = newSavedUri
+        } catch (exception: IOException) {
+            Timber.e(exception)
+            _invalidInput.value = R.string.error_copying_image
+        }
     }
 
     fun onWateringFrequencySelected(frequency: Int) {

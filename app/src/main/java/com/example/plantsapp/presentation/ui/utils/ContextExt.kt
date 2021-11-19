@@ -7,9 +7,7 @@ import androidx.core.content.FileProvider
 import com.example.plantsapp.BuildConfig
 import timber.log.Timber
 import java.io.File
-import java.io.FileOutputStream
 import java.io.IOException
-import java.io.InputStream
 
 private const val TITLE_PLANT_PHOTO = "plant_photo"
 
@@ -25,23 +23,7 @@ fun Context.getCameraImageOutputUri(): Uri? {
     return photoFile?.let { getFileUri(it) }
 }
 
-// TODO Move this code to SaveUriToStorageUseCase
-@Throws(IOException::class)
-fun Context.saveImageInAppStorage(imageUri: Uri): Uri {
-    val file = createImageFile(this) ?: throw IOException()
-
-    val inputStream = contentResolver.openInputStream(imageUri)
-    val outputStream = FileOutputStream(file)
-
-    copyStream(inputStream!!, outputStream)
-
-    outputStream.close()
-    inputStream.close()
-
-    return getFileUri(file)
-}
-
-private fun Context.getFileUri(file: File): Uri {
+fun Context.getFileUri(file: File): Uri {
     return FileProvider.getUriForFile(
         this,
         BuildConfig.APPLICATION_ID,
@@ -49,8 +31,9 @@ private fun Context.getFileUri(file: File): Uri {
     )
 }
 
+// TODO Maybe move to data package
 @Throws(IOException::class)
-private fun createImageFile(context: Context): File? {
+fun createImageFile(context: Context): File {
 
     val storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
 
@@ -60,14 +43,3 @@ private fun createImageFile(context: Context): File? {
         storageDir
     )
 }
-
-@Throws(IOException::class)
-private fun copyStream(input: InputStream, output: FileOutputStream) {
-    val buffer = ByteArray(BYTE_ARRAY_SIZE)
-    var bytesRead: Int
-    while (input.read(buffer).also { bytesRead = it } != -1) {
-        output.write(buffer, 0, bytesRead)
-    }
-}
-
-private const val BYTE_ARRAY_SIZE = 1024
