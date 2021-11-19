@@ -11,7 +11,7 @@ import androidx.core.app.NotificationManagerCompat
 import com.example.plantsapp.R
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.model.Task
-import com.example.plantsapp.presentation.ui.utils.getBitmap
+import com.example.plantsapp.presentation.ui.utils.getBitmapWithPlaceholder
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
@@ -28,7 +28,7 @@ class TaskNotificationManager @Inject constructor(
         plant: Plant,
         tasks: List<Task>
     ) {
-        val notificationPicture = plant.plantPicture.getBitmap(context)
+        val notificationPicture = plant.plantPicture.getBitmapWithPlaceholder(context)
 
         val notifications = tasks.map {
             prepareTaskNotification(

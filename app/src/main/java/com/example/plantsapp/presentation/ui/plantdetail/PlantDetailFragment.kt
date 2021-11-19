@@ -57,10 +57,7 @@ class PlantDetailFragment : Fragment(R.layout.fragment_plant_detail) {
 
     private fun showPlantDetail(plant: Plant) {
         with(binding) {
-            ivDetailPlant.loadPicture(
-                    context = requireContext(),
-                    picture = plant.plantPicture
-                )
+            ivDetailPlant.loadPicture(plant.plantPicture)
 
             tvDetailPlantName.text = getString(
                 R.string.msg_detail_plant_name,

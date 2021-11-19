@@ -16,10 +16,7 @@ class PlantViewHolder(
         with(binding) {
             tvPlantName.text = plant.name.value
             tvSpeciesName.text = plant.speciesName
-            ivPlant.loadPicture(
-                context = root.context,
-                picture = plant.plantPicture
-            )
+            ivPlant.loadPicture(plant.plantPicture)
         }
 
         binding.root.setOnClickListener {

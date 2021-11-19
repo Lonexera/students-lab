@@ -57,10 +57,7 @@ class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
             }
 
             selectedPicture.observe(viewLifecycleOwner) { picture ->
-                binding.ivCreationPlant.loadPicture(
-                    context = requireContext(),
-                    picture = picture
-                )
+                binding.ivCreationPlant.loadPicture(picture)
             }
 
             invalidInput.observe(viewLifecycleOwner) { errorStringId ->

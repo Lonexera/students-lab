@@ -11,7 +11,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.plantsapp.R
 
 fun <T> ImageView.loadPicture(
-    context: Context,
     picture: T,
     @DrawableRes placeholder: Int = DEFAULT_PLACEHOLDER
 ) {
@@ -23,7 +22,7 @@ fun <T> ImageView.loadPicture(
         .into(this)
 }
 
-fun Uri?.getBitmap(
+fun Uri?.getBitmapWithPlaceholder(
     context: Context,
     @DrawableRes placeholder: Int = DEFAULT_PLACEHOLDER
 ): Bitmap {
@@ -32,7 +31,12 @@ fun Uri?.getBitmap(
         .disableCache()
         .load(this ?: placeholder)
         .submit()
-        .get()
+        .run {
+            val bitmap = this.get()
+            Glide.with(context).clear(this)
+
+            bitmap
+        }
 }
 
 private fun <T> RequestBuilder<T>.disableCache(): RequestBuilder<T> {

@@ -20,10 +20,7 @@ class PlantWithTasksViewHolder(
         with(binding) {
             tvTasksPlantName.text = plant.name.value
 
-            ivTasksPlantPicture.loadPicture(
-                context = root.context,
-                picture = plant.plantPicture
-            )
+            ivTasksPlantPicture.loadPicture(plant.plantPicture)
 
             rvPlantsWithTasks.apply {
                 layoutManager = LinearLayoutManager(binding.root.context)

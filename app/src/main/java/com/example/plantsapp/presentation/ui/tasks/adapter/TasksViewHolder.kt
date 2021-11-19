@@ -20,10 +20,7 @@ class TasksViewHolder(
                 task.getTitleRes()
             )
 
-            ivTaskIcon.loadPicture(
-                context = root.context,
-                picture = task.getIconRes()
-            )
+            ivTaskIcon.loadPicture(task.getIconRes())
         }
     }
 

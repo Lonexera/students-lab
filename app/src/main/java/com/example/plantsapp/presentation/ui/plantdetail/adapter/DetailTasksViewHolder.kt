@@ -17,10 +17,7 @@ class DetailTasksViewHolder(
 
     fun bind(task: Task) {
         with(binding) {
-            ivTaskIcon.loadPicture(
-                context = root.context,
-                picture = task.getIconRes()
-            )
+            ivTaskIcon.loadPicture(task.getIconRes())
 
             tvTaskDetail.text = root.context.getTaskDetailText(task)
         }
