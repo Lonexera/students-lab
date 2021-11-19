@@ -31,8 +31,9 @@ fun Context.getFileUri(file: File): Uri {
     )
 }
 
+// TODO Maybe move to data package
 @Throws(IOException::class)
-fun createImageFile(context: Context): File? {
+fun createImageFile(context: Context): File {
 
     val storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
 

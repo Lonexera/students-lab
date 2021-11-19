@@ -10,10 +10,12 @@ import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.model.Task
 import com.example.plantsapp.domain.repository.PlantsRepository
 import com.example.plantsapp.domain.repository.TasksRepository
+import com.example.plantsapp.domain.usecase.SaveUriInStorageUseCase
 import com.example.plantsapp.presentation.core.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.io.IOException
 import javax.inject.Inject
 import kotlin.Exception
 
@@ -82,14 +84,12 @@ class PlantCreationViewModel @Inject constructor(
     }
 
     fun onImageSelected(uri: Uri) {
-        val savingResult = saveUriInStorageUseCase.saveImage(uri)
-        when (savingResult) {
-            is SaveUriInStorageUseCase.SavingUriOutput.Success -> {
-                _selectedPicture.value = savingResult.uri
-            }
-            is SaveUriInStorageUseCase.SavingUriOutput.Failure -> {
-                _invalidInput.value = R.string.error_copying_image
-            }
+        try {
+            val newSavedUri = saveUriInStorageUseCase.saveImage(uri)
+            _selectedPicture.value = newSavedUri
+        } catch (exception: IOException) {
+            Timber.e(exception)
+            _invalidInput.value = R.string.error_copying_image
         }
     }
 
