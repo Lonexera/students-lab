@@ -22,6 +22,7 @@ class TaskNotificationManager @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
     private var notificationId = 0
+    private val pendingIntent = createPendingIntent()
 
     init {
         createChannel(context)
@@ -31,16 +32,13 @@ class TaskNotificationManager @Inject constructor(
         plant: Plant,
         tasks: List<Task>
     ) {
-        val pendingIntent = createPendingIntent()
-
         val notificationPicture = plant.plantPicture.getBitmapWithPlaceholder(context)
 
         val notifications = tasks.map {
             prepareTaskNotification(
                 plantName = plant.name.value,
                 plantPicture = notificationPicture,
-                task = it,
-                pendingIntent = pendingIntent
+                task = it
             )
         }
 
@@ -74,17 +72,16 @@ class TaskNotificationManager @Inject constructor(
         val intent = Intent(context, MainActivity::class.java)
         return PendingIntent.getActivity(
             context,
-            0,
+            NOTIFICATION_REQUEST_CODE,
             intent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+            PendingIntent.FLAG_IMMUTABLE
         )
     }
 
     private fun prepareTaskNotification(
         plantName: String,
         plantPicture: Bitmap,
-        task: Task,
-        pendingIntent: PendingIntent
+        task: Task
     ): Notification {
         return NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_plant_24)
@@ -106,6 +103,7 @@ class TaskNotificationManager @Inject constructor(
     ): Notification {
         return NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_plant_24)
+            .setContentIntent(pendingIntent)
             .setGroup(plantName)
             .setGroupSummary(true)
             .build()
@@ -124,5 +122,6 @@ class TaskNotificationManager @Inject constructor(
 
     companion object {
         private const val NOTIFICATION_CHANNEL_ID = "CHANNEL_TASK_NOTIFICATION_ID"
+        private const val NOTIFICATION_REQUEST_CODE = 252
     }
 }
