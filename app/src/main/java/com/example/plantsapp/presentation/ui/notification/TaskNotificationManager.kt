@@ -3,14 +3,17 @@ package com.example.plantsapp.presentation.ui.notification
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
 import android.graphics.Bitmap
+import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.plantsapp.R
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.model.Task
+import com.example.plantsapp.presentation.ui.MainActivity
 import com.example.plantsapp.presentation.ui.utils.getBitmapWithPlaceholder
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -19,6 +22,7 @@ class TaskNotificationManager @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
     private var notificationId = 0
+    private val pendingIntent = createPendingIntent()
 
     init {
         createChannel(context)
@@ -64,6 +68,16 @@ class TaskNotificationManager @Inject constructor(
         }
     }
 
+    private fun createPendingIntent(): PendingIntent {
+        val intent = Intent(context, MainActivity::class.java)
+        return PendingIntent.getActivity(
+            context,
+            NOTIFICATION_REQUEST_CODE,
+            intent,
+            PendingIntent.FLAG_IMMUTABLE
+        )
+    }
+
     private fun prepareTaskNotification(
         plantName: String,
         plantPicture: Bitmap,
@@ -79,6 +93,7 @@ class TaskNotificationManager @Inject constructor(
                 )
             )
             .setLargeIcon(plantPicture)
+			.setContentIntent(pendingIntent)
             .setGroup(plantName)
             .build()
     }
@@ -88,6 +103,7 @@ class TaskNotificationManager @Inject constructor(
     ): Notification {
         return NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_plant_24)
+            .setContentIntent(pendingIntent)
             .setGroup(plantName)
             .setGroupSummary(true)
             .build()
@@ -106,5 +122,6 @@ class TaskNotificationManager @Inject constructor(
 
     companion object {
         private const val NOTIFICATION_CHANNEL_ID = "CHANNEL_TASK_NOTIFICATION_ID"
+        private const val NOTIFICATION_REQUEST_CODE = 252
     }
 }
