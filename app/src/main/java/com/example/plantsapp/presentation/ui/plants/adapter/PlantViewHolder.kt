@@ -3,10 +3,9 @@ package com.example.plantsapp.presentation.ui.plants.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.example.plantsapp.R
 import com.example.plantsapp.databinding.ItemPlantBinding
 import com.example.plantsapp.domain.model.Plant
+import com.example.plantsapp.presentation.ui.utils.loadPicture
 
 class PlantViewHolder(
     private val binding: ItemPlantBinding,
@@ -17,11 +16,7 @@ class PlantViewHolder(
         with(binding) {
             tvPlantName.text = plant.name.value
             tvSpeciesName.text = plant.speciesName
-            Glide.with(binding.root)
-                .load(plant.plantPicture)
-                .centerCrop()
-                .placeholder(R.drawable.ic_baseline_image_24)
-                .into(ivPlant)
+            ivPlant.loadPicture(plant.plantPicture)
         }
 
         binding.root.setOnClickListener {

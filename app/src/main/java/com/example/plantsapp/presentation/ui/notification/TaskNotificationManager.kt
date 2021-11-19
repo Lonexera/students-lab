@@ -8,10 +8,10 @@ import android.graphics.Bitmap
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.bumptech.glide.Glide
 import com.example.plantsapp.R
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.model.Task
+import com.example.plantsapp.presentation.ui.utils.getBitmapWithPlaceholder
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
@@ -28,11 +28,7 @@ class TaskNotificationManager @Inject constructor(
         plant: Plant,
         tasks: List<Task>
     ) {
-        val notificationPicture = Glide.with(context)
-            .asBitmap()
-            .load(plant.plantPicture ?: R.drawable.ic_baseline_image_24)
-            .submit()
-            .get()
+        val notificationPicture = plant.plantPicture.getBitmapWithPlaceholder(context)
 
         val notifications = tasks.map {
             prepareTaskNotification(
