@@ -4,6 +4,7 @@ import android.content.Context
 import com.example.plantsapp.data.RoomPlantsDatabase
 import com.example.plantsapp.data.dao.RoomPlantWithTasksDao
 import com.example.plantsapp.data.dao.RoomPlantsDao
+import com.example.plantsapp.data.dao.RoomTaskHistoryDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -35,5 +36,12 @@ object DatabaseModule {
         database: RoomPlantsDatabase
     ): RoomPlantWithTasksDao {
         return database.plantsWithTasksDao()
+    }
+
+    @Provides
+    fun provideTaskHistoryDao(
+        database: RoomPlantsDatabase
+    ): RoomTaskHistoryDao {
+        return database.taskHistoryDao()
     }
 }

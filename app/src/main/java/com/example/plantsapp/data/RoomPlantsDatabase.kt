@@ -6,14 +6,17 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.plantsapp.data.dao.RoomPlantWithTasksDao
 import com.example.plantsapp.data.dao.RoomPlantsDao
+import com.example.plantsapp.data.dao.RoomTaskHistoryDao
 import com.example.plantsapp.data.entity.RoomPlant
 import com.example.plantsapp.data.entity.RoomTask
+import com.example.plantsapp.data.entity.RoomTaskCompletion
 
-@Database(entities = [RoomPlant::class, RoomTask::class], version = 1)
+@Database(entities = [RoomPlant::class, RoomTask::class, RoomTaskCompletion::class], version = 1)
 abstract class RoomPlantsDatabase : RoomDatabase() {
 
     abstract fun plantDao(): RoomPlantsDao
     abstract fun plantsWithTasksDao(): RoomPlantWithTasksDao
+    abstract fun taskHistoryDao(): RoomTaskHistoryDao
 
     companion object {
 

@@ -7,7 +7,6 @@ import androidx.work.WorkerParameters
 import com.example.plantsapp.domain.repository.TasksRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.flow.first
 import java.util.Date
 
 @HiltWorker
@@ -15,15 +14,15 @@ class NotificationWorker @AssistedInject constructor(
     @Assisted private val context: Context,
     @Assisted workerParams: WorkerParameters,
     private val repository: TasksRepository,
-    private val notificationManager: TaskNotificationManager
+    // private val notificationManager: TaskNotificationManager
 ) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result {
         val plantsWithTasks =
-            repository.getPlantsWithTasksForDate(Date()).first()
+            repository.getPlantsWithTasksForDate(Date())
 
         plantsWithTasks.forEach { (plant, tasks) ->
-            notificationManager.showTaskNotifications(plant, tasks)
+             // notificationManager.showTaskNotifications(plant, tasks)
         }
 
         return Result.success()

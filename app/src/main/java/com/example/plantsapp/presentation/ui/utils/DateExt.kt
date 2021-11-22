@@ -2,6 +2,7 @@ package com.example.plantsapp.presentation.ui.utils
 
 import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Calendar
 
 fun Date.plusDays(numberOfDays: Int): Date {
     return Date(this.time + (numberOfDays * DAY_IN_MILLISECONDS))
@@ -13,4 +14,28 @@ fun Date.formatDate(pattern: String): String {
     return simpleFormatter.format(this)
 }
 
+fun Date.atStartDay(): Date {
+    return Calendar.getInstance().apply {
+        time = this@atStartDay
+        set(Calendar.HOUR_OF_DAY, 0)
+        set(Calendar.MINUTE, 0)
+        set(Calendar.SECOND, 0)
+        set(Calendar.MILLISECOND, 0)
+    }.time
+}
+
+fun Date.atEndDay(): Date {
+    return Calendar.getInstance().apply {
+        time = this@atEndDay
+        set(Calendar.HOUR_OF_DAY, END_DAY_HOUR)
+        set(Calendar.MINUTE, END_DAY_MINUTE)
+        set(Calendar.SECOND, END_DAY_SECOND)
+        set(Calendar.MILLISECOND, END_DAY_MILLISECOND)
+    }.time
+}
+
 private const val DAY_IN_MILLISECONDS = 1000 * 60 * 60 * 24L
+private const val END_DAY_HOUR = 23
+private const val END_DAY_MINUTE = 59
+private const val END_DAY_SECOND = 59
+private const val END_DAY_MILLISECOND = 999

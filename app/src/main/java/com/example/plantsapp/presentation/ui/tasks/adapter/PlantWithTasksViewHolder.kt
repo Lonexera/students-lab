@@ -7,16 +7,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.plantsapp.databinding.ItemPlantWithTasksBinding
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.model.Task
+import com.example.plantsapp.domain.model.TaskWithState
 import com.example.plantsapp.presentation.ui.utils.loadPicture
 
 // TODO Maybe add shared RecyclerViewPool
 class PlantWithTasksViewHolder(
-    private val binding: ItemPlantWithTasksBinding
+    private val binding: ItemPlantWithTasksBinding,
+    private val onTaskClick: (Task) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    private val tasksAdapter = TasksAdapter()
+    private val tasksAdapter = TasksAdapter(onTaskClick)
 
-    fun bind(plant: Plant, tasks: List<Task>) {
+    fun bind(plant: Plant, tasks: List<TaskWithState>) {
         with(binding) {
             tvTasksPlantName.text = plant.name.value
 
@@ -33,13 +35,14 @@ class PlantWithTasksViewHolder(
 
     companion object {
         fun create(
-            parent: ViewGroup
+            parent: ViewGroup,
+            onTaskClick: (Task) -> Unit
         ): PlantWithTasksViewHolder {
 
             val inflater = LayoutInflater.from(parent.context)
             val binding = ItemPlantWithTasksBinding.inflate(inflater, parent, false)
 
-            return PlantWithTasksViewHolder(binding)
+            return PlantWithTasksViewHolder(binding, onTaskClick)
         }
     }
 }

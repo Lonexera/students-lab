@@ -35,10 +35,11 @@
             app:layout_constraintTop_toTopOf="@id/btn_complete_task"
             app:layout_constraintBottom_toBottomOf="@id/btn_complete_task"/>
 
-        <CheckBox
+        <Button
             android:id="@+id/btn_complete_task"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/title_btn_complete"
             android:layout_marginEnd="@dimen/margin_8dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
