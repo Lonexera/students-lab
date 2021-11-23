@@ -1,6 +1,8 @@
 package com.example.plantsapp.data.repository
 
+import com.example.plantsapp.data.dao.RoomPlantWithTasksDao
 import com.example.plantsapp.data.dao.StubPlantWithTasksDao
+import com.example.plantsapp.data.dao.StubTaskHistoryDao
 import com.example.plantsapp.data.entity.RoomPlantWithTasks
 import com.example.plantsapp.data.entity.TaskKeys
 import com.example.plantsapp.data.utils.createRoomPlant
@@ -8,7 +10,6 @@ import com.example.plantsapp.data.utils.createRoomTask
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.model.Task
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -22,6 +23,10 @@ class RoomTasksRepositoryTest {
         return Calendar.getInstance().apply {
             set(year, month, date)
         }.time
+    }
+
+    private fun createRepository(dao: RoomPlantWithTasksDao): RoomTasksRepository {
+        return RoomTasksRepository(dao, StubTaskHistoryDao())
     }
 
     @Test
@@ -44,11 +49,12 @@ class RoomTasksRepositoryTest {
         )
         val dao = StubPlantWithTasksDao(initialList)
 
-        val actual = RoomTasksRepository(dao)
+        val actual = createRepository(dao)
             .getPlantsWithTasksForDate(creationDate)
-            .first()
-            .map { (_, tasks) -> tasks }
-            .first()
+            .map { (_, tasksWithState) ->
+                tasksWithState.map { it.task }
+            }
+            .flatten()
 
         val expectedResult = listOf(
             Task.WateringTask(11),
@@ -78,9 +84,8 @@ class RoomTasksRepositoryTest {
         )
         val dao = StubPlantWithTasksDao(initialList)
 
-        val actual = RoomTasksRepository(dao)
+        val actual = createRepository(dao)
             .getPlantsWithTasksForDate(todayDate)
-            .first()
 
         val expectedResult = emptyList<Pair<Plant, List<Task>>>()
         assertEquals(expectedResult, actual)
@@ -107,11 +112,12 @@ class RoomTasksRepositoryTest {
         )
         val dao = StubPlantWithTasksDao(initialList)
 
-        val actual = RoomTasksRepository(dao)
+        val actual = createRepository(dao)
             .getPlantsWithTasksForDate(date)
-            .first()
-            .map { (_, tasks) -> tasks }
-            .first()
+            .map { (_, tasksWithState) ->
+                tasksWithState.map { it.task }
+            }
+            .flatten()
 
         val expectedResult = listOf(
             Task.SprayingTask(2),
@@ -124,9 +130,8 @@ class RoomTasksRepositoryTest {
         val date = createDate(2021, 11, 10)
         val dao = StubPlantWithTasksDao(emptyList())
 
-        val actual = RoomTasksRepository(dao)
+        val actual = createRepository(dao)
             .getPlantsWithTasksForDate(date)
-            .first()
 
         val expectedResult = emptyList<RoomPlantWithTasks>()
         assertEquals(expectedResult, actual)
@@ -143,9 +148,8 @@ class RoomTasksRepositoryTest {
         )
         val dao = StubPlantWithTasksDao(initialList)
 
-        val actual = RoomTasksRepository(dao)
+        val actual = createRepository(dao)
             .getPlantsWithTasksForDate(date)
-            .first()
 
         val expectedResult = emptyList<Pair<Plant, List<Task>>>()
         assertEquals(expectedResult, actual)
