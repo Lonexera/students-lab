@@ -25,6 +25,20 @@ class RoomTasksRepositoryTest {
         }.time
     }
 
+    private fun createAccurateDate(
+        year: Int,
+        month: Int,
+        date: Int,
+        hour: Int,
+        minute: Int
+    ): Date {
+        return Calendar.getInstance().apply {
+            set(year, month, date)
+            set(Calendar.HOUR_OF_DAY, hour)
+            set(Calendar.MINUTE, minute)
+        }.time
+    }
+
     private fun createRepository(dao: RoomPlantWithTasksDao): RoomTasksRepository {
         return RoomTasksRepository(dao, StubTaskHistoryDao())
     }
@@ -144,6 +158,34 @@ class RoomTasksRepositoryTest {
             RoomPlantWithTasks(
                 createRoomPlant(creationDateMillis = date.time),
                 emptyList()
+            )
+        )
+        val dao = StubPlantWithTasksDao(initialList)
+
+        val actual = createRepository(dao)
+            .getPlantsWithTasksForDate(date)
+
+        val expectedResult = emptyList<Pair<Plant, List<Task>>>()
+        assertEquals(expectedResult, actual)
+    }
+
+    @Test
+    fun `tasks for few hours after creation date(but new day is up)- returns empty list`() = runBlockingTest {
+        val date = createAccurateDate(2021, 11, 11, 4, 13)
+        val creationDate = createAccurateDate(2021, 11, 10, 18, 39)
+        val initialList = listOf(
+            RoomPlantWithTasks(
+                createRoomPlant(creationDateMillis = creationDate.time),
+                listOf(
+                    createRoomTask(
+                        taskKey = TaskKeys.WATERING_TASK,
+                        frequency = 11
+                    ),
+                    createRoomTask(
+                        taskKey = TaskKeys.SPRAYING_TASK,
+                        frequency = 2
+                    )
+                )
             )
         )
         val dao = StubPlantWithTasksDao(initialList)

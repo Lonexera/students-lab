@@ -28,7 +28,6 @@ class TasksViewModel @AssistedInject constructor(
         }
     }
 
-    // TODO maybe replace Date() with midnight time date
     fun onCompleteTaskClicked(task: Task) {
         viewModelScope.launch {
             repository.completeTask(task, date)
