@@ -32,7 +32,7 @@ class RoomTasksRepository @Inject constructor(
             .getPlantsWithFittingTasks(date)
     }
 
-    override suspend fun addTaskCompletion(task: Task, completionDate: Date) {
+    override suspend fun completeTask(task: Task, completionDate: Date) {
         taskHistoryDao.addTaskCompletionDate(
             RoomTaskCompletion(
                 taskId = task.id,

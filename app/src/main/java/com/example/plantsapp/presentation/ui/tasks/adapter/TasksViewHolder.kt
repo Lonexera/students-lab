@@ -1,10 +1,9 @@
 package com.example.plantsapp.presentation.ui.tasks.adapter
 
-import android.graphics.Color
-import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.plantsapp.R
 import com.example.plantsapp.databinding.ItemTaskBinding
 import com.example.plantsapp.domain.model.Task
 import com.example.plantsapp.domain.model.TaskWithState
@@ -31,21 +30,18 @@ class TasksViewHolder(
                 onTaskClick(task)
             }
 
-            if (taskWithState.isCompleted) {
-                showCompletedTask()
-            }
+            btnCompleteTask.text = getCompleteButtonTitle(taskWithState.isCompleted)
+            btnCompleteTask.isEnabled = !taskWithState.isCompleted
         }
     }
 
-    private fun showCompletedTask() {
-        with(binding) {
-            tvTaskTitle.setTextColor(Color.LTGRAY)
-            tvTaskTitle.paintFlags = tvTaskTitle.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-
-            ivTaskIcon.setColorFilter(Color.LTGRAY)
-
-            btnCompleteTask.isEnabled = false
-        }
+    private fun getCompleteButtonTitle(isCompleted: Boolean): String {
+        return binding.root.context.getString(
+            when (isCompleted) {
+                true -> R.string.title_btn_completed_state
+                else -> R.string.title_btn_uncompleted_state
+            }
+        )
     }
 
     companion object {

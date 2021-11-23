@@ -14,7 +14,7 @@ class NotificationWorker @AssistedInject constructor(
     @Assisted private val context: Context,
     @Assisted workerParams: WorkerParameters,
     private val repository: TasksRepository,
-    // private val notificationManager: TaskNotificationManager
+    private val notificationManager: TaskNotificationManager
 ) : CoroutineWorker(context, workerParams) {
 
     // TODO show notifications only for uncompleted tasks
@@ -22,8 +22,9 @@ class NotificationWorker @AssistedInject constructor(
         val plantsWithTasks =
             repository.getPlantsWithTasksForDate(Date())
 
-        plantsWithTasks.forEach { (plant, tasks) ->
-             // notificationManager.showTaskNotifications(plant, tasks)
+        plantsWithTasks.forEach { (plant, tasksWithState) ->
+            val tasks = tasksWithState.map { it.task }
+            notificationManager.showTaskNotifications(plant, tasks)
         }
 
         return Result.success()

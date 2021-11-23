@@ -13,7 +13,7 @@ import com.example.plantsapp.presentation.ui.utils.loadPicture
 // TODO Maybe add shared RecyclerViewPool
 class PlantWithTasksViewHolder(
     private val binding: ItemPlantWithTasksBinding,
-    private val onTaskClick: (Task) -> Unit
+    onTaskClick: (Task) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
     private val tasksAdapter = TasksAdapter(onTaskClick)

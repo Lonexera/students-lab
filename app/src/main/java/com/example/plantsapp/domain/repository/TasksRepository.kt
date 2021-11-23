@@ -9,5 +9,5 @@ interface TasksRepository {
 
     suspend fun addTasks(plant: Plant, tasks: List<Task>)
     suspend fun getPlantsWithTasksForDate(date: Date): List<Pair<Plant, List<TaskWithState>>>
-    suspend fun addTaskCompletion(task: Task, completionDate: Date)
+    suspend fun completeTask(task: Task, completionDate: Date)
 }

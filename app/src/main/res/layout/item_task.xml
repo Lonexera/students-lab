@@ -39,7 +39,7 @@
             android:id="@+id/btn_complete_task"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/title_btn_complete"
+            android:text="@string/title_btn_uncompleted_state"
             android:layout_marginEnd="@dimen/margin_8dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
