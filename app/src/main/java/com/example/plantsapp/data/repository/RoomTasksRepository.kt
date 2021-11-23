@@ -75,13 +75,12 @@ class RoomTasksRepository @Inject constructor(
         }
     }
 
-    // TODO fix issue with needing at least 24 hours gap between dates to consider date next to startDate
     private fun checkIfDateIsRepeatedWithInterval(
         date: Date,
         startDate: Date,
         intervalDays: Int
     ): Boolean {
-        return ((date.time - startDate.time) / DAY_IN_MILLISECONDS) %
+        return ((date.atStartDay().time - startDate.atStartDay().time) / DAY_IN_MILLISECONDS) %
                 intervalDays == 0L
     }
 }
