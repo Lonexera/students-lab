@@ -47,6 +47,8 @@
     <string name="title_spraying_task">Spraying</string>
     <string name="title_loosening_task">Loosening soil</string>
     <string name="title_plant_tasks">Tasks:</string>
+    <string name="title_btn_uncompleted_state">Complete</string>
+    <string name="title_btn_completed_state">Completed</string>
 
     <!-- Task Notification -->
     <string name="title_notification_channel">Notification</string>

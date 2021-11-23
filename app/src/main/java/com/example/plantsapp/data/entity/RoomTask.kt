@@ -28,9 +28,9 @@ data class RoomTask(
 
     fun toTask(): Task {
         return when (TaskKeys.getFromKey(taskKey)) {
-            TaskKeys.WATERING_TASK -> Task.WateringTask(frequency)
-            TaskKeys.SPRAYING_TASK -> Task.SprayingTask(frequency)
-            TaskKeys.LOOSENING_TASK -> Task.LooseningTask(frequency)
+            TaskKeys.WATERING_TASK -> Task.WateringTask(frequency, id)
+            TaskKeys.SPRAYING_TASK -> Task.SprayingTask(frequency, id)
+            TaskKeys.LOOSENING_TASK -> Task.LooseningTask(frequency, id)
             else -> throw NoSuchElementException("Undefined Task Type!")
         }
     }

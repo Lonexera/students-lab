@@ -7,7 +7,6 @@ import androidx.work.WorkerParameters
 import com.example.plantsapp.domain.repository.TasksRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.flow.first
 import java.util.Date
 
 @HiltWorker
@@ -18,11 +17,13 @@ class NotificationWorker @AssistedInject constructor(
     private val notificationManager: TaskNotificationManager
 ) : CoroutineWorker(context, workerParams) {
 
+    // TODO show notifications only for uncompleted tasks
     override suspend fun doWork(): Result {
         val plantsWithTasks =
-            repository.getPlantsWithTasksForDate(Date()).first()
+            repository.getPlantsWithTasksForDate(Date())
 
-        plantsWithTasks.forEach { (plant, tasks) ->
+        plantsWithTasks.forEach { (plant, tasksWithState) ->
+            val tasks = tasksWithState.map { it.task }
             notificationManager.showTaskNotifications(plant, tasks)
         }
 
