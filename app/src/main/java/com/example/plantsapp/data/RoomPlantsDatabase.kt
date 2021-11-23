@@ -31,6 +31,7 @@ abstract class RoomPlantsDatabase : RoomDatabase() {
                     RoomPlantsDatabase::class.java,
                     "plants_database"
                 )
+                    .createFromAsset("database/plants_database.db")
                     .build()
                 INSTANCE = instance
                 instance
