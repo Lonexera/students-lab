@@ -17,14 +17,18 @@ class NotificationWorker @AssistedInject constructor(
     private val notificationManager: TaskNotificationManager
 ) : CoroutineWorker(context, workerParams) {
 
-    // TODO show notifications only for uncompleted tasks
     override suspend fun doWork(): Result {
         val plantsWithTasks =
             repository.getPlantsWithTasksForDate(Date())
 
         plantsWithTasks.forEach { (plant, tasksWithState) ->
-            val tasks = tasksWithState.map { it.task }
-            notificationManager.showTaskNotifications(plant, tasks)
+            val tasks = tasksWithState
+                .filter { it.isCompleted == false }
+                .map { it.task }
+
+            if (tasks.isNotEmpty()) {
+                notificationManager.showTaskNotifications(plant, tasks)
+            }
         }
 
         return Result.success()
