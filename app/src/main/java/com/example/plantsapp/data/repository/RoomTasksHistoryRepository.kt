@@ -15,8 +15,8 @@ class RoomTasksHistoryRepository @Inject constructor(
 
     override suspend fun createTaskCompletion(task: Task, completionDate: Date) {
         taskHistoryDao.addTaskCompletionDate(
-            RoomTaskCompletion(
-                taskId = task.id,
+            RoomTaskCompletion.fromTask(
+                task = task,
                 completionDate = completionDate.time
             )
         )

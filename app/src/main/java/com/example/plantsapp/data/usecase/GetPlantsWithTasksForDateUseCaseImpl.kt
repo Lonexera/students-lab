@@ -25,7 +25,8 @@ class GetPlantsWithTasksForDateUseCaseImpl @Inject constructor(
             .map { plant ->
                 plant to getFittingTasksForDate(
                     tasks = tasksRepository.getTasksForPlant(plant),
-                    currentDate = date
+                    currentDate = date,
+                    creationDate = plant.creationDate
                 )
                     .map {
                         TaskWithState(
@@ -39,12 +40,13 @@ class GetPlantsWithTasksForDateUseCaseImpl @Inject constructor(
 
     private fun getFittingTasksForDate(
         tasks: List<Task>,
-        currentDate: Date
+        currentDate: Date,
+        creationDate: Date
     ): List<Task> {
         return tasks.filter { task ->
             checkIfDateIsRepeatedWithInterval(
                 currentDate,
-                task.creationDate,
+                creationDate,
                 task.frequency
             )
         }
