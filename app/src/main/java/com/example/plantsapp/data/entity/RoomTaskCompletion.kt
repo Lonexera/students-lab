@@ -5,6 +5,7 @@ import androidx.room.ForeignKey
 import androidx.room.ForeignKey.CASCADE
 import androidx.room.PrimaryKey
 import com.example.plantsapp.domain.model.Task
+import java.util.Date
 
 @Entity(
     tableName = "taskHistory",
@@ -25,10 +26,10 @@ data class RoomTaskCompletion(
     var id: Int = 0
 
     companion object {
-        fun fromTask(task: Task, completionDate: Long): RoomTaskCompletion {
+        fun fromTask(task: Task, completionDate: Date): RoomTaskCompletion {
             return RoomTaskCompletion(
                 taskId = task.id,
-                completionDate = completionDate
+                completionDate = completionDate.time
             )
         }
     }

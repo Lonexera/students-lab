@@ -17,7 +17,7 @@ class RoomTasksHistoryRepository @Inject constructor(
         taskHistoryDao.addTaskCompletionDate(
             RoomTaskCompletion.fromTask(
                 task = task,
-                completionDate = completionDate.time
+                completionDate = completionDate
             )
         )
     }
