@@ -6,6 +6,7 @@ import androidx.room.ForeignKey.CASCADE
 import androidx.room.PrimaryKey
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.model.Task
+import kotlin.NoSuchElementException
 
 @Entity(
     tableName = "tasks",
@@ -40,7 +41,7 @@ data class RoomTask(
             return RoomTask(
                 TaskKeys.from(task).key,
                 plant.name.value,
-                task.frequencyInDays
+                task.frequency
             )
         }
     }
