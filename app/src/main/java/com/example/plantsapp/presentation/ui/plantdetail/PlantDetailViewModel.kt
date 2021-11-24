@@ -7,13 +7,15 @@ import androidx.lifecycle.viewModelScope
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.model.Task
 import com.example.plantsapp.domain.repository.PlantsRepository
+import com.example.plantsapp.domain.repository.TasksRepository
 import com.example.plantsapp.presentation.core.Event
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
 
 class PlantDetailViewModel @AssistedInject constructor(
-    private val repository: PlantsRepository,
+    private val plantsRepository: PlantsRepository,
+    private val tasksRepository: TasksRepository,
     @Assisted plantName: String
 ) : ViewModel() {
 
@@ -27,15 +29,14 @@ class PlantDetailViewModel @AssistedInject constructor(
 
     init {
         viewModelScope.launch {
-            val (plant, tasks) = repository.getPlantByName(Plant.Name(plantName))
-            _plant.value = plant
-            _tasks.value = tasks
+            _plant.value = plantsRepository.getPlantByName(Plant.Name(plantName))
+            _tasks.value = tasksRepository.getTasksForPlant(_plant.value!!)
         }
     }
 
     fun onDelete() {
         viewModelScope.launch {
-            repository.deletePlant(plant.value!!)
+            plantsRepository.deletePlant(plant.value!!)
 
             _toNavigateBack.value = Event(Unit)
         }

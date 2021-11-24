@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.example.plantsapp.domain.repository.TasksRepository
+import com.example.plantsapp.domain.usecase.GetPlantsWithTasksForDateUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import java.util.Date
@@ -13,13 +13,13 @@ import java.util.Date
 class NotificationWorker @AssistedInject constructor(
     @Assisted private val context: Context,
     @Assisted workerParams: WorkerParameters,
-    private val repository: TasksRepository,
+    private val getPlantsWithTasksForDateUseCase: GetPlantsWithTasksForDateUseCase,
     private val notificationManager: TaskNotificationManager
 ) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result {
         val plantsWithTasks =
-            repository.getPlantsWithTasksForDate(Date())
+            getPlantsWithTasksForDateUseCase(Date())
 
         plantsWithTasks.forEach { (plant, tasksWithState) ->
             val tasks = tasksWithState

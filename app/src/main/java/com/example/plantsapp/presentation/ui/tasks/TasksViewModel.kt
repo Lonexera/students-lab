@@ -7,14 +7,16 @@ import androidx.lifecycle.viewModelScope
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.model.Task
 import com.example.plantsapp.domain.model.TaskWithState
-import com.example.plantsapp.domain.repository.TasksRepository
+import com.example.plantsapp.domain.usecase.CompleteTaskUseCase
+import com.example.plantsapp.domain.usecase.GetPlantsWithTasksForDateUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
 import java.util.Date
 
 class TasksViewModel @AssistedInject constructor(
-    private val repository: TasksRepository,
+    private val completeTaskUseCase: CompleteTaskUseCase,
+    private val getPlantsWithTasksForDateUseCase: GetPlantsWithTasksForDateUseCase,
     @Assisted private val date: Date
 ) : ViewModel() {
 
@@ -30,12 +32,12 @@ class TasksViewModel @AssistedInject constructor(
 
     fun onCompleteTaskClicked(task: Task) {
         viewModelScope.launch {
-            repository.completeTask(task, date)
+            completeTaskUseCase(task, date)
             fetchTasks()
         }
     }
 
     private suspend fun fetchTasks() {
-        _plantsWithTasks.value = repository.getPlantsWithTasksForDate(date)
+        _plantsWithTasks.value = getPlantsWithTasksForDateUseCase(date)
     }
 }

@@ -4,15 +4,14 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
-import com.example.plantsapp.data.entity.RoomPlantWithTasks
 import com.example.plantsapp.data.entity.RoomTask
 
 @Dao
-interface RoomPlantWithTasksDao {
+interface RoomTasksDao {
 
     @Transaction
-    @Query("SELECT * FROM plants")
-    suspend fun getPlantsWithTasks(): List<RoomPlantWithTasks>
+    @Query("SELECT * FROM tasks WHERE tasks.plantName = :plantName")
+    suspend fun getTasksForPlantName(plantName: String): List<RoomTask>
 
     @Insert
     suspend fun insert(tasks: List<RoomTask>)

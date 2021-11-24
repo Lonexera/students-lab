@@ -4,22 +4,19 @@ import androidx.core.net.toUri
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.plantsapp.domain.model.Plant
-import java.util.Date
 
 @Entity(tableName = "plants")
 data class RoomPlant(
     @PrimaryKey val name: String,
     val speciesName: String,
-    val plantPicture: String?,
-    val creationDateMillis: Long
+    val plantPicture: String?
 ) {
     companion object {
-        fun from(plant: Plant, creationDate: Date): RoomPlant {
+        fun from(plant: Plant): RoomPlant {
             return RoomPlant(
                 plant.name.value,
                 plant.speciesName,
                 plant.plantPicture?.toString(),
-                creationDate.time
             )
         }
     }
