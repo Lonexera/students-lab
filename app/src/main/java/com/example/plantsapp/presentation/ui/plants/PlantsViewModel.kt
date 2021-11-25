@@ -34,7 +34,7 @@ class PlantsViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            repository.fetchPlants().collect {
+            repository.observePlants().collect {
                 allPlants.value = it
             }
         }

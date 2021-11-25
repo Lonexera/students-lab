@@ -2,7 +2,7 @@ package com.example.plantsapp.di.module
 
 import android.content.Context
 import com.example.plantsapp.data.RoomPlantsDatabase
-import com.example.plantsapp.data.dao.RoomPlantWithTasksDao
+import com.example.plantsapp.data.dao.RoomTasksDao
 import com.example.plantsapp.data.dao.RoomPlantsDao
 import com.example.plantsapp.data.dao.RoomTaskHistoryDao
 import dagger.Module
@@ -34,7 +34,7 @@ object DatabaseModule {
     @Provides
     fun providePlantsWithTasksDao(
         database: RoomPlantsDatabase
-    ): RoomPlantWithTasksDao {
+    ): RoomTasksDao {
         return database.plantsWithTasksDao()
     }
 

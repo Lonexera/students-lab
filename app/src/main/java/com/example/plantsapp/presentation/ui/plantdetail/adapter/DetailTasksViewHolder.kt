@@ -29,8 +29,8 @@ class DetailTasksViewHolder(
             getString(task.getTitleRes()),
             resources.getQuantityString(
                 R.plurals.msg_creation_frequency_units,
-                task.frequencyInDays,
-                task.frequencyInDays
+                task.frequency,
+                task.frequency
             )
         )
     }

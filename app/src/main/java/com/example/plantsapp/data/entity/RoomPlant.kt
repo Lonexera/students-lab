@@ -11,15 +11,15 @@ data class RoomPlant(
     @PrimaryKey val name: String,
     val speciesName: String,
     val plantPicture: String?,
-    val creationDateMillis: Long
+    val creationDate: Long
 ) {
     companion object {
-        fun from(plant: Plant, creationDate: Date): RoomPlant {
+        fun from(plant: Plant): RoomPlant {
             return RoomPlant(
                 plant.name.value,
                 plant.speciesName,
                 plant.plantPicture?.toString(),
-                creationDate.time
+                plant.creationDate.time
             )
         }
     }
@@ -28,7 +28,8 @@ data class RoomPlant(
         return Plant(
             Plant.Name(name),
             speciesName,
-            plantPicture?.toUri()
+            plantPicture?.toUri(),
+            Date(creationDate)
         )
     }
 }
