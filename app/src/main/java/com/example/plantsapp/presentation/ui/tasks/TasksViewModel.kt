@@ -9,7 +9,7 @@ import com.example.plantsapp.domain.model.Task
 import com.example.plantsapp.domain.model.TaskWithState
 import com.example.plantsapp.domain.repository.PlantsRepository
 import com.example.plantsapp.domain.usecase.CompleteTaskUseCase
-import com.example.plantsapp.domain.usecase.GetTasksForPlantForDateUseCase
+import com.example.plantsapp.domain.usecase.GetTasksForPlantAndDateUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
@@ -18,7 +18,7 @@ import java.util.Date
 class TasksViewModel @AssistedInject constructor(
     private val plantsRepository: PlantsRepository,
     private val completeTaskUseCase: CompleteTaskUseCase,
-    private val getTasksForPlantForDateUseCase: GetTasksForPlantForDateUseCase,
+    private val getTasksForPlantAndDateUseCase: GetTasksForPlantAndDateUseCase,
     @Assisted private val date: Date
 ) : ViewModel() {
 
@@ -43,7 +43,7 @@ class TasksViewModel @AssistedInject constructor(
         _plantsWithTasks.value =
             plantsRepository.fetchPlants()
                 .map { plant ->
-                    plant to getTasksForPlantForDateUseCase(plant, date)
+                    plant to getTasksForPlantAndDateUseCase(plant, date)
                 }
                 .filter { it.second.isNotEmpty() }
     }

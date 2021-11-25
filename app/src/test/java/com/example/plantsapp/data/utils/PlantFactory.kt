@@ -1,3 +1,4 @@
+/*
 package com.example.plantsapp.data.utils
 
 import com.example.plantsapp.data.entity.RoomPlant
@@ -15,3 +16,4 @@ internal fun createRoomPlant(
         creationDateMillis = creationDateMillis
     )
 }
+*/

@@ -4,15 +4,15 @@ import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.model.TaskWithState
 import com.example.plantsapp.domain.repository.TasksHistoryRepository
 import com.example.plantsapp.domain.repository.TasksRepository
-import com.example.plantsapp.domain.usecase.GetTasksForPlantForDateUseCase
+import com.example.plantsapp.domain.usecase.GetTasksForPlantAndDateUseCase
 import com.example.plantsapp.presentation.ui.utils.isDueDate
 import java.util.Date
 import javax.inject.Inject
 
-class GetTasksForPlantForDateUseCaseImpl @Inject constructor(
+class GetTasksForPlantAndDateUseCaseImpl @Inject constructor(
     private val tasksRepository: TasksRepository,
     private val tasksHistoryRepository: TasksHistoryRepository
-) : GetTasksForPlantForDateUseCase {
+) : GetTasksForPlantAndDateUseCase {
 
     override suspend operator fun invoke(plant: Plant, currentDate: Date): List<TaskWithState> {
         return tasksRepository.getTasksForPlant(plant)

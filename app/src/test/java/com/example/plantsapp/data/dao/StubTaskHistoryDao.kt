@@ -1,3 +1,4 @@
+/*
 package com.example.plantsapp.data.dao
 
 import com.example.plantsapp.data.entity.RoomTaskCompletion
@@ -16,3 +17,4 @@ internal class StubTaskHistoryDao : RoomTaskHistoryDao {
         TODO("Not yet implemented")
     }
 }
+*/

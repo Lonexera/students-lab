@@ -5,7 +5,7 @@ import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.example.plantsapp.domain.repository.PlantsRepository
-import com.example.plantsapp.domain.usecase.GetTasksForPlantForDateUseCase
+import com.example.plantsapp.domain.usecase.GetTasksForPlantAndDateUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import java.util.Date
@@ -15,7 +15,7 @@ class NotificationWorker @AssistedInject constructor(
     @Assisted private val context: Context,
     @Assisted workerParams: WorkerParameters,
     private val plantsRepository: PlantsRepository,
-    private val getTasksForPlantForDateUseCase: GetTasksForPlantForDateUseCase,
+    private val getTasksForPlantAndDateUseCase: GetTasksForPlantAndDateUseCase,
     private val notificationManager: TaskNotificationManager
 ) : CoroutineWorker(context, workerParams) {
 
@@ -23,7 +23,7 @@ class NotificationWorker @AssistedInject constructor(
         val plantsWithTasks =
             plantsRepository.fetchPlants()
                 .map { plant ->
-                    plant to getTasksForPlantForDateUseCase(plant, Date())
+                    plant to getTasksForPlantAndDateUseCase(plant, Date())
                 }
                 .filter { it.second.isNotEmpty() }
 

@@ -1,3 +1,4 @@
+/*
 package com.example.plantsapp.data.dao
 
 import com.example.plantsapp.data.entity.RoomPlantWithTasks
@@ -14,3 +15,4 @@ internal class StubPlantWithTasksDao(
         TODO("Stub dao does not implement insert method")
     }
 }
+*/
