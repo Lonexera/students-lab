@@ -1,4 +1,3 @@
-/*
 package com.example.plantsapp.data.utils
 
 import com.example.plantsapp.data.entity.RoomTask
@@ -15,4 +14,3 @@ internal fun createRoomTask(
         frequency = frequency
     )
 }
-*/
