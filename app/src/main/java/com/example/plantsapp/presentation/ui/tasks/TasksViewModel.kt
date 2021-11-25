@@ -6,10 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.model.Task
-import com.example.plantsapp.domain.model.TaskWithState
+import com.example.plantsapp.presentation.model.TaskWithState
 import com.example.plantsapp.domain.repository.PlantsRepository
 import com.example.plantsapp.domain.usecase.CompleteTaskUseCase
 import com.example.plantsapp.domain.usecase.GetTasksForPlantAndDateUseCase
+import com.example.plantsapp.presentation.ui.utils.isSameDay
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
@@ -43,8 +44,20 @@ class TasksViewModel @AssistedInject constructor(
         _plantsWithTasks.value =
             plantsRepository.fetchPlants()
                 .map { plant ->
-                    plant to getTasksForPlantAndDateUseCase(plant, date)
+                    plant to
+                            getTasksForPlantAndDateUseCase(plant, date)
+                                .mapToTaskWithState()
                 }
                 .filter { it.second.isNotEmpty() }
+    }
+
+    private fun List<Pair<Task, Boolean>>.mapToTaskWithState(): List<TaskWithState> {
+        return map { (task, isCompleted) ->
+            TaskWithState(
+                task = task,
+                isCompleted = isCompleted,
+                isCompletable = date.isSameDay(Date())
+            )
+        }
     }
 }

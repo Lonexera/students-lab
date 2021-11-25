@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.plantsapp.databinding.ItemPlantWithTasksBinding
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.model.Task
-import com.example.plantsapp.domain.model.TaskWithState
+import com.example.plantsapp.presentation.model.TaskWithState
 import com.example.plantsapp.presentation.ui.utils.loadPicture
 
 // TODO Maybe add shared RecyclerViewPool

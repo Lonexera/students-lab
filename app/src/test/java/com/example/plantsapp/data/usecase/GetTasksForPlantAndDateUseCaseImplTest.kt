@@ -4,7 +4,7 @@ import com.example.plantsapp.data.repository.StubTasksHistoryRepository
 import com.example.plantsapp.data.repository.StubTasksRepository
 import com.example.plantsapp.data.utils.createPlant
 import com.example.plantsapp.domain.model.Task
-import com.example.plantsapp.domain.model.TaskWithState
+import com.example.plantsapp.presentation.model.TaskWithState
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -53,7 +53,7 @@ class GetTasksForPlantAndDateUseCaseImplTest {
                 plant = createPlant(creationDate = creationDate),
                 currentDate = creationDate
             )
-            .map { it.task }
+            .map { (task, _) -> task }
 
         val expectedResult = listOf(
             Task.WateringTask(11),
@@ -95,7 +95,7 @@ class GetTasksForPlantAndDateUseCaseImplTest {
                 plant = createPlant(creationDate = creationDate),
                 currentDate = date
             )
-            .map { it.task }
+            .map { (task, _) -> task }
 
         val expectedResult = listOf(
             Task.SprayingTask(2),

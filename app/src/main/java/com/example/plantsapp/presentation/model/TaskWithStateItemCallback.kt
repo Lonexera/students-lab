@@ -1,7 +1,6 @@
 package com.example.plantsapp.presentation.model
 
 import androidx.recyclerview.widget.DiffUtil
-import com.example.plantsapp.domain.model.TaskWithState
 
 class TaskWithStateItemCallback : DiffUtil.ItemCallback<TaskWithState>() {
 

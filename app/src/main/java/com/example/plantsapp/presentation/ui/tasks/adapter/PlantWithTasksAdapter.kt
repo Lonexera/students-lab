@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.model.Task
-import com.example.plantsapp.domain.model.TaskWithState
+import com.example.plantsapp.presentation.model.TaskWithState
 import com.example.plantsapp.presentation.model.PlantWithTaskAndStateItemCallback
 
 class PlantWithTasksAdapter(
