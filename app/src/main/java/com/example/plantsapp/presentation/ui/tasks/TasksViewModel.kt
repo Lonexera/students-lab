@@ -46,18 +46,17 @@ class TasksViewModel @AssistedInject constructor(
                 .map { plant ->
                     plant to
                             getTasksForPlantAndDateUseCase(plant, date)
-                                .mapToTaskWithState()
+                                .map { it.toTaskWithState() }
                 }
                 .filter { it.second.isNotEmpty() }
     }
 
-    private fun List<Pair<Task, Boolean>>.mapToTaskWithState(): List<TaskWithState> {
-        return map { (task, isCompleted) ->
-            TaskWithState(
-                task = task,
-                isCompleted = isCompleted,
-                isCompletable = date.isSameDay(Date())
-            )
-        }
+    private fun Pair<Task, Boolean>.toTaskWithState(): TaskWithState {
+        val (task, isCompleted) = this
+        return TaskWithState(
+            task = task,
+            isCompleted = isCompleted,
+            isCompletable = date.isSameDay(Date())
+        )
     }
 }
