@@ -46,7 +46,7 @@ fun Date.isDueDate(
 }
 
 private fun Date.daysTo(nextDate: Date): Int {
-    return ((this.atStartDay().time - nextDate.atStartDay().time) / DAY_IN_MILLISECONDS).toInt()
+    return ((nextDate.atStartDay().time - this.atStartDay().time) / DAY_IN_MILLISECONDS).toInt()
 }
 
 private const val DAY_IN_MILLISECONDS = 1000 * 60 * 60 * 24L
