@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.plantsapp.BuildConfig
 import com.example.plantsapp.data.dao.RoomTasksDao
 import com.example.plantsapp.data.dao.RoomPlantsDao
 import com.example.plantsapp.data.dao.RoomTaskHistoryDao
@@ -31,7 +32,11 @@ abstract class RoomPlantsDatabase : RoomDatabase() {
                     RoomPlantsDatabase::class.java,
                     "plants_database"
                 )
-                    .createFromAsset("database/plants_database.db")
+                    .apply {
+                        if (BuildConfig.DEBUG) {
+                            createFromAsset("database/plants_database.db")
+                        }
+                    }
                     .build()
                 INSTANCE = instance
                 instance
