@@ -1,6 +1,8 @@
 package com.example.plantsapp.di.module
 
 import android.content.Context
+import androidx.room.Room
+import com.example.plantsapp.BuildConfig
 import com.example.plantsapp.data.RoomPlantsDatabase
 import com.example.plantsapp.data.dao.RoomTasksDao
 import com.example.plantsapp.data.dao.RoomPlantsDao
@@ -21,7 +23,17 @@ object DatabaseModule {
     fun provideDatabase(
         @ApplicationContext context: Context
     ): RoomPlantsDatabase {
-        return RoomPlantsDatabase.getInstance(context = context)
+        return Room.databaseBuilder(
+            context,
+            RoomPlantsDatabase::class.java,
+            "plants_database"
+        )
+            .apply {
+                if (BuildConfig.DEBUG) {
+                    createFromAsset("database/plants_database.db")
+                }
+            }
+            .build()
     }
 
     @Provides
