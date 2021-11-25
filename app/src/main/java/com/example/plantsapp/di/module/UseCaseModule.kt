@@ -1,10 +1,10 @@
 package com.example.plantsapp.di.module
 
 import com.example.plantsapp.data.usecase.CompleteTaskUseCaseImpl
-import com.example.plantsapp.data.usecase.GetPlantsWithTasksForDateUseCaseImpl
+import com.example.plantsapp.data.usecase.GetTasksForPlantForDateUseCaseImpl
 import com.example.plantsapp.data.usecase.SaveUriInStorageUseCaseImpl
 import com.example.plantsapp.domain.usecase.CompleteTaskUseCase
-import com.example.plantsapp.domain.usecase.GetPlantsWithTasksForDateUseCase
+import com.example.plantsapp.domain.usecase.GetTasksForPlantForDateUseCase
 import com.example.plantsapp.domain.usecase.SaveUriInStorageUseCase
 import dagger.Binds
 import dagger.Module
@@ -27,6 +27,6 @@ interface UseCaseModule {
 
     @Binds
     fun bindGetPlantsWithTasksForDateUseCase(
-        getPlantsWithTasksForDateUseCaseImpl: GetPlantsWithTasksForDateUseCaseImpl
-    ): GetPlantsWithTasksForDateUseCase
+        getPlantsWithTasksForDateUseCaseImpl: GetTasksForPlantForDateUseCaseImpl
+    ): GetTasksForPlantForDateUseCase
 }

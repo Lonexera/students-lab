@@ -11,7 +11,10 @@ import kotlinx.coroutines.flow.Flow
 interface RoomPlantsDao {
 
     @Query("SELECT * FROM plants")
-    fun getAll(): Flow<List<RoomPlant>>
+    fun observeAll(): Flow<List<RoomPlant>>
+
+    @Query("SELECT * FROM plants")
+    suspend fun getAll(): List<RoomPlant>
 
     @Query("SELECT * FROM plants WHERE name = :plantName")
     suspend fun getByName(plantName: String): RoomPlant

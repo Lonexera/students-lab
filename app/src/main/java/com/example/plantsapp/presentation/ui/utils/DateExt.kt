@@ -34,6 +34,21 @@ fun Date.atEndDay(): Date {
     }.time
 }
 
+/**
+ * Counts days between start date and current date
+ *  and  checks if the current date is a due date.
+ */
+fun Date.isDueDate(
+    startDate: Date,
+    intervalDays: Int
+): Boolean {
+    return (startDate.daysTo(this)) % intervalDays == 0
+}
+
+private fun Date.daysTo(nextDate: Date): Int {
+    return ((this.atStartDay().time - nextDate.atStartDay().time) / DAY_IN_MILLISECONDS).toInt()
+}
+
 private const val DAY_IN_MILLISECONDS = 1000 * 60 * 60 * 24L
 private const val END_DAY_HOUR = 23
 private const val END_DAY_MINUTE = 59
