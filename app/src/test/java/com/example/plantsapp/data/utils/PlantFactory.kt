@@ -1,19 +1,19 @@
-/*
 package com.example.plantsapp.data.utils
 
-import com.example.plantsapp.data.entity.RoomPlant
+import android.net.Uri
+import com.example.plantsapp.domain.model.Plant
+import java.util.Date
 
-internal fun createRoomPlant(
+internal fun createPlant(
     name: String = "",
     speciesName: String = "",
-    plantPicture: String? = null,
-    creationDateMillis: Long = 0
-): RoomPlant {
-    return RoomPlant(
-        name = name,
+    plantPicture: Uri? = null,
+    creationDate: Date = Date()
+): Plant {
+    return Plant(
+        name = Plant.Name(name),
         speciesName = speciesName,
         plantPicture = plantPicture,
-        creationDateMillis = creationDateMillis
+        creationDate = creationDate
     )
 }
-*/
