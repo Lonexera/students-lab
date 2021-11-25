@@ -7,19 +7,18 @@ import com.example.plantsapp.domain.model.Task
 import com.example.plantsapp.domain.repository.TasksRepository
 import javax.inject.Inject
 
-// TODO rename dao
 class RoomTasksRepository @Inject constructor(
-    private val plantsWithTasksDao: RoomTasksDao
+    private val tasksDao: RoomTasksDao
 ) : TasksRepository {
 
     override suspend fun addTasks(plant: Plant, tasks: List<Task>) {
-        plantsWithTasksDao.insert(
+        tasksDao.insert(
             tasks.map { RoomTask.from(plant, it) }
         )
     }
 
     override suspend fun getTasksForPlant(plant: Plant): List<Task> {
-        return plantsWithTasksDao
+        return tasksDao
             .getTasksForPlantName(plant.name.value)
             .map { it.toTask() }
     }

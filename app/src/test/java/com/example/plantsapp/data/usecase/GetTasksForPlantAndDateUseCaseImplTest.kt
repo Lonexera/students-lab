@@ -33,10 +33,10 @@ class GetTasksForPlantAndDateUseCaseImplTest {
         }.time
     }
 
-    private fun createUseCase(tasksList: List<Task>): GetTasksForPlantAndDateUseCaseImpl {
+    private fun createUseCaseForGettingTasks(initialTasksList: List<Task>): GetTasksForPlantAndDateUseCaseImpl {
         return GetTasksForPlantAndDateUseCaseImpl(
-            tasksRepository = StubTasksRepository(tasksList),
-            tasksHistoryRepository = StubTasksHistoryRepository()
+            tasksRepository = StubTasksRepository(initialTasksList),
+            tasksHistoryRepository = StubTasksHistoryRepository(false)
         )
     }
 
@@ -47,10 +47,9 @@ class GetTasksForPlantAndDateUseCaseImplTest {
             Task.WateringTask(frequency = 11),
             Task.SprayingTask(frequency = 2)
         )
-        val useCase = createUseCase(initialList)
+        val useCase = createUseCaseForGettingTasks(initialList)
 
-        val actual = useCase
-            .invoke(
+        val actual = useCase(
                 plant = createPlant(creationDate = creationDate),
                 currentDate = creationDate
             )
@@ -71,10 +70,9 @@ class GetTasksForPlantAndDateUseCaseImplTest {
             Task.WateringTask(frequency = 11),
             Task.SprayingTask(frequency = 2)
         )
-        val useCase = createUseCase(initialList)
+        val useCase = createUseCaseForGettingTasks(initialList)
 
-        val actual = useCase
-            .invoke(
+        val actual = useCase(
                 plant = createPlant(creationDate = creationDate),
                 currentDate = todayDate
             )
@@ -91,10 +89,9 @@ class GetTasksForPlantAndDateUseCaseImplTest {
             Task.WateringTask(frequency = 11),
             Task.SprayingTask(frequency = 2)
         )
-        val useCase = createUseCase(initialList)
+        val useCase = createUseCaseForGettingTasks(initialList)
 
-        val actual = useCase
-            .invoke(
+        val actual = useCase(
                 plant = createPlant(creationDate = creationDate),
                 currentDate = date
             )
@@ -109,10 +106,9 @@ class GetTasksForPlantAndDateUseCaseImplTest {
     @Test
     fun `when plant with no tasks - return empty list`() = runBlockingTest {
         val date = createDate(2021, 11, 10)
-        val useCase = createUseCase(emptyList())
+        val useCase = createUseCaseForGettingTasks(emptyList())
 
-        val actual = useCase
-            .invoke(
+        val actual = useCase(
                 plant = createPlant(creationDate = date),
                 currentDate = date
             )
@@ -130,10 +126,9 @@ class GetTasksForPlantAndDateUseCaseImplTest {
                 Task.WateringTask(frequency = 11),
                 Task.SprayingTask(frequency = 2)
             )
-            val useCase = createUseCase(initialList)
+            val useCase = createUseCaseForGettingTasks(initialList)
 
-            val actual = useCase
-                .invoke(
+            val actual = useCase(
                     plant = createPlant(creationDate = creationDate),
                     currentDate = date
                 )
