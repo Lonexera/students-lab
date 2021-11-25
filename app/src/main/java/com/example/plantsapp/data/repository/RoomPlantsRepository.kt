@@ -12,12 +12,20 @@ class RoomPlantsRepository @Inject constructor(
     private val plantsDao: RoomPlantsDao
 ) : PlantsRepository {
 
-    override suspend fun fetchPlants(): Flow<List<Plant>> {
-        return plantsDao.getAll().map {
-            it.map { roomPlant ->
+    override fun observePlants(): Flow<List<Plant>> {
+        return plantsDao.observeAll()
+            .map {
+                it.map { roomPlant ->
+                    roomPlant.toPlant()
+                }
+            }
+    }
+
+    override suspend fun fetchPlants(): List<Plant> {
+        return plantsDao.getAll()
+            .map { roomPlant ->
                 roomPlant.toPlant()
             }
-        }
     }
 
     override suspend fun addPlant(plant: Plant) {
