@@ -1,7 +1,7 @@
 package com.example.plantsapp.data.usecase
 
 import com.example.plantsapp.domain.model.Plant
-import com.example.plantsapp.domain.model.TaskWithState
+import com.example.plantsapp.domain.model.Task
 import com.example.plantsapp.domain.repository.TasksHistoryRepository
 import com.example.plantsapp.domain.repository.TasksRepository
 import com.example.plantsapp.domain.usecase.GetTasksForPlantAndDateUseCase
@@ -14,7 +14,7 @@ class GetTasksForPlantAndDateUseCaseImpl @Inject constructor(
     private val tasksHistoryRepository: TasksHistoryRepository
 ) : GetTasksForPlantAndDateUseCase {
 
-    override suspend operator fun invoke(plant: Plant, currentDate: Date): List<TaskWithState> {
+    override suspend operator fun invoke(plant: Plant, currentDate: Date): List<Pair<Task, Boolean>> {
         return tasksRepository.getTasksForPlant(plant)
             .filter { task ->
                 currentDate.isDueDate(
@@ -23,10 +23,7 @@ class GetTasksForPlantAndDateUseCaseImpl @Inject constructor(
                 )
             }
             .map { task ->
-                TaskWithState(
-                    task = task,
-                    isCompleted = tasksHistoryRepository.isTaskCompletedForDate(task, currentDate)
-                )
+                task to tasksHistoryRepository.isTaskCompletedForDate(task, currentDate)
             }
     }
 }

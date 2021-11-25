@@ -34,6 +34,10 @@ fun Date.atEndDay(): Date {
     }.time
 }
 
+fun Date.isSameDay(other: Date): Boolean {
+    return this.atStartDay() == other.atStartDay()
+}
+
 /**
  * Counts days between start date and current date
  *  and  checks if the current date is a due date.

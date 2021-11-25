@@ -29,8 +29,8 @@ class NotificationWorker @AssistedInject constructor(
 
         plantsWithTasks.forEach { (plant, tasksWithState) ->
             val tasks = tasksWithState
-                .filter { it.isCompleted == false }
-                .map { it.task }
+                .filter { (_, isCompleted) -> !isCompleted }
+                .map { (task, _) -> task }
 
             if (tasks.isNotEmpty()) {
                 notificationManager.showTaskNotifications(plant, tasks)

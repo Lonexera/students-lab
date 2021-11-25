@@ -3,7 +3,7 @@ package com.example.plantsapp.presentation.ui.tasks.adapter
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.example.plantsapp.domain.model.Task
-import com.example.plantsapp.domain.model.TaskWithState
+import com.example.plantsapp.presentation.model.TaskWithState
 import com.example.plantsapp.presentation.model.TaskWithStateItemCallback
 
 class TasksAdapter(
