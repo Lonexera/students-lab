@@ -58,4 +58,7 @@
     <string name="msg_notification_task_loosening">Don\'t forget to loosen soil for %s</string>
 
 
+    <string name="title_shared_plant_picture">%s_image</string>
+    <string name="title_shared_plant_name">%s_name</string>
+
 </resources>

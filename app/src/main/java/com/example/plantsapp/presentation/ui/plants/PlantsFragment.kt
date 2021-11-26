@@ -2,7 +2,9 @@ package com.example.plantsapp.presentation.ui.plants
 
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.widget.SearchView
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -19,23 +21,50 @@ class PlantsFragment : Fragment(R.layout.fragment_plants) {
 
     private val binding: FragmentPlantsBinding by viewBinding(FragmentPlantsBinding::bind)
     private val plantsViewModel: PlantsViewModel by viewModels()
-    private val plantsAdapter = PlantsAdapter {
-        plantsViewModel.onPlantClicked(it)
+    private val plantsAdapter = PlantsAdapter { plant, (imageView, textView) ->
+        transitionImageView = imageView
+        transitionTextView = textView
+        plantsViewModel.onPlantClicked(plant)
     }
+    private var transitionImageView: View? = null
+    private var transitionTextView: View? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        postponeEnterTransition()
         with(plantsViewModel) {
             filteredPlants.observe(viewLifecycleOwner) {
                 plantsAdapter.submitList(it)
+
+                (view.parent as? ViewGroup)?.doOnPreDraw {
+                    startPostponedEnterTransition()
+                }
             }
 
             clickedPlant.observe(viewLifecycleOwner) {
                 it.getContentIfNotHandled()?.let { plant ->
-                    openFragment(
-                        PlantDetailFragment.newInstance(plant.name)
-                    )
+                    val fragment = PlantDetailFragment.newInstance(plant.name)
+                    requireActivity().supportFragmentManager.beginTransaction()
+                        .setReorderingAllowed(true)
+                        .also { transaction ->
+                            transitionImageView?.let { imageView ->
+                                transaction.addSharedElement(
+                                    imageView,
+                                    imageView.transitionName
+                                )
+                            }
+                            transitionTextView?.let { textView ->
+                                transaction.addSharedElement(
+                                    textView,
+                                    textView.transitionName
+                                )
+                            }
+                        }
+                        .replace(R.id.fragment_container, fragment)
+                        .addToBackStack(fragment.tag)
+                        .commit()
+
                 }
             }
 

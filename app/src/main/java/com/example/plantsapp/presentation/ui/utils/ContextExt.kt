@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Environment
 import androidx.core.content.FileProvider
 import com.example.plantsapp.BuildConfig
+import com.example.plantsapp.R
 import timber.log.Timber
 import java.io.File
 import java.io.IOException
@@ -41,5 +42,19 @@ fun createImageFile(context: Context): File {
         TITLE_PLANT_PHOTO,
         ".jpg",
         storageDir
+    )
+}
+
+fun Context.getSharedImageTransitionName(uniqueText: String): String {
+    return this.getString(
+        R.string.title_shared_plant_picture,
+        uniqueText
+    )
+}
+
+fun Context.getSharedPlantNameTransitionName(uniqueText: String): String {
+    return this.getString(
+        R.string.title_shared_plant_name,
+        uniqueText
     )
 }

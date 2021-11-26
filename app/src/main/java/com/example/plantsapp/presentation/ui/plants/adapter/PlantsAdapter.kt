@@ -1,12 +1,13 @@
 package com.example.plantsapp.presentation.ui.plants.adapter
 
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.presentation.model.PlantItemCallback
 
 class PlantsAdapter(
-    private val onPlantClick: (Plant) -> Unit
+    private val onPlantClick: (Plant, Pair<View, View>) -> Unit
 ) : ListAdapter<Plant, PlantViewHolder>(PlantItemCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlantViewHolder {
