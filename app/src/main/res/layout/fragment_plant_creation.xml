@@ -37,6 +37,7 @@
                 android:id="@+id/iv_creation_plant"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/plant_detail_image_size"
+                android:scaleType="centerCrop"
                 android:src="@drawable/ic_baseline_image_24" />
         </androidx.cardview.widget.CardView>
 

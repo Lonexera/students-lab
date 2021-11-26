@@ -64,7 +64,6 @@ class PlantsFragment : Fragment(R.layout.fragment_plants) {
                         .replace(R.id.fragment_container, fragment)
                         .addToBackStack(fragment.tag)
                         .commit()
-
                 }
             }
 
