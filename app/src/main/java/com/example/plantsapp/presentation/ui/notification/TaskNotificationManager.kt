@@ -5,8 +5,8 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
-import android.graphics.Bitmap
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -14,6 +14,7 @@ import com.example.plantsapp.R
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.model.Task
 import com.example.plantsapp.presentation.ui.MainActivity
+import com.example.plantsapp.presentation.ui.notification.broadcastreceiver.NotificationBroadcastReceiver
 import com.example.plantsapp.presentation.ui.utils.getBitmapWithPlaceholder
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -44,8 +45,8 @@ class TaskNotificationManager @Inject constructor(
 
         val summaryNotification = prepareSummaryNotification(plant.name.value)
 
-        notifications.forEach {
-            NotificationManagerCompat.from(context).notify(notificationId++, it)
+        notifications.forEach { (notification, id) ->
+            NotificationManagerCompat.from(context).notify(id, notification)
         }
         NotificationManagerCompat.from(context).notify(notificationId++, summaryNotification)
     }
@@ -78,11 +79,21 @@ class TaskNotificationManager @Inject constructor(
         )
     }
 
+    private fun createCompletePendingIntent(notificationId: Int): PendingIntent {
+        val completeIntent = Intent(context, NotificationBroadcastReceiver::class.java)
+            .apply {
+                putExtra(EXTRA_NOTIFICATION_ID, notificationId)
+            }
+        return PendingIntent.getBroadcast(context, 0, completeIntent, PendingIntent.FLAG_IMMUTABLE)
+    }
+
     private fun prepareTaskNotification(
         plantName: String,
         plantPicture: Bitmap,
         task: Task
-    ): Notification {
+    ): Pair<Notification, Int> {
+        val id = notificationId++
+
         return NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_plant_24)
             .setContentTitle(plantName)
@@ -93,9 +104,14 @@ class TaskNotificationManager @Inject constructor(
                 )
             )
             .setLargeIcon(plantPicture)
-			.setContentIntent(pendingIntent)
+            .setContentIntent(pendingIntent)
             .setGroup(plantName)
-            .build()
+            .addAction(
+                R.drawable.ic_complete,
+                context.getString(R.string.title_notification_complete_button),
+                createCompletePendingIntent(id)
+            )
+            .build() to id
     }
 
     private fun prepareSummaryNotification(
@@ -123,5 +139,6 @@ class TaskNotificationManager @Inject constructor(
     companion object {
         private const val NOTIFICATION_CHANNEL_ID = "CHANNEL_TASK_NOTIFICATION_ID"
         private const val NOTIFICATION_REQUEST_CODE = 252
+        private const val EXTRA_NOTIFICATION_ID = "EXTRA_NOTIFICATION_ID"
     }
 }
