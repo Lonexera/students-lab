@@ -40,9 +40,6 @@ class PlantDetailFragment : Fragment(R.layout.fragment_plant_detail) {
 
         sharedElementEnterTransition = TransitionInflater.from(requireContext())
             .inflateTransition(R.transition.shared_image)
-
-        sharedElementReturnTransition = TransitionInflater.from(requireContext())
-            .inflateTransition(R.transition.shared_image)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
