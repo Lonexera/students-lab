@@ -1,18 +1,19 @@
 package com.example.plantsapp.presentation.ui.notification.broadcastreceiver
 
-import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import androidx.annotation.CallSuper
 import com.example.plantsapp.domain.model.TaskKeys
 import com.example.plantsapp.domain.usecase.CompleteTaskUseCase
+import com.example.plantsapp.presentation.ui.notification.TaskNotificationManager
 import com.example.plantsapp.presentation.ui.notification.utils.notificationId
 import com.example.plantsapp.presentation.ui.notification.utils.taskFrequency
 import com.example.plantsapp.presentation.ui.notification.utils.taskId
 import com.example.plantsapp.presentation.ui.notification.utils.taskKey
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.util.Date
 import javax.inject.Inject
 
@@ -27,8 +28,13 @@ class NotificationBroadcastReceiver : HiltBroadcastReceiver() {
     @Inject
     lateinit var completeTaskUseCase: CompleteTaskUseCase
 
+    @Inject
+    lateinit var taskNotificationManager: TaskNotificationManager
+
     override fun onReceive(context: Context, intent: Intent?) {
         super.onReceive(context, intent)
+        val pendingResult = goAsync()
+
         intent?.let {
             val task = TaskKeys.getFromKey(it.taskKey)
                 .toTask(
@@ -36,15 +42,11 @@ class NotificationBroadcastReceiver : HiltBroadcastReceiver() {
                     frequency = it.taskFrequency
                 )
 
-            runBlocking {
+            GlobalScope.launch {
                 completeTaskUseCase(task, Date())
-                cancelNotification(context, it.notificationId)
+                taskNotificationManager.cancelNotification(it.notificationId)
+                pendingResult.finish()
             }
         }
-    }
-
-    private fun cancelNotification(context: Context, notificationId: Int) {
-        (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager)
-            .cancel(notificationId)
     }
 }

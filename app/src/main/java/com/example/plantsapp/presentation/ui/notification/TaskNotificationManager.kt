@@ -28,11 +28,22 @@ class TaskNotificationManager @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
     private var notificationId = 0
-    private var completeRequestCode = 0
-    private val clickPendingIntent = createClickPendingIntent()
+    private val clickPendingIntent by lazy {
+        PendingIntent.getActivity(
+            context,
+            NOTIFICATION_REQUEST_CODE,
+            Intent(context, MainActivity::class.java),
+            PendingIntent.FLAG_IMMUTABLE
+        )
+    }
 
     init {
         createChannel(context)
+    }
+
+    fun cancelNotification(notificationId: Int) {
+        (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager)
+            .cancel(notificationId)
     }
 
     fun showTaskNotifications(
@@ -45,8 +56,9 @@ class TaskNotificationManager @Inject constructor(
             prepareTaskNotification(
                 plantName = plant.name.value,
                 plantPicture = notificationPicture,
-                task = it
-            )
+                task = it,
+                notificationId = notificationId
+            ) to notificationId++
         }
 
         val summaryNotification = prepareSummaryNotification(plant.name.value)
@@ -75,17 +87,11 @@ class TaskNotificationManager @Inject constructor(
         }
     }
 
-    private fun createClickPendingIntent(): PendingIntent {
-        val intent = Intent(context, MainActivity::class.java)
-        return PendingIntent.getActivity(
-            context,
-            NOTIFICATION_REQUEST_CODE,
-            intent,
-            PendingIntent.FLAG_IMMUTABLE
-        )
-    }
-
-    private fun createCompletePendingIntent(task: Task, notificationId: Int): PendingIntent {
+    private fun createCompletePendingIntent(
+        task: Task,
+        notificationId: Int,
+        requestCode: Int
+    ): PendingIntent {
         val completeIntent = Intent(context, NotificationBroadcastReceiver::class.java)
             .apply {
                 this.notificationId = notificationId
@@ -95,7 +101,7 @@ class TaskNotificationManager @Inject constructor(
             }
         return PendingIntent.getBroadcast(
             context,
-            completeRequestCode++,
+            requestCode,
             completeIntent,
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
@@ -104,10 +110,9 @@ class TaskNotificationManager @Inject constructor(
     private fun prepareTaskNotification(
         plantName: String,
         plantPicture: Bitmap,
-        task: Task
-    ): Pair<Notification, Int> {
-        val id = notificationId++
-
+        task: Task,
+        notificationId: Int
+    ): Notification {
         return NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_plant_24)
             .setContentTitle(plantName)
@@ -123,9 +128,13 @@ class TaskNotificationManager @Inject constructor(
             .addAction(
                 R.drawable.ic_complete,
                 context.getString(R.string.title_notification_complete_button),
-                createCompletePendingIntent(task, id)
+                createCompletePendingIntent(
+                    task = task,
+                    notificationId = notificationId,
+                    requestCode = notificationId
+                )
             )
-            .build() to id
+            .build()
     }
 
     private fun prepareSummaryNotification(
