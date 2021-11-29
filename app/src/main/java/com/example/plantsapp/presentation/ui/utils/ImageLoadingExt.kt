@@ -31,12 +31,7 @@ fun Uri?.getBitmapWithPlaceholder(
         .disableCache()
         .load(this ?: placeholder)
         .submit()
-        .run {
-            val bitmap = this.get()
-            Glide.with(context).clear(this)
-
-            bitmap
-        }
+        .get()
 }
 
 private fun <T> RequestBuilder<T>.disableCache(): RequestBuilder<T> {
