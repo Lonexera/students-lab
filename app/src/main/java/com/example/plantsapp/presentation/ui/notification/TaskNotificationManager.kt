@@ -11,15 +11,10 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.plantsapp.R
-import com.example.plantsapp.domain.model.TaskKeys
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.model.Task
 import com.example.plantsapp.presentation.ui.MainActivity
 import com.example.plantsapp.presentation.ui.notification.broadcastreceiver.NotificationBroadcastReceiver
-import com.example.plantsapp.presentation.ui.notification.utils.notificationId
-import com.example.plantsapp.presentation.ui.notification.utils.taskFrequency
-import com.example.plantsapp.presentation.ui.notification.utils.taskId
-import com.example.plantsapp.presentation.ui.notification.utils.taskKey
 import com.example.plantsapp.presentation.ui.utils.getBitmapWithPlaceholder
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -27,6 +22,7 @@ import javax.inject.Inject
 class TaskNotificationManager @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
+    // TODO make this depend on task it needs to show
     private var notificationId = 0
     private val clickPendingIntent by lazy {
         PendingIntent.getActivity(
@@ -36,14 +32,15 @@ class TaskNotificationManager @Inject constructor(
             PendingIntent.FLAG_IMMUTABLE
         )
     }
+    private val notificationManager get() =
+        context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
     init {
         createChannel(context)
     }
 
     fun cancelNotification(notificationId: Int) {
-        (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager)
-            .cancel(notificationId)
+        notificationManager.cancel(notificationId)
     }
 
     fun showTaskNotifications(
@@ -80,31 +77,8 @@ class TaskNotificationManager @Inject constructor(
             )
             channel.description = description
 
-            val notificationManager =
-                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager?
-
-            notificationManager?.createNotificationChannel(channel)
+            notificationManager.createNotificationChannel(channel)
         }
-    }
-
-    private fun createCompletePendingIntent(
-        task: Task,
-        notificationId: Int,
-        requestCode: Int
-    ): PendingIntent {
-        val completeIntent = Intent(context, NotificationBroadcastReceiver::class.java)
-            .apply {
-                this.notificationId = notificationId
-                taskId = task.id
-                taskFrequency = task.frequency
-                taskKey = TaskKeys.from(task).key
-            }
-        return PendingIntent.getBroadcast(
-            context,
-            requestCode,
-            completeIntent,
-            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-        )
     }
 
     private fun prepareTaskNotification(
@@ -128,7 +102,8 @@ class TaskNotificationManager @Inject constructor(
             .addAction(
                 R.drawable.ic_complete,
                 context.getString(R.string.title_notification_complete_button),
-                createCompletePendingIntent(
+                NotificationBroadcastReceiver.createCompletePendingIntent(
+                    context = context,
                     task = task,
                     notificationId = notificationId,
                     requestCode = notificationId
