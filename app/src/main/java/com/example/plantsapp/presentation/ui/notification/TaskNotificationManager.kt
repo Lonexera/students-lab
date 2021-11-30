@@ -5,8 +5,8 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
-import android.graphics.Bitmap
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -14,6 +14,7 @@ import com.example.plantsapp.R
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.model.Task
 import com.example.plantsapp.presentation.ui.MainActivity
+import com.example.plantsapp.presentation.ui.notification.broadcastreceiver.NotificationBroadcastReceiver
 import com.example.plantsapp.presentation.ui.utils.getBitmapWithPlaceholder
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -21,11 +22,25 @@ import javax.inject.Inject
 class TaskNotificationManager @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
+    // TODO make this depend on task it needs to show
     private var notificationId = 0
-    private val pendingIntent = createPendingIntent()
+    private val clickPendingIntent by lazy {
+        PendingIntent.getActivity(
+            context,
+            NOTIFICATION_REQUEST_CODE,
+            Intent(context, MainActivity::class.java),
+            PendingIntent.FLAG_IMMUTABLE
+        )
+    }
+    private val notificationManager get() =
+        context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
     init {
         createChannel(context)
+    }
+
+    fun cancelNotification(notificationId: Int) {
+        notificationManager.cancel(notificationId)
     }
 
     fun showTaskNotifications(
@@ -38,14 +53,15 @@ class TaskNotificationManager @Inject constructor(
             prepareTaskNotification(
                 plantName = plant.name.value,
                 plantPicture = notificationPicture,
-                task = it
-            )
+                task = it,
+                notificationId = notificationId
+            ) to notificationId++
         }
 
         val summaryNotification = prepareSummaryNotification(plant.name.value)
 
-        notifications.forEach {
-            NotificationManagerCompat.from(context).notify(notificationId++, it)
+        notifications.forEach { (notification, id) ->
+            NotificationManagerCompat.from(context).notify(id, notification)
         }
         NotificationManagerCompat.from(context).notify(notificationId++, summaryNotification)
     }
@@ -61,27 +77,15 @@ class TaskNotificationManager @Inject constructor(
             )
             channel.description = description
 
-            val notificationManager =
-                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager?
-
-            notificationManager?.createNotificationChannel(channel)
+            notificationManager.createNotificationChannel(channel)
         }
-    }
-
-    private fun createPendingIntent(): PendingIntent {
-        val intent = Intent(context, MainActivity::class.java)
-        return PendingIntent.getActivity(
-            context,
-            NOTIFICATION_REQUEST_CODE,
-            intent,
-            PendingIntent.FLAG_IMMUTABLE
-        )
     }
 
     private fun prepareTaskNotification(
         plantName: String,
         plantPicture: Bitmap,
-        task: Task
+        task: Task,
+        notificationId: Int
     ): Notification {
         return NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_plant_24)
@@ -93,8 +97,18 @@ class TaskNotificationManager @Inject constructor(
                 )
             )
             .setLargeIcon(plantPicture)
-			.setContentIntent(pendingIntent)
+            .setContentIntent(clickPendingIntent)
             .setGroup(plantName)
+            .addAction(
+                R.drawable.ic_complete,
+                context.getString(R.string.title_notification_complete_button),
+                NotificationBroadcastReceiver.createCompletePendingIntent(
+                    context = context,
+                    task = task,
+                    notificationId = notificationId,
+                    requestCode = notificationId
+                )
+            )
             .build()
     }
 
@@ -103,7 +117,7 @@ class TaskNotificationManager @Inject constructor(
     ): Notification {
         return NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_plant_24)
-            .setContentIntent(pendingIntent)
+            .setContentIntent(clickPendingIntent)
             .setGroup(plantName)
             .setGroupSummary(true)
             .build()

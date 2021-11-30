@@ -39,6 +39,9 @@
             android:authorities="${applicationId}.androidx-startup"
             tools:node="remove" />
 
+        <receiver android:name=".presentation.ui.notification.broadcastreceiver.NotificationBroadcastReceiver"
+            android:exported="true" />
+
     </application>
 
 </manifest>

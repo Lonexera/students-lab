@@ -56,6 +56,7 @@
     <string name="msg_notification_task_watering">Don\'t forget to water %s</string>
     <string name="msg_notification_task_spraying">Don\'t forget to spray %s</string>
     <string name="msg_notification_task_loosening">Don\'t forget to loosen soil for %s</string>
+    <string name="title_notification_complete_button">Complete</string>
 
 
 </resources>

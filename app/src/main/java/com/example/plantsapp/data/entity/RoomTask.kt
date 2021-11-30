@@ -6,7 +6,7 @@ import androidx.room.ForeignKey.CASCADE
 import androidx.room.PrimaryKey
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.model.Task
-import kotlin.NoSuchElementException
+import com.example.plantsapp.domain.model.TaskKeys
 
 @Entity(
     tableName = "tasks",
@@ -28,12 +28,7 @@ data class RoomTask(
     var id: Int = 0
 
     fun toTask(): Task {
-        return when (TaskKeys.getFromKey(taskKey)) {
-            TaskKeys.WATERING_TASK -> Task.WateringTask(frequency, id)
-            TaskKeys.SPRAYING_TASK -> Task.SprayingTask(frequency, id)
-            TaskKeys.LOOSENING_TASK -> Task.LooseningTask(frequency, id)
-            else -> throw NoSuchElementException("Undefined Task Type!")
-        }
+        return TaskKeys.getFromKey(taskKey).toTask(id, frequency)
     }
 
     companion object {

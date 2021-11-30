@@ -1,7 +1,7 @@
 package com.example.plantsapp.data.utils
 
 import com.example.plantsapp.data.entity.RoomTask
-import com.example.plantsapp.data.entity.TaskKeys
+import com.example.plantsapp.domain.model.TaskKeys
 
 internal fun createRoomTask(
     taskKey: TaskKeys = TaskKeys.WATERING_TASK,
