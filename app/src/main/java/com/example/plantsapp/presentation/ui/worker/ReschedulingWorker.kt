@@ -24,13 +24,10 @@ class ReschedulingWorker @AssistedInject constructor(
     override suspend fun doWork(): Result {
 
         plantsRepository.fetchPlants()
-            .map { plant ->
-                getTasksForPlantAndDateUseCase(plant, Date().minusDays(1))
-                    .filter { (_, isCompleted) -> !isCompleted }
-                    .forEach { (task, _) ->
-                        tasksRepository.updateTask(task, Date())
-                    }
-            }
+            .map { plant -> getTasksForPlantAndDateUseCase(plant, Date().minusDays(1)) }
+            .flatten()
+            .filter { (_, isCompleted) -> !isCompleted }
+            .forEach { (task, _) -> tasksRepository.updateTask(task, Date()) }
 
         return Result.success()
     }

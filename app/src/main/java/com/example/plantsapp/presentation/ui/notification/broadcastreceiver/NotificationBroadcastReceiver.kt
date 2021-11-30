@@ -37,7 +37,7 @@ class NotificationBroadcastReceiver : HiltBroadcastReceiver() {
                 .toTask(
                     taskId = it.taskId,
                     frequency = it.taskFrequency,
-                    lastUpdateDate = Date(it.taskUpdateDate)
+                    lastUpdateDate = it.taskUpdateDate
                 )
 
             // TODO Remove GlobalScope
@@ -63,7 +63,7 @@ class NotificationBroadcastReceiver : HiltBroadcastReceiver() {
                     taskId = task.id
                     taskFrequency = task.frequency
                     taskKey = TaskKeys.from(task).key
-                    taskUpdateDate = task.lastUpdateDate.time
+                    taskUpdateDate = task.lastUpdateDate
                 }
             return PendingIntent.getBroadcast(
                 context,
@@ -85,8 +85,8 @@ class NotificationBroadcastReceiver : HiltBroadcastReceiver() {
                 putExtra(EXTRA_TASK_FREQUENCY, frequency)
             }
 
-        private var Intent.taskUpdateDate: Long
-            get() = getLongExtra(EXTRA_TASK_UPDATE_DATE, 0)
+        private var Intent.taskUpdateDate: Date
+            get() = getSerializableExtra(EXTRA_TASK_UPDATE_DATE) as Date
             set(updateDate) {
                 putExtra(EXTRA_TASK_UPDATE_DATE, updateDate)
             }

@@ -137,12 +137,13 @@ class PlantCreationViewModel @Inject constructor(
         plant: Plant,
         frequencies: PlantTaskFrequencies
     ) {
+        val todayDate = Date()
         tasksRepository.addTasks(
             plant,
             listOf(
-                Task.WateringTask(frequencies.wateringFrequency!!, Date()),
-                Task.SprayingTask(frequencies.sprayingFrequency!!, Date()),
-                Task.LooseningTask(frequencies.looseningFrequency!!, Date())
+                Task.WateringTask(frequencies.wateringFrequency!!, todayDate),
+                Task.SprayingTask(frequencies.sprayingFrequency!!, todayDate),
+                Task.LooseningTask(frequencies.looseningFrequency!!, todayDate)
             )
         )
     }
