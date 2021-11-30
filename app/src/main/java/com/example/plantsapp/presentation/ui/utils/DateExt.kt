@@ -8,6 +8,10 @@ fun Date.plusDays(numberOfDays: Int): Date {
     return Date(this.time + (numberOfDays * DAY_IN_MILLISECONDS))
 }
 
+fun Date.minusDays(numberOfDays: Int): Date {
+    return Date(this.time - (numberOfDays * DAY_IN_MILLISECONDS))
+}
+
 fun Date.formatDate(pattern: String): String {
     val simpleFormatter = SimpleDateFormat(pattern)
 

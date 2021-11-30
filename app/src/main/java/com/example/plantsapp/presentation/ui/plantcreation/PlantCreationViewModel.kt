@@ -16,6 +16,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.IOException
+import java.util.Date
 import javax.inject.Inject
 import kotlin.Exception
 
@@ -139,9 +140,9 @@ class PlantCreationViewModel @Inject constructor(
         tasksRepository.addTasks(
             plant,
             listOf(
-                Task.WateringTask(frequencies.wateringFrequency!!),
-                Task.SprayingTask(frequencies.sprayingFrequency!!),
-                Task.LooseningTask(frequencies.looseningFrequency!!)
+                Task.WateringTask(frequencies.wateringFrequency!!, Date()),
+                Task.SprayingTask(frequencies.sprayingFrequency!!, Date()),
+                Task.LooseningTask(frequencies.looseningFrequency!!, Date())
             )
         )
     }

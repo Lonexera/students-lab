@@ -13,6 +13,11 @@ interface RoomTasksDao {
     @Query("SELECT * FROM tasks WHERE tasks.plantName = :plantName")
     suspend fun getTasksForPlantName(plantName: String): List<RoomTask>
 
+    @Query("UPDATE tasks " +
+            "SET lastUpdateDate = :completionDate " +
+            "WHERE id = :taskId")
+    suspend fun update(taskId: Int, completionDate: Long)
+
     @Insert
     suspend fun insert(tasks: List<RoomTask>)
 }

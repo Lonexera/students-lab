@@ -18,7 +18,7 @@ class GetTasksForPlantAndDateUseCaseImpl @Inject constructor(
         return tasksRepository.getTasksForPlant(plant)
             .filter { task ->
                 currentDate.isDueDate(
-                    startDate = plant.creationDate,
+                    startDate = task.lastUpdateDate,
                     intervalDays = task.frequency
                 )
             }
