@@ -10,6 +10,10 @@ class StubTasksDao(
         return roomTasksList
     }
 
+    override suspend fun update(taskId: Int, completionDate: Long) {
+        TODO("Stub dao does not implement update method")
+    }
+
     override suspend fun insert(tasks: List<RoomTask>) {
         TODO("Stub dao does not implement insert method")
     }

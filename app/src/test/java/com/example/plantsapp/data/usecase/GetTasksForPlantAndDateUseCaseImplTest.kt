@@ -44,20 +44,20 @@ class GetTasksForPlantAndDateUseCaseImplTest {
     fun `tasks for creation date - returns all tasks`() = runBlockingTest {
         val creationDate = createDate(2021, 11, 10)
         val initialList = listOf(
-            Task.WateringTask(frequency = 11),
-            Task.SprayingTask(frequency = 2)
+            Task.WateringTask(frequency = 11, lastUpdateDate = creationDate),
+            Task.SprayingTask(frequency = 2, lastUpdateDate = creationDate)
         )
         val useCase = createUseCaseForGettingTasks(initialList)
 
         val actual = useCase(
-                plant = createPlant(creationDate = creationDate),
+                plant = createPlant(),
                 currentDate = creationDate
             )
             .map { (task, _) -> task }
 
         val expectedResult = listOf(
-            Task.WateringTask(11),
-            Task.SprayingTask(2)
+            Task.WateringTask(11, creationDate),
+            Task.SprayingTask(2, creationDate)
         )
         assertEquals(expectedResult, actual)
     }
@@ -67,13 +67,13 @@ class GetTasksForPlantAndDateUseCaseImplTest {
         val todayDate = createDate(2021, 11, 11)
         val creationDate = createDate(2021, 11, 10)
         val initialList = listOf(
-            Task.WateringTask(frequency = 11),
-            Task.SprayingTask(frequency = 2)
+            Task.WateringTask(frequency = 11, lastUpdateDate = creationDate),
+            Task.SprayingTask(frequency = 2, lastUpdateDate = creationDate)
         )
         val useCase = createUseCaseForGettingTasks(initialList)
 
         val actual = useCase(
-                plant = createPlant(creationDate = creationDate),
+                plant = createPlant(),
                 currentDate = todayDate
             )
 
@@ -86,19 +86,19 @@ class GetTasksForPlantAndDateUseCaseImplTest {
         val date = createDate(2021, 11, 22)
         val creationDate = createDate(2021, 11, 10)
         val initialList = listOf(
-            Task.WateringTask(frequency = 11),
-            Task.SprayingTask(frequency = 2)
+            Task.WateringTask(frequency = 11, lastUpdateDate = creationDate),
+            Task.SprayingTask(frequency = 2, lastUpdateDate = creationDate)
         )
         val useCase = createUseCaseForGettingTasks(initialList)
 
         val actual = useCase(
-                plant = createPlant(creationDate = creationDate),
+                plant = createPlant(),
                 currentDate = date
             )
             .map { (task, _) -> task }
 
         val expectedResult = listOf(
-            Task.SprayingTask(2),
+            Task.SprayingTask(2, creationDate),
         )
         assertEquals(expectedResult, actual)
     }
@@ -109,7 +109,7 @@ class GetTasksForPlantAndDateUseCaseImplTest {
         val useCase = createUseCaseForGettingTasks(emptyList())
 
         val actual = useCase(
-                plant = createPlant(creationDate = date),
+                plant = createPlant(),
                 currentDate = date
             )
 
@@ -123,13 +123,13 @@ class GetTasksForPlantAndDateUseCaseImplTest {
             val date = createAccurateDate(2021, 11, 11, 4, 13)
             val creationDate = createAccurateDate(2021, 11, 10, 18, 39)
             val initialList = listOf(
-                Task.WateringTask(frequency = 11),
-                Task.SprayingTask(frequency = 2)
+                Task.WateringTask(frequency = 11, lastUpdateDate = creationDate),
+                Task.SprayingTask(frequency = 2, lastUpdateDate = creationDate)
             )
             val useCase = createUseCaseForGettingTasks(initialList)
 
             val actual = useCase(
-                    plant = createPlant(creationDate = creationDate),
+                    plant = createPlant(),
                     currentDate = date
                 )
 
