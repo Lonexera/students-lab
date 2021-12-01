@@ -3,6 +3,7 @@ package com.example.plantsapp.data.repository
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.model.Task
 import com.example.plantsapp.domain.repository.TasksRepository
+import java.util.Date
 
 class StubTasksRepository(
     private val tasksList: List<Task>
@@ -14,5 +15,9 @@ class StubTasksRepository(
 
     override suspend fun getTasksForPlant(plant: Plant): List<Task> {
         return tasksList
+    }
+
+    override suspend fun updateTask(task: Task, completionDate: Date) {
+        TODO("Stub dao does not implement update method")
     }
 }

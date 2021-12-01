@@ -25,7 +25,6 @@ class NotificationBroadcastReceiver : HiltBroadcastReceiver() {
 
     @Inject
     lateinit var completeTaskUseCase: CompleteTaskUseCase
-
     @Inject
     lateinit var taskNotificationManager: TaskNotificationManager
 
@@ -37,7 +36,8 @@ class NotificationBroadcastReceiver : HiltBroadcastReceiver() {
             val task = TaskKeys.getFromKey(it.taskKey)
                 .toTask(
                     taskId = it.taskId,
-                    frequency = it.taskFrequency
+                    frequency = it.taskFrequency,
+                    lastUpdateDate = it.taskUpdateDate
                 )
 
             // TODO Remove GlobalScope
@@ -63,6 +63,7 @@ class NotificationBroadcastReceiver : HiltBroadcastReceiver() {
                     taskId = task.id
                     taskFrequency = task.frequency
                     taskKey = TaskKeys.from(task).key
+                    taskUpdateDate = task.lastUpdateDate
                 }
             return PendingIntent.getBroadcast(
                 context,
@@ -84,6 +85,12 @@ class NotificationBroadcastReceiver : HiltBroadcastReceiver() {
                 putExtra(EXTRA_TASK_FREQUENCY, frequency)
             }
 
+        private var Intent.taskUpdateDate: Date
+            get() = getSerializableExtra(EXTRA_TASK_UPDATE_DATE) as Date
+            set(updateDate) {
+                putExtra(EXTRA_TASK_UPDATE_DATE, updateDate)
+            }
+
         private var Intent.taskKey: String
             get() = getStringExtra(EXTRA_TASK_KEY)
                 ?: error("Task Key Was Not Passed!")
@@ -101,5 +108,6 @@ class NotificationBroadcastReceiver : HiltBroadcastReceiver() {
         private const val EXTRA_TASK_ID = "EXTRA_TASK_ID"
         private const val EXTRA_TASK_KEY = "EXTRA_TASK_KEY"
         private const val EXTRA_TASK_FREQUENCY = "EXTRA_FREQUENCY"
+        private const val EXTRA_TASK_UPDATE_DATE = "EXTRA_TASK_UPDATE_DATE"
     }
 }

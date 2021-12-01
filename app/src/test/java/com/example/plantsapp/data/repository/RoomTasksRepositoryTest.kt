@@ -10,10 +10,12 @@ import com.example.plantsapp.domain.model.Task
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
+import java.util.Date
 
 @ExperimentalCoroutinesApi
 class RoomTasksRepositoryTest {
 
+    private val date = Date()
     private fun createRepository(initialList: List<RoomTask>) =
         RoomTasksRepository(StubTasksDao(initialList))
 
@@ -22,11 +24,13 @@ class RoomTasksRepositoryTest {
         val initialList = listOf(
             createRoomTask(
                 taskKey = TaskKeys.WATERING_TASK,
-                frequency = 11
+                frequency = 11,
+                lastUpdateDate = date
             ),
             createRoomTask(
                 taskKey = TaskKeys.LOOSENING_TASK,
-                frequency = 2
+                frequency = 2,
+                lastUpdateDate = date
             )
         )
         val repository = createRepository(initialList)
@@ -34,8 +38,8 @@ class RoomTasksRepositoryTest {
         val actual = repository.getTasksForPlant(createPlant())
 
         val expected = listOf(
-            Task.WateringTask(frequency = 11),
-            Task.LooseningTask(frequency = 2)
+            Task.WateringTask(frequency = 11, date),
+            Task.LooseningTask(frequency = 2, date)
         )
         assertEquals(expected, actual)
     }

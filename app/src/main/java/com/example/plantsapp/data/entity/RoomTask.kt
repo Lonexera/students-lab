@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.model.Task
 import com.example.plantsapp.domain.model.TaskKeys
+import java.util.Date
 
 @Entity(
     tableName = "tasks",
@@ -22,13 +23,18 @@ import com.example.plantsapp.domain.model.TaskKeys
 data class RoomTask(
     val taskKey: String,
     val plantName: String,
-    val frequency: Int
+    val frequency: Int,
+    val lastUpdateDate: Long
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
 
     fun toTask(): Task {
-        return TaskKeys.getFromKey(taskKey).toTask(id, frequency)
+        return TaskKeys.getFromKey(taskKey).toTask(
+            taskId = id,
+            frequency = frequency,
+            lastUpdateDate = Date(lastUpdateDate)
+        )
     }
 
     companion object {
@@ -36,7 +42,8 @@ data class RoomTask(
             return RoomTask(
                 TaskKeys.from(task).key,
                 plant.name.value,
-                task.frequency
+                task.frequency,
+                task.lastUpdateDate.time
             )
         }
     }

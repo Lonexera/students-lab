@@ -1,15 +1,18 @@
 package com.example.plantsapp.domain.model
 
+import java.util.Date
+import kotlin.NoSuchElementException
+
 enum class TaskKeys(val key: String) {
     WATERING_TASK("KEY_WATERING_TASK"),
     SPRAYING_TASK("KEY_SPRAYING_TASK"),
     LOOSENING_TASK("KEY_LOOSENING_TASK");
 
-    fun toTask(taskId: Int, frequency: Int): Task {
+    fun toTask(taskId: Int, frequency: Int, lastUpdateDate: Date): Task {
         return when (getFromKey(key)) {
-            WATERING_TASK -> Task.WateringTask(frequency, taskId)
-            SPRAYING_TASK -> Task.SprayingTask(frequency, taskId)
-            LOOSENING_TASK -> Task.LooseningTask(frequency, taskId)
+            WATERING_TASK -> Task.WateringTask(frequency, lastUpdateDate, taskId)
+            SPRAYING_TASK -> Task.SprayingTask(frequency, lastUpdateDate, taskId)
+            LOOSENING_TASK -> Task.LooseningTask(frequency, lastUpdateDate, taskId)
         }
     }
 
