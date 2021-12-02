@@ -17,7 +17,6 @@ fun <T> ImageView.loadPicture(
     Glide.with(context)
         .load(picture)
         .disableCache()
-        .centerCrop()
         .placeholder(placeholder)
         .into(this)
 }

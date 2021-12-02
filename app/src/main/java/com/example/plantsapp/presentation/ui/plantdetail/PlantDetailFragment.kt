@@ -1,8 +1,12 @@
 package com.example.plantsapp.presentation.ui.plantdetail
 
 import android.os.Bundle
+import android.transition.TransitionInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.core.view.ViewCompat
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,6 +15,8 @@ import com.example.plantsapp.R
 import com.example.plantsapp.databinding.FragmentPlantDetailBinding
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.presentation.ui.plantdetail.adapter.DetailTasksAdapter
+import com.example.plantsapp.presentation.ui.utils.getSharedImageTransitionName
+import com.example.plantsapp.presentation.ui.utils.getSharedPlantNameTransitionName
 import com.example.plantsapp.presentation.ui.utils.loadPicture
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -29,12 +35,24 @@ class PlantDetailFragment : Fragment(R.layout.fragment_plant_detail) {
     }
     private val tasksAdapter = DetailTasksAdapter()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        sharedElementEnterTransition = TransitionInflater.from(requireContext())
+            .inflateTransition(R.transition.shared_image)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        postponeEnterTransition()
         with(detailViewModel) {
             plant.observe(viewLifecycleOwner) { plant ->
                 showPlantDetail(plant)
+
+                (view.parent as? ViewGroup)?.doOnPreDraw {
+                    startPostponedEnterTransition()
+                }
             }
 
             toNavigateBack.observe(viewLifecycleOwner) {
@@ -57,6 +75,14 @@ class PlantDetailFragment : Fragment(R.layout.fragment_plant_detail) {
 
     private fun showPlantDetail(plant: Plant) {
         with(binding) {
+            ViewCompat.setTransitionName(
+                ivDetailPlant,
+                requireContext().getSharedImageTransitionName(plant.name.value)
+            )
+            ViewCompat.setTransitionName(
+                tvDetailPlantName,
+                requireContext().getSharedPlantNameTransitionName(plant.name.value)
+            )
             ivDetailPlant.loadPicture(plant.plantPicture)
 
             tvDetailPlantName.text = getString(
