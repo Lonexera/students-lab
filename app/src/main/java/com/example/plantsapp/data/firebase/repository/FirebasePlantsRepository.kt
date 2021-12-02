@@ -3,13 +3,14 @@ package com.example.plantsapp.data.firebase.repository
 import com.example.plantsapp.data.firebase.entity.FirebasePlant
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.repository.PlantsRepository
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.firestore.ktx.toObjects
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 import javax.inject.Inject
@@ -18,32 +19,32 @@ class FirebasePlantsRepository @Inject constructor(
     private val firestore: FirebaseFirestore
 ) : PlantsRepository {
 
+    private val plantsCollection = firestore.collection(KEY_COLLECTION_PLANTS)
+
     override fun observePlants(): Flow<List<Plant>> {
-        val flowListPlants = MutableSharedFlow<List<Plant>>()
-        firestore.collection(KEY_COLLECTION_PLANTS)
-            .addSnapshotListener { value, error ->
-                if (error != null) {
-                    Timber.e("Listen failed..", error)
-                    return@addSnapshotListener
-                }
+        return callbackFlow {
+            plantsCollection
+                .addSnapshotListener { value, error ->
+                    when {
+                        error != null -> {
+                            Timber.e("Listen failed..", error)
+                        }
 
-                value?.let { documents ->
-                    // TODO change GlobalScope to some other scope
-                    GlobalScope.launch {
-                        val plants = documents
-                            .toObjects<FirebasePlant>()
-                            .map { it.toPlant() }
-
-                        flowListPlants.emit(plants)
+                        value != null -> {
+                            val plants = value
+                                .toObjects<FirebasePlant>()
+                                .map { it.toPlant() }
+                            trySend(plants)
+                        }
                     }
                 }
-            }
 
-        return flowListPlants
+            awaitClose { cancel() }
+        }
     }
 
     override suspend fun fetchPlants(): List<Plant> {
-        return firestore.collection(KEY_COLLECTION_PLANTS)
+        return plantsCollection
             .get()
             .await()
             .toObjects<FirebasePlant>()
@@ -52,39 +53,27 @@ class FirebasePlantsRepository @Inject constructor(
 
     override suspend fun addPlant(plant: Plant) {
         // TODO add plantPicture to storage in Firebase and use its address here
-        firestore.collection(KEY_COLLECTION_PLANTS)
-            .document(plant.name.value)
+        getPlantDocumentByName(plant.name)
             .set(FirebasePlant.from(plant))
-            .addOnSuccessListener {
-                Timber.d("DocumentSnapshot successfully written!")
-            }
-            .addOnFailureListener {
-                Timber.e("Error writing document", it)
-            }
+            .await()
     }
 
     override suspend fun getPlantByName(name: Plant.Name): Plant {
-        return firestore.collection(KEY_COLLECTION_PLANTS)
-            .document(name.value)
+        return getPlantDocumentByName(name)
             .get()
-            .addOnFailureListener {
-                Timber.e("Error reading document with Id = $name", it)
-            }
             .await()
-            .toObject<FirebasePlant>()!!
-            .toPlant()
+            .toObject<FirebasePlant>()
+            ?.toPlant() ?: throw NoSuchElementException("Unable to find plant with name = $name")
     }
 
     override suspend fun deletePlant(plant: Plant) {
-        firestore.collection(KEY_COLLECTION_PLANTS)
-            .document(plant.name.value)
+        getPlantDocumentByName(plant.name)
             .delete()
-            .addOnSuccessListener {
-                Timber.d("DocumentSnapshot successfully deleted!")
-            }
-            .addOnFailureListener {
-                Timber.e("Error deleting document with Id = ${plant.name}", it)
-            }
+            .await()
+    }
+
+    private fun getPlantDocumentByName(plantName: Plant.Name): DocumentReference {
+        return plantsCollection.document(plantName.value)
     }
 
     companion object {
