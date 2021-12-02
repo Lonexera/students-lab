@@ -6,7 +6,6 @@ import com.example.plantsapp.domain.repository.PlantsRepository
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.firestore.ktx.toObjects
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -53,11 +52,9 @@ class FirebasePlantsRepository @Inject constructor(
 
     override suspend fun addPlant(plant: Plant) {
         // TODO add plantPicture to storage in Firebase and use its address here
-        val firebasePlant = FirebasePlant.from(plant)
-
         firestore.collection(KEY_COLLECTION_PLANTS)
             .document(plant.name.value)
-            .set(firebasePlant)
+            .set(FirebasePlant.from(plant))
             .addOnSuccessListener {
                 Timber.d("DocumentSnapshot successfully written!")
             }
