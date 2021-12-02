@@ -7,7 +7,6 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.firestore.ktx.toObjects
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -23,7 +22,7 @@ class FirebasePlantsRepository @Inject constructor(
 
     override fun observePlants(): Flow<List<Plant>> {
         return callbackFlow {
-            plantsCollection
+            val subscription = plantsCollection
                 .addSnapshotListener { value, error ->
                     when {
                         error != null -> {
@@ -39,7 +38,9 @@ class FirebasePlantsRepository @Inject constructor(
                     }
                 }
 
-            awaitClose { cancel() }
+            awaitClose {
+                subscription.remove()
+            }
         }
     }
 
