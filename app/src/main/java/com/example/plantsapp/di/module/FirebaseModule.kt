@@ -3,6 +3,7 @@ package com.example.plantsapp.di.module
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,5 +16,9 @@ object FirebaseModule {
 
     @Provides
     @Singleton
-    fun firebaseStorage(): FirebaseFirestore = Firebase.firestore
+    fun firestore(): FirebaseFirestore = Firebase.firestore
+
+    @Provides
+    @Singleton
+    fun firebaseStorage(): FirebaseStorage = FirebaseStorage.getInstance()
 }

@@ -1,5 +1,6 @@
 package com.example.plantsapp.data.firebase.repository
 
+import android.net.Uri
 import com.example.plantsapp.data.firebase.entity.FirebasePlant
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.repository.PlantsRepository
@@ -7,15 +8,18 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.firestore.ktx.toObjects
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 import timber.log.Timber
+import java.io.File
 import javax.inject.Inject
 
 class FirebasePlantsRepository @Inject constructor(
-    private val firestore: FirebaseFirestore
+    private val firestore: FirebaseFirestore,
+    private val storage: FirebaseStorage
 ) : PlantsRepository {
 
     private val plantsCollection = firestore.collection(KEY_COLLECTION_PLANTS)
@@ -54,8 +58,12 @@ class FirebasePlantsRepository @Inject constructor(
 
     override suspend fun addPlant(plant: Plant) {
         // TODO add plantPicture to storage in Firebase and use its address here
+        val storageImageUri = plant.plantPicture?.let {
+            addImageToStorage(plant.plantPicture)
+        }
+
         getPlantDocumentByName(plant.name)
-            .set(FirebasePlant.from(plant))
+            .set(FirebasePlant.from(plant, storageImageUri))
             .await()
     }
 
