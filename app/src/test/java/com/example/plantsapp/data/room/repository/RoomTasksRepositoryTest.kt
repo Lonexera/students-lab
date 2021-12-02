@@ -1,4 +1,4 @@
-package com.example.plantsapp.data.repository
+package com.example.plantsapp.data.room.repository
 
 import org.junit.Assert.assertEquals
 import com.example.plantsapp.data.room.dao.StubTasksDao

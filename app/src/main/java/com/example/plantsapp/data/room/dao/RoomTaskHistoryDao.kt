@@ -1,9 +1,9 @@
-package com.example.plantsapp.data.dao
+package com.example.plantsapp.data.room.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import com.example.plantsapp.data.entity.RoomTaskCompletion
+import com.example.plantsapp.data.room.entity.RoomTaskCompletion
 
 @Dao
 interface RoomTaskHistoryDao {

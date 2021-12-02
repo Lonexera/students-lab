@@ -1,4 +1,4 @@
-package com.example.plantsapp.data.repository
+package com.example.plantsapp.data.room.repository
 
 import com.example.plantsapp.data.room.dao.RoomTasksDao
 import com.example.plantsapp.data.room.entity.RoomTask

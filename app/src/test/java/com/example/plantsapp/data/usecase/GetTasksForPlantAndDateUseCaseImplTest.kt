@@ -1,7 +1,7 @@
 package com.example.plantsapp.data.usecase
 
-import com.example.plantsapp.data.repository.StubTasksHistoryRepository
-import com.example.plantsapp.data.repository.StubTasksRepository
+import com.example.plantsapp.data.room.repository.StubTasksHistoryRepository
+import com.example.plantsapp.data.room.repository.StubTasksRepository
 import com.example.plantsapp.data.utils.createPlant
 import com.example.plantsapp.domain.model.Task
 import com.example.plantsapp.presentation.model.TaskWithState

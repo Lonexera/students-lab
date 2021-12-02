@@ -1,6 +1,6 @@
-package com.example.plantsapp.data.dao
+package com.example.plantsapp.data.room.dao
 
-import com.example.plantsapp.data.entity.RoomTask
+import com.example.plantsapp.data.room.entity.RoomTask
 
 class StubTasksDao(
     private val roomTasksList: List<RoomTask>
