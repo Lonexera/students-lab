@@ -1,10 +1,10 @@
-package com.example.plantsapp.data.dao
+package com.example.plantsapp.data.room.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
-import com.example.plantsapp.data.entity.RoomTask
+import com.example.plantsapp.data.room.entity.RoomTask
 
 @Dao
 interface RoomTasksDao {

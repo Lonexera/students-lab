@@ -1,8 +1,8 @@
-package com.example.plantsapp.data.repository
+package com.example.plantsapp.data.room.repository
 
 import org.junit.Assert.assertEquals
-import com.example.plantsapp.data.dao.StubTasksDao
-import com.example.plantsapp.data.entity.RoomTask
+import com.example.plantsapp.data.room.dao.StubTasksDao
+import com.example.plantsapp.data.room.entity.RoomTask
 import com.example.plantsapp.domain.model.TaskKeys
 import com.example.plantsapp.data.utils.createPlant
 import com.example.plantsapp.data.utils.createRoomTask

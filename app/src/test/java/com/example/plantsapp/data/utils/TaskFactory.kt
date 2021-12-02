@@ -1,6 +1,6 @@
 package com.example.plantsapp.data.utils
 
-import com.example.plantsapp.data.entity.RoomTask
+import com.example.plantsapp.data.room.entity.RoomTask
 import com.example.plantsapp.domain.model.TaskKeys
 import java.util.Date
 

@@ -1,10 +1,10 @@
-package com.example.plantsapp.data.dao
+package com.example.plantsapp.data.room.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import com.example.plantsapp.data.entity.RoomPlant
+import com.example.plantsapp.data.room.entity.RoomPlant
 import kotlinx.coroutines.flow.Flow
 
 @Dao

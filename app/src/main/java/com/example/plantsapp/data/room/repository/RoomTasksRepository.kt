@@ -1,7 +1,7 @@
-package com.example.plantsapp.data.repository
+package com.example.plantsapp.data.room.repository
 
-import com.example.plantsapp.data.dao.RoomTasksDao
-import com.example.plantsapp.data.entity.RoomTask
+import com.example.plantsapp.data.room.dao.RoomTasksDao
+import com.example.plantsapp.data.room.entity.RoomTask
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.model.Task
 import com.example.plantsapp.domain.repository.TasksRepository

@@ -1,4 +1,4 @@
-package com.example.plantsapp.data.repository
+package com.example.plantsapp.data.room.repository
 
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.model.Task

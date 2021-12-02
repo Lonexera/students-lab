@@ -1,7 +1,7 @@
-package com.example.plantsapp.data.repository
+package com.example.plantsapp.data.room.repository
 
-import com.example.plantsapp.data.dao.RoomTaskHistoryDao
-import com.example.plantsapp.data.entity.RoomTaskCompletion
+import com.example.plantsapp.data.room.dao.RoomTaskHistoryDao
+import com.example.plantsapp.data.room.entity.RoomTaskCompletion
 import com.example.plantsapp.domain.model.Task
 import com.example.plantsapp.domain.repository.TasksHistoryRepository
 import com.example.plantsapp.presentation.ui.utils.atEndDay
