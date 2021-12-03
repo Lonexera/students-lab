@@ -1,7 +1,6 @@
 package com.example.plantsapp.data.firebase.entity
 
 import android.net.Uri
-import androidx.core.net.toUri
 import com.example.plantsapp.domain.model.Plant
 
 data class FirebasePlant(
@@ -10,11 +9,11 @@ data class FirebasePlant(
     val plantPicture: String = ""
 ) {
 
-    fun toPlant(): Plant {
+    fun toPlant(localImageUri: Uri?): Plant {
         return Plant(
             name = Plant.Name(plantName),
             speciesName = speciesName,
-            plantPicture = plantPicture.toUri()
+            plantPicture = localImageUri
         )
     }
 
@@ -23,7 +22,7 @@ data class FirebasePlant(
             return FirebasePlant(
                 plantName = plant.name.value,
                 speciesName = plant.speciesName,
-                plantPicture = pictureUri.toString()
+                plantPicture = pictureUri?.toString() ?: ""
             )
         }
     }
