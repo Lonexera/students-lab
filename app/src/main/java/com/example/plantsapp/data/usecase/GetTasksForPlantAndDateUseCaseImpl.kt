@@ -23,7 +23,7 @@ class GetTasksForPlantAndDateUseCaseImpl @Inject constructor(
                 )
             }
             .map { task ->
-                task to tasksHistoryRepository.isTaskCompletedForDate(task, currentDate)
+                task to tasksHistoryRepository.isTaskCompletedForDate(plant, task, currentDate)
             }
     }
 }

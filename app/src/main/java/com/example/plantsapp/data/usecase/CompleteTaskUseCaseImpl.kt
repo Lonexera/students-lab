@@ -14,7 +14,7 @@ class CompleteTaskUseCaseImpl @Inject constructor(
 ) : CompleteTaskUseCase {
 
     override suspend fun invoke(plant: Plant, task: Task, completionDate: Date) {
-        tasksHistoryRepository.createTaskCompletion(task, completionDate)
+        tasksHistoryRepository.createTaskCompletion(plant, task, completionDate)
         tasksRepository.updateTask(plant, task, completionDate)
     }
 }
