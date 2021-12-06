@@ -25,8 +25,8 @@ class FirebaseTaskHistoryRepository @Inject constructor(
 
     override suspend fun isTaskCompletedForDate(plant: Plant, task: Task, date: Date): Boolean {
         return getTaskHistoryCollection(plant, task)
-            .whereGreaterThan("completionDate", date.atStartDay())
-            .whereLessThan("completionDate", date.atEndDay())
+            .whereGreaterThan(FIELD_COMPLETION_DATE, date.atStartDay())
+            .whereLessThan(FIELD_COMPLETION_DATE, date.atEndDay())
             .get()
             .await()
             .size() > 0
@@ -46,5 +46,6 @@ class FirebaseTaskHistoryRepository @Inject constructor(
         private const val KEY_COLLECTION_TASK_HISTORY = "taskHistory"
         private const val KEY_COLLECTION_TASKS = "tasks"
         private const val KEY_COLLECTION_PLANTS = "plants"
+        private const val FIELD_COMPLETION_DATE = "completionDate"
     }
 }
