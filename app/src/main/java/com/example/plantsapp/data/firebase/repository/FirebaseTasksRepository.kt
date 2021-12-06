@@ -22,7 +22,7 @@ class FirebaseTasksRepository @Inject constructor(
     override suspend fun addTasks(plant: Plant, tasks: List<Task>) {
         tasks.forEach { task ->
             getTaskDocument(task, plant)
-                .set(FirebaseTask.from(plant, task))
+                .set(FirebaseTask.from(task))
                 .await()
         }
     }
