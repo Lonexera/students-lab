@@ -1,5 +1,6 @@
 package com.example.plantsapp.data.usecase
 
+import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.model.Task
 import com.example.plantsapp.domain.repository.TasksHistoryRepository
 import com.example.plantsapp.domain.repository.TasksRepository
@@ -12,8 +13,8 @@ class CompleteTaskUseCaseImpl @Inject constructor(
     private val tasksHistoryRepository: TasksHistoryRepository
 ) : CompleteTaskUseCase {
 
-    override suspend fun invoke(task: Task, completionDate: Date) {
+    override suspend fun invoke(plant: Plant, task: Task, completionDate: Date) {
         tasksHistoryRepository.createTaskCompletion(task, completionDate)
-        tasksRepository.updateTask(task, completionDate)
+        tasksRepository.updateTask(plant, task, completionDate)
     }
 }

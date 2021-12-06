@@ -7,5 +7,5 @@ import java.util.Date
 interface TasksRepository {
     suspend fun addTasks(plant: Plant, tasks: List<Task>)
     suspend fun getTasksForPlant(plant: Plant): List<Task>
-    suspend fun updateTask(task: Task, completionDate: Date)
+    suspend fun updateTask(plant: Plant, task: Task, completionDate: Date)
 }

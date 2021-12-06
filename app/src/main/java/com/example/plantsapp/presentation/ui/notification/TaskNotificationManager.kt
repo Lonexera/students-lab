@@ -106,7 +106,8 @@ class TaskNotificationManager @Inject constructor(
                     context = context,
                     task = task,
                     notificationId = notificationId,
-                    requestCode = notificationId
+                    requestCode = notificationId,
+                    plantName = Plant.Name(plantName)
                 )
             )
             .build()

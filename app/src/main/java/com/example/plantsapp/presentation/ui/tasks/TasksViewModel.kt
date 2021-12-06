@@ -33,9 +33,9 @@ class TasksViewModel @AssistedInject constructor(
         }
     }
 
-    fun onCompleteTaskClicked(task: Task) {
+    fun onCompleteTaskClicked(plant: Plant, task: Task) {
         viewModelScope.launch {
-            completeTaskUseCase(task, date)
+            completeTaskUseCase(plant, task, date)
             fetchTasks()
         }
     }

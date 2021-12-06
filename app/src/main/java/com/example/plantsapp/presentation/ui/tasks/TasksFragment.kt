@@ -26,8 +26,8 @@ class TasksFragment : Fragment(R.layout.fragment_tasks) {
             date = requireArguments().date
         )
     }
-    private val plantsWithTasksAdapter = PlantWithTasksAdapter {
-        tasksViewModel.onCompleteTaskClicked(it)
+    private val plantsWithTasksAdapter = PlantWithTasksAdapter { (plant, task) ->
+        tasksViewModel.onCompleteTaskClicked(plant, task)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

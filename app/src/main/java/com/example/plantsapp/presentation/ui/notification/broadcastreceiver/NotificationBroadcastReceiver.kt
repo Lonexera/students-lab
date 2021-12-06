@@ -5,8 +5,10 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import androidx.annotation.CallSuper
+import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.model.Task
 import com.example.plantsapp.domain.model.TaskKeys
+import com.example.plantsapp.domain.repository.PlantsRepository
 import com.example.plantsapp.domain.usecase.CompleteTaskUseCase
 import com.example.plantsapp.presentation.ui.notification.TaskNotificationManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,6 +29,8 @@ class NotificationBroadcastReceiver : HiltBroadcastReceiver() {
     lateinit var completeTaskUseCase: CompleteTaskUseCase
     @Inject
     lateinit var taskNotificationManager: TaskNotificationManager
+    @Inject
+    lateinit var plantsRepository: PlantsRepository
 
     override fun onReceive(context: Context, intent: Intent?) {
         super.onReceive(context, intent)
@@ -42,7 +46,11 @@ class NotificationBroadcastReceiver : HiltBroadcastReceiver() {
 
             // TODO Remove GlobalScope
             GlobalScope.launch {
-                completeTaskUseCase(task, Date())
+                completeTaskUseCase(
+                    plant = plantsRepository.getPlantByName(it.plantName),
+                    task = task,
+                    completionDate = Date()
+                )
                 taskNotificationManager.cancelNotification(it.notificationId)
                 pendingResult.finish()
             }
@@ -55,7 +63,8 @@ class NotificationBroadcastReceiver : HiltBroadcastReceiver() {
             context: Context,
             task: Task,
             notificationId: Int,
-            requestCode: Int
+            requestCode: Int,
+            plantName: Plant.Name
         ): PendingIntent {
             val completeIntent = Intent(context, NotificationBroadcastReceiver::class.java)
                 .apply {
@@ -64,6 +73,7 @@ class NotificationBroadcastReceiver : HiltBroadcastReceiver() {
                     taskFrequency = task.frequency
                     taskKey = TaskKeys.from(task).key
                     taskUpdateDate = task.lastUpdateDate
+                    this.plantName = plantName
                 }
             return PendingIntent.getBroadcast(
                 context,
@@ -104,10 +114,20 @@ class NotificationBroadcastReceiver : HiltBroadcastReceiver() {
                 putExtra(EXTRA_NOTIFICATION_ID, notificationId)
             }
 
+        private var Intent.plantName: Plant.Name
+            get() = Plant.Name(
+                getStringExtra(EXTRA_PLANT_NAME)
+                ?: error("Plant Name Was Not Passed!")
+            )
+            set(plantName) {
+                putExtra(EXTRA_PLANT_NAME, plantName.value)
+            }
+
         private const val EXTRA_NOTIFICATION_ID = "EXTRA_NOTIFICATION_ID"
         private const val EXTRA_TASK_ID = "EXTRA_TASK_ID"
         private const val EXTRA_TASK_KEY = "EXTRA_TASK_KEY"
         private const val EXTRA_TASK_FREQUENCY = "EXTRA_FREQUENCY"
         private const val EXTRA_TASK_UPDATE_DATE = "EXTRA_TASK_UPDATE_DATE"
+        private const val EXTRA_PLANT_NAME = "EXTRA_PLANT_NAME"
     }
 }

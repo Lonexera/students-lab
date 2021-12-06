@@ -11,9 +11,10 @@ data class FirebaseTask(
     val frequency: Int = 0,
     val lastUpdateDate: Date = Date()
 ) {
-    fun toTask(taskId: Int): Task {
+    fun toTask(): Task {
+        // TODO remove id from Task after implementing TaskHistoryRepo
         return TaskKeys.getFromKey(taskKey).toTask(
-            taskId = taskId,
+            taskId = 0,
             frequency = frequency,
             lastUpdateDate = lastUpdateDate
         )

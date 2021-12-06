@@ -8,7 +8,7 @@ import com.example.plantsapp.presentation.model.TaskWithState
 import com.example.plantsapp.presentation.model.PlantWithTaskAndStateItemCallback
 
 class PlantWithTasksAdapter(
-    private val onTaskClick: (Task) -> Unit
+    private val onTaskClick: (Pair<Plant, Task>) -> Unit
 ) :
     ListAdapter<Pair<Plant, List<TaskWithState>>, PlantWithTasksViewHolder>(PlantWithTaskAndStateItemCallback()) {
 
