@@ -7,14 +7,14 @@ import com.example.plantsapp.domain.model.Plant
 data class FirebasePlant(
     val plantName: String = "",
     val speciesName: String = "",
-    val plantPicture: String = ""
+    val plantPicture: String? = null
 ) {
 
     fun toPlant(): Plant {
         return Plant(
             name = Plant.Name(plantName),
             speciesName = speciesName,
-            plantPicture = plantPicture.toUri()
+            plantPicture = plantPicture?.toUri()
         )
     }
 
@@ -23,7 +23,7 @@ data class FirebasePlant(
             return FirebasePlant(
                 plantName = plant.name.value,
                 speciesName = plant.speciesName,
-                plantPicture = pictureUri?.toString() ?: ""
+                plantPicture = pictureUri?.toString()
             )
         }
     }

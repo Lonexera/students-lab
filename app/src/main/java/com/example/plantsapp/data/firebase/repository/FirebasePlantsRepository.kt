@@ -91,7 +91,8 @@ class FirebasePlantsRepository @Inject constructor(
         return storageRef
             .child(storageImagePath)
             .apply {
-                putFile(picture).await()
+                putFile(picture)
+                    .await()
             }
             .downloadUrl
             .await()
