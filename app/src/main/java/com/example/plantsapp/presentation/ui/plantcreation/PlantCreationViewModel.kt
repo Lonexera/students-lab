@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.plantsapp.R
+import com.example.plantsapp.di.module.FirebaseQualifier
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.model.Task
 import com.example.plantsapp.domain.repository.PlantsRepository
@@ -22,8 +23,8 @@ import kotlin.Exception
 
 @HiltViewModel
 class PlantCreationViewModel @Inject constructor(
-    private val plantsRepository: PlantsRepository,
-    private val tasksRepository: TasksRepository,
+    @FirebaseQualifier private val plantsRepository: PlantsRepository,
+    @FirebaseQualifier private val tasksRepository: TasksRepository,
     private val validator: PlantCreationValidator,
     private val saveUriInStorageUseCase: SaveUriInStorageUseCase
 ) : ViewModel() {

@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.example.plantsapp.di.module.FirebaseQualifier
 import com.example.plantsapp.domain.repository.PlantsRepository
 import com.example.plantsapp.domain.repository.TasksRepository
 import com.example.plantsapp.domain.usecase.GetTasksForPlantAndDateUseCase
@@ -16,9 +17,9 @@ import java.util.Date
 class ReschedulingWorker @AssistedInject constructor(
     @Assisted private val context: Context,
     @Assisted workerParams: WorkerParameters,
-    private val plantsRepository: PlantsRepository,
+    @FirebaseQualifier private val plantsRepository: PlantsRepository,
     private val getTasksForPlantAndDateUseCase: GetTasksForPlantAndDateUseCase,
-    private val tasksRepository: TasksRepository
+    @FirebaseQualifier private val tasksRepository: TasksRepository
 ) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result {

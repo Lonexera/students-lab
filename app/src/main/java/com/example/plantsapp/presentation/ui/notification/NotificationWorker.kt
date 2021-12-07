@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.example.plantsapp.di.module.FirebaseQualifier
 import com.example.plantsapp.domain.repository.PlantsRepository
 import com.example.plantsapp.domain.usecase.GetTasksForPlantAndDateUseCase
 import dagger.assisted.Assisted
@@ -14,7 +15,7 @@ import java.util.Date
 class NotificationWorker @AssistedInject constructor(
     @Assisted private val context: Context,
     @Assisted workerParams: WorkerParameters,
-    private val plantsRepository: PlantsRepository,
+    @FirebaseQualifier private val plantsRepository: PlantsRepository,
     private val getTasksForPlantAndDateUseCase: GetTasksForPlantAndDateUseCase,
     private val notificationManager: TaskNotificationManager
 ) : CoroutineWorker(context, workerParams) {

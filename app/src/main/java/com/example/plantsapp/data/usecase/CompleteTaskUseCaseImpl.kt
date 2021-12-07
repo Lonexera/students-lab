@@ -1,5 +1,6 @@
 package com.example.plantsapp.data.usecase
 
+import com.example.plantsapp.di.module.FirebaseQualifier
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.model.Task
 import com.example.plantsapp.domain.repository.TasksHistoryRepository
@@ -9,8 +10,8 @@ import java.util.Date
 import javax.inject.Inject
 
 class CompleteTaskUseCaseImpl @Inject constructor(
-    private val tasksRepository: TasksRepository,
-    private val tasksHistoryRepository: TasksHistoryRepository
+    @FirebaseQualifier private val tasksRepository: TasksRepository,
+    @FirebaseQualifier private val tasksHistoryRepository: TasksHistoryRepository
 ) : CompleteTaskUseCase {
 
     override suspend fun invoke(plant: Plant, task: Task, completionDate: Date) {

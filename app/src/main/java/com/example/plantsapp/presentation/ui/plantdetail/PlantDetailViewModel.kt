@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.plantsapp.di.module.FirebaseQualifier
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.model.Task
 import com.example.plantsapp.domain.repository.PlantsRepository
@@ -14,8 +15,8 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
 
 class PlantDetailViewModel @AssistedInject constructor(
-    private val plantsRepository: PlantsRepository,
-    private val tasksRepository: TasksRepository,
+    @FirebaseQualifier private val plantsRepository: PlantsRepository,
+    @FirebaseQualifier private val tasksRepository: TasksRepository,
     @Assisted plantName: String
 ) : ViewModel() {
 

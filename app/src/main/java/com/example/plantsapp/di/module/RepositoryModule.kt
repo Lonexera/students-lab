@@ -1,5 +1,8 @@
 package com.example.plantsapp.di.module
 
+import com.example.plantsapp.data.firebase.repository.FirebasePlantsRepository
+import com.example.plantsapp.data.firebase.repository.FirebaseTaskHistoryRepository
+import com.example.plantsapp.data.firebase.repository.FirebaseTasksRepository
 import com.example.plantsapp.data.room.repository.RoomPlantsRepository
 import com.example.plantsapp.data.room.repository.RoomTasksHistoryRepository
 import com.example.plantsapp.data.room.repository.RoomTasksRepository
@@ -15,12 +18,27 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 interface RepositoryModule {
 
+    @FirebaseQualifier
     @Binds
-    fun bindPlantsRepository(repo: RoomPlantsRepository): PlantsRepository
+    fun bindFirebasePlantsRepository(repo: FirebasePlantsRepository): PlantsRepository
 
+    @FirebaseQualifier
     @Binds
-    fun bindTasksRepository(repo: RoomTasksRepository): TasksRepository
+    fun bindFirebaseTasksRepository(repo: FirebaseTasksRepository): TasksRepository
 
+    @FirebaseQualifier
     @Binds
-    fun bindTasksHistoryRepository(repo: RoomTasksHistoryRepository): TasksHistoryRepository
+    fun bindFirebaseTasksHistoryRepository(repo: FirebaseTaskHistoryRepository): TasksHistoryRepository
+
+    @RoomQualifier
+    @Binds
+    fun bindRoomPlantsRepository(repo: RoomPlantsRepository): PlantsRepository
+
+    @RoomQualifier
+    @Binds
+    fun bindRoomTasksRepository(repo: RoomTasksRepository): TasksRepository
+
+    @RoomQualifier
+    @Binds
+    fun bindRoomTasksHistoryRepository(repo: RoomTasksHistoryRepository): TasksHistoryRepository
 }
