@@ -9,6 +9,7 @@ import com.example.plantsapp.domain.model.Task
 import com.example.plantsapp.domain.model.TaskKeys
 import java.util.Date
 
+@Deprecated("Room will no longer be used in app")
 @Entity(
     tableName = "tasks",
     foreignKeys = [

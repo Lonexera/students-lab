@@ -1,5 +1,6 @@
 package com.example.plantsapp.data.usecase
 
+import com.example.plantsapp.di.module.FirebaseQualifier
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.model.Task
 import com.example.plantsapp.domain.repository.TasksHistoryRepository
@@ -10,8 +11,8 @@ import java.util.Date
 import javax.inject.Inject
 
 class GetTasksForPlantAndDateUseCaseImpl @Inject constructor(
-    private val tasksRepository: TasksRepository,
-    private val tasksHistoryRepository: TasksHistoryRepository
+    @FirebaseQualifier private val tasksRepository: TasksRepository,
+    @FirebaseQualifier private val tasksHistoryRepository: TasksHistoryRepository
 ) : GetTasksForPlantAndDateUseCase {
 
     override suspend operator fun invoke(plant: Plant, currentDate: Date): List<Pair<Task, Boolean>> {

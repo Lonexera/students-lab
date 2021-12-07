@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import androidx.annotation.CallSuper
+import com.example.plantsapp.di.module.FirebaseQualifier
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.model.Task
 import com.example.plantsapp.domain.model.TaskKeys
@@ -30,6 +31,7 @@ class NotificationBroadcastReceiver : HiltBroadcastReceiver() {
     @Inject
     lateinit var taskNotificationManager: TaskNotificationManager
     @Inject
+    @FirebaseQualifier
     lateinit var plantsRepository: PlantsRepository
 
     override fun onReceive(context: Context, intent: Intent?) {

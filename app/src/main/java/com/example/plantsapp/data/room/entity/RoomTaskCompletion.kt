@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey
 import com.example.plantsapp.domain.model.Task
 import java.util.Date
 
+@Deprecated("Room will no longer be used in app")
 @Entity(
     tableName = "taskHistory",
     foreignKeys = [

@@ -1,4 +1,4 @@
-package com.example.plantsapp.di.module
+package com.example.plantsapp.di.module.firebase
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore

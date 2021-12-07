@@ -1,4 +1,4 @@
-package com.example.plantsapp.di.module
+package com.example.plantsapp.di.module.room
 
 import android.content.Context
 import androidx.room.Room
@@ -16,7 +16,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object DatabaseModule {
+object RoomModule {
 
     @Provides
     @Singleton

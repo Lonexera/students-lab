@@ -8,6 +8,7 @@ import com.example.plantsapp.domain.repository.TasksRepository
 import java.util.Date
 import javax.inject.Inject
 
+@Deprecated("Room will no longer be used in app")
 class RoomTasksRepository @Inject constructor(
     private val tasksDao: RoomTasksDao
 ) : TasksRepository {
