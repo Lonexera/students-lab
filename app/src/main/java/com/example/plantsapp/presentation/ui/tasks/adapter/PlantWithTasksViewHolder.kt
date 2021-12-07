@@ -13,10 +13,8 @@ import com.example.plantsapp.presentation.ui.utils.loadPicture
 // TODO Maybe add shared RecyclerViewPool
 class PlantWithTasksViewHolder(
     private val binding: ItemPlantWithTasksBinding,
-    onTaskClick: (Task) -> Unit
+    private val onTaskClick: (Pair<Plant, Task>) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
-
-    private val tasksAdapter = TasksAdapter(onTaskClick)
 
     fun bind(plant: Plant, tasks: List<TaskWithState>) {
         with(binding) {
@@ -24,6 +22,7 @@ class PlantWithTasksViewHolder(
 
             ivTasksPlantPicture.loadPicture(plant.plantPicture)
 
+            val tasksAdapter = TasksAdapter(plant, onTaskClick)
             rvPlantsWithTasks.apply {
                 layoutManager = LinearLayoutManager(binding.root.context)
                 adapter = tasksAdapter
@@ -36,7 +35,7 @@ class PlantWithTasksViewHolder(
     companion object {
         fun create(
             parent: ViewGroup,
-            onTaskClick: (Task) -> Unit
+            onTaskClick: (Pair<Plant, Task>) -> Unit
         ): PlantWithTasksViewHolder {
 
             val inflater = LayoutInflater.from(parent.context)

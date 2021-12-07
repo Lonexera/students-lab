@@ -6,6 +6,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.plantsapp.R
 import com.example.plantsapp.databinding.ItemTaskBinding
+import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.model.Task
 import com.example.plantsapp.presentation.model.TaskWithState
 import com.example.plantsapp.presentation.ui.utils.getIconRes
@@ -14,10 +15,10 @@ import com.example.plantsapp.presentation.ui.utils.loadPicture
 
 class TasksViewHolder(
     private val binding: ItemTaskBinding,
-    private val onTaskClick: (Task) -> Unit
+    private val onTaskClick: (Pair<Plant, Task>) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(taskWithState: TaskWithState) {
+    fun bind(plant: Plant, taskWithState: TaskWithState) {
         with(binding) {
             val task = taskWithState.task
 
@@ -28,7 +29,7 @@ class TasksViewHolder(
             ivTaskIcon.loadPicture(task.getIconRes())
 
             btnCompleteTask.setOnClickListener {
-                onTaskClick(task)
+                onTaskClick(plant to task)
             }
 
             btnCompleteTask.isVisible = taskWithState.isCompletable
@@ -50,7 +51,7 @@ class TasksViewHolder(
 
         fun create(
             parent: ViewGroup,
-            onTaskClick: (Task) -> Unit
+            onTaskClick: (Pair<Plant, Task>) -> Unit
         ): TasksViewHolder {
 
             val inflater = LayoutInflater.from(parent.context)

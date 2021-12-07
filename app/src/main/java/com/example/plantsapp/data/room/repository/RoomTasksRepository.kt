@@ -24,7 +24,7 @@ class RoomTasksRepository @Inject constructor(
             .map { it.toTask() }
     }
 
-    override suspend fun updateTask(task: Task, completionDate: Date) {
+    override suspend fun updateTask(plant: Plant, task: Task, completionDate: Date) {
         tasksDao.update(
             taskId = task.id,
             completionDate = completionDate.time
