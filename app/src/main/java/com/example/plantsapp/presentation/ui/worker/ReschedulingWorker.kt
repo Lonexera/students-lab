@@ -22,13 +22,14 @@ class ReschedulingWorker @AssistedInject constructor(
 ) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result {
+        val currentDate = Date()
 
         plantsRepository.fetchPlants()
             .forEach { plant ->
-                getTasksForPlantAndDateUseCase(plant, Date().minusDays(1))
+                getTasksForPlantAndDateUseCase(plant, currentDate.minusDays(1))
                     .filter { (_, isCompleted) -> !isCompleted }
                     .forEach { (task, _) ->
-                        tasksRepository.updateTask(plant, task, Date())
+                        tasksRepository.updateTask(plant, task, currentDate)
                     }
             }
 

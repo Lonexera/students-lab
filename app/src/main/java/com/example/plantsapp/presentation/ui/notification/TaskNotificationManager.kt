@@ -51,7 +51,7 @@ class TaskNotificationManager @Inject constructor(
 
         val notifications = tasks.map {
             prepareTaskNotification(
-                plantName = plant.name.value,
+                plantName = plant.name,
                 plantPicture = notificationPicture,
                 task = it,
                 notificationId = notificationId
@@ -82,23 +82,23 @@ class TaskNotificationManager @Inject constructor(
     }
 
     private fun prepareTaskNotification(
-        plantName: String,
+        plantName: Plant.Name,
         plantPicture: Bitmap,
         task: Task,
         notificationId: Int
     ): Notification {
         return NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_plant_24)
-            .setContentTitle(plantName)
+            .setContentTitle(plantName.value)
             .setContentText(
                 context.getNotificationText(
-                    plantName = plantName,
+                    plantName = plantName.value,
                     task = task
                 )
             )
             .setLargeIcon(plantPicture)
             .setContentIntent(clickPendingIntent)
-            .setGroup(plantName)
+            .setGroup(plantName.value)
             .addAction(
                 R.drawable.ic_complete,
                 context.getString(R.string.title_notification_complete_button),
@@ -107,7 +107,7 @@ class TaskNotificationManager @Inject constructor(
                     task = task,
                     notificationId = notificationId,
                     requestCode = notificationId,
-                    plantName = Plant.Name(plantName)
+                    plantName = plantName
                 )
             )
             .build()
