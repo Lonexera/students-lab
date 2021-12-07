@@ -1,4 +1,4 @@
-package com.example.plantsapp.di.module
+package com.example.plantsapp.di.module.room
 
 import android.content.Context
 import androidx.room.Room
@@ -12,7 +12,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
@@ -58,6 +57,3 @@ object RoomModule {
         return database.taskHistoryDao()
     }
 }
-
-@Qualifier
-annotation class RoomQualifier
