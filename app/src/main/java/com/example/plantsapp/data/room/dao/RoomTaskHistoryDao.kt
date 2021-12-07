@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import com.example.plantsapp.data.room.entity.RoomTaskCompletion
 
+@Deprecated("Room will no longer be used in app")
 @Dao
 interface RoomTaskHistoryDao {
 

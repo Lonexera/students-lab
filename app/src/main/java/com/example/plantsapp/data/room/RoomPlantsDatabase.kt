@@ -9,6 +9,7 @@ import com.example.plantsapp.data.room.entity.RoomPlant
 import com.example.plantsapp.data.room.entity.RoomTask
 import com.example.plantsapp.data.room.entity.RoomTaskCompletion
 
+@Deprecated("Room will no longer be used in app")
 @Database(entities = [RoomPlant::class, RoomTask::class, RoomTaskCompletion::class], version = 1)
 abstract class RoomPlantsDatabase : RoomDatabase() {
 

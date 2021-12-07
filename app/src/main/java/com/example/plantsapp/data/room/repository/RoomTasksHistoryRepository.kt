@@ -10,6 +10,7 @@ import com.example.plantsapp.presentation.ui.utils.atStartDay
 import java.util.Date
 import javax.inject.Inject
 
+@Deprecated("Room will no longer be used in app")
 class RoomTasksHistoryRepository @Inject constructor(
     private val taskHistoryDao: RoomTaskHistoryDao
 ) : TasksHistoryRepository {

@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
+@Deprecated("Room will no longer be used in app")
 class RoomPlantsRepository @Inject constructor(
     private val plantsDao: RoomPlantsDao
 ) : PlantsRepository {

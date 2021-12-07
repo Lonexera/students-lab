@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.plantsapp.domain.model.Plant
 
+@Deprecated("Room will no longer be used in app")
 @Entity(tableName = "plants")
 data class RoomPlant(
     @PrimaryKey val name: String,

@@ -7,6 +7,7 @@ import androidx.room.Query
 import com.example.plantsapp.data.room.entity.RoomPlant
 import kotlinx.coroutines.flow.Flow
 
+@Deprecated("Room will no longer be used in app")
 @Dao
 interface RoomPlantsDao {
 
