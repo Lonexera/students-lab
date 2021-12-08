@@ -58,5 +58,7 @@
     <string name="msg_notification_task_loosening">Don\'t forget to loosen soil for %s</string>
     <string name="title_notification_complete_button">Complete</string>
 
+    <!-- Authentication Screen -->
+    <string name="error_unable_to_sign_in">Unable to sign in</string>
 
 </resources>

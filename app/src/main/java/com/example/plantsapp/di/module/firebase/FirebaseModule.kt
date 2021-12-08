@@ -1,5 +1,6 @@
 package com.example.plantsapp.di.module.firebase
 
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -21,4 +22,8 @@ object FirebaseModule {
     @Provides
     @Singleton
     fun firebaseStorage(): FirebaseStorage = FirebaseStorage.getInstance()
+
+    @Provides
+    @Singleton
+    fun firebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
 }

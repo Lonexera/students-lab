@@ -1,14 +1,13 @@
 package com.example.plantsapp.presentation.ui.tasksfordays.adapter
 
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.plantsapp.presentation.ui.tasks.TasksFragment
 import com.example.plantsapp.presentation.ui.utils.plusDays
 import java.util.Date
 
 class TasksForDaysPagerAdapter(
-    fragmentActivity: FragmentActivity,
+    fragmentActivity: Fragment,
     private val todayDate: Date
 ) : FragmentStateAdapter(fragmentActivity) {
 
