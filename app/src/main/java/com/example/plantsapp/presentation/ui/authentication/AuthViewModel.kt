@@ -4,46 +4,42 @@ import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.plantsapp.R
+import com.example.plantsapp.domain.usecase.AuthUseCase
 import com.example.plantsapp.presentation.core.Event
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.common.api.ApiException
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-    private val auth: FirebaseAuth
+    private val authUseCase: AuthUseCase
 ) : ViewModel() {
 
-    private val _navigateToSplash: MutableLiveData<Event<Unit>> = MutableLiveData()
-    val navigateToSplash: LiveData<Event<Unit>> get() = _navigateToSplash
-    private val _signingError: MutableLiveData<Int> = MutableLiveData()
-    val signingError: LiveData<Int> get() = _signingError
-
-    fun onSignInResult(intent: Intent) {
-        val task = GoogleSignIn.getSignedInAccountFromIntent(intent)
-        try {
-            val account = task.getResult(ApiException::class.java)
-            signInFirebase(account.idToken!!)
-        } catch (e: ApiException) {
-            Timber.e(e)
-            _signingError.value = R.string.error_unable_to_sign_in
-        }
+    sealed class AuthResult {
+        object NavigateToTasks : AuthResult()
+        data class AuthError(val errorId: Int) : AuthResult()
     }
 
-    private fun signInFirebase(idToken: String) {
-        val credential = GoogleAuthProvider.getCredential(idToken, null)
-        auth.signInWithCredential(credential)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    _navigateToSplash.value = Event(Unit)
-                } else {
-                    _signingError.value = R.string.error_unable_to_sign_in
+    private val _authResult: MutableLiveData<Event<AuthResult>> = MutableLiveData()
+    val authResult: LiveData<Event<AuthResult>> get() = _authResult
+
+    @Suppress("TooGenericExceptionCaught")
+    fun onSignInResult(intent: Intent) {
+        viewModelScope.launch {
+            try {
+                authUseCase(intent).apply {
+                    Timber.d("User name - $name")
+                    Timber.d("User profile picture url - $profilePicture")
                 }
+
+                _authResult.value = Event(AuthResult.NavigateToTasks)
+            } catch (e: Exception) {
+                Timber.e(e)
+                _authResult.value = Event(AuthResult.AuthError(R.string.error_unable_to_sign_in))
             }
+        }
     }
 }

@@ -14,14 +14,6 @@
       },
       "oauth_client": [
         {
-          "client_id": "429271409858-ntgq18907shid046o65b2iomns0qfb77.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.plantsapp",
-            "certificate_hash": "69a193e0150c5be1aa359f76b09997632d94e1e7"
-          }
-        },
-        {
           "client_id": "429271409858-hvme9mfdqnfutip6v6hid9ebe55erif7.apps.googleusercontent.com",
           "client_type": 3
         }

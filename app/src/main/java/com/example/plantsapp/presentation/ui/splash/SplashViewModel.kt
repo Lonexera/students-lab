@@ -13,17 +13,19 @@ class SplashViewModel @Inject constructor(
     private val auth: FirebaseAuth
 ) : ViewModel() {
 
-    private val _navigateToAuth: MutableLiveData<Event<Unit>> = MutableLiveData()
-    val navigateToAuth: LiveData<Event<Unit>> get() = _navigateToAuth
+    enum class Directions {
+        AUTH_SCREEN,
+        TASKS_SCREEN
+    }
 
-    private val _navigateToTasks: MutableLiveData<Event<Unit>> = MutableLiveData()
-    val navigateToTasks: LiveData<Event<Unit>> get() = _navigateToTasks
+    private val _navigate: MutableLiveData<Event<Directions>> = MutableLiveData()
+    val navigate: LiveData<Event<Directions>> get() = _navigate
 
     init {
         if (auth.currentUser == null) {
-            _navigateToAuth.value = Event(Unit)
+            _navigate.value = Event(Directions.AUTH_SCREEN)
         } else {
-            _navigateToTasks.value = Event(Unit)
+            _navigate.value = Event(Directions.TASKS_SCREEN)
         }
     }
 }

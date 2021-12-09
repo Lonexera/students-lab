@@ -7,9 +7,9 @@ import com.example.plantsapp.presentation.ui.utils.plusDays
 import java.util.Date
 
 class TasksForDaysPagerAdapter(
-    fragmentActivity: Fragment,
+    fragment: Fragment,
     private val todayDate: Date
-) : FragmentStateAdapter(fragmentActivity) {
+) : FragmentStateAdapter(fragment) {
 
     override fun getItemCount(): Int = Int.MAX_VALUE
 
