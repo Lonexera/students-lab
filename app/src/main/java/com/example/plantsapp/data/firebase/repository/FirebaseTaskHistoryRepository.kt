@@ -1,10 +1,12 @@
 package com.example.plantsapp.data.firebase.repository
 
 import com.example.plantsapp.data.firebase.entity.FirebaseTaskCompletion
+import com.example.plantsapp.di.module.FirebaseQualifier
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.model.Task
 import com.example.plantsapp.domain.model.TaskKeys
 import com.example.plantsapp.domain.repository.TasksHistoryRepository
+import com.example.plantsapp.domain.repository.UserRepository
 import com.example.plantsapp.presentation.ui.utils.atEndDay
 import com.example.plantsapp.presentation.ui.utils.atStartDay
 import com.google.firebase.firestore.CollectionReference
@@ -14,7 +16,8 @@ import java.util.Date
 import javax.inject.Inject
 
 class FirebaseTaskHistoryRepository @Inject constructor(
-    private val firestore: FirebaseFirestore
+    private val firestore: FirebaseFirestore,
+    @FirebaseQualifier private val userRepository: UserRepository
 ) : TasksHistoryRepository {
 
     override suspend fun createTaskCompletion(plant: Plant, task: Task, completionDate: Date) {
@@ -34,6 +37,8 @@ class FirebaseTaskHistoryRepository @Inject constructor(
 
     private fun getTaskHistoryCollection(plant: Plant, task: Task): CollectionReference {
         return firestore
+            .collection(KEY_COLLECTION_USERS)
+            .document(userRepository.requireUser().uid)
             .collection(KEY_COLLECTION_PLANTS)
             .document(plant.name.value)
             .collection(KEY_COLLECTION_TASKS)
@@ -43,9 +48,10 @@ class FirebaseTaskHistoryRepository @Inject constructor(
 
     companion object {
         // TODO maybe move this collection name somewhere
-        private const val KEY_COLLECTION_TASK_HISTORY = "taskHistory"
-        private const val KEY_COLLECTION_TASKS = "tasks"
+        private const val KEY_COLLECTION_USERS = "users"
         private const val KEY_COLLECTION_PLANTS = "plants"
+        private const val KEY_COLLECTION_TASKS = "tasks"
+        private const val KEY_COLLECTION_TASK_HISTORY = "taskHistory"
         private const val FIELD_COMPLETION_DATE = "completionDate"
     }
 }
