@@ -8,10 +8,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import com.example.plantsapp.R
 import com.example.plantsapp.databinding.ActivityMainBinding
-import com.example.plantsapp.presentation.ui.authentication.AuthFragment
 import com.example.plantsapp.presentation.ui.plants.PlantsFragment
 import com.example.plantsapp.presentation.ui.tasksfordays.TasksForDaysFragment
-import com.google.android.gms.common.api.internal.zzc
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -22,15 +20,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     // TODO maybe find a more proper way to handle bottom navigation visibility
-    private val callbackForChangingBottomNavVisibility =
-        object : FragmentManager.FragmentLifecycleCallbacks() {
-            override fun onFragmentStarted(fm: FragmentManager, f: Fragment) {
-                super.onFragmentStarted(fm, f)
-
-                val currentVisibleFragment = fm.fragments.last()
-                binding.bottomNavigation.isVisible =
-                    !(currentVisibleFragment is AuthFragment || currentVisibleFragment is zzc)
-            }
+    private val bottomBarVisibilityCallback =
+        BottomBarVisibilityCallback { isBottomBarVisible ->
+            binding.bottomNavigation.isVisible = isBottomBarVisible
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         supportFragmentManager.registerFragmentLifecycleCallbacks(
-            callbackForChangingBottomNavVisibility,
+            bottomBarVisibilityCallback,
             false
         )
 
@@ -63,7 +55,7 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
 
         supportFragmentManager.unregisterFragmentLifecycleCallbacks(
-            callbackForChangingBottomNavVisibility
+            bottomBarVisibilityCallback
         )
     }
 }

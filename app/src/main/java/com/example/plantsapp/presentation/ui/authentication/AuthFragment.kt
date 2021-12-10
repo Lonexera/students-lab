@@ -3,7 +3,6 @@ package com.example.plantsapp.presentation.ui.authentication
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
@@ -11,27 +10,22 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.plantsapp.R
 import com.example.plantsapp.databinding.FragmentAuthBinding
 import com.example.plantsapp.presentation.ui.tasksfordays.TasksForDaysFragment
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class AuthFragment : Fragment(R.layout.fragment_auth) {
-
     private val binding: FragmentAuthBinding by viewBinding(FragmentAuthBinding::bind)
     private val viewModel: AuthViewModel by viewModels()
     @Inject
-    lateinit var gso: GoogleSignInOptions
-    private val googleSignInClient by lazy {
-                GoogleSignIn.getClient(requireActivity(), gso)
-    }
-    // TODO check this thing in next iteration of pull request
+    lateinit var googleSignInClient: GoogleSignInClient
+
     private val googleSignInLauncher =
         registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-        ) { activityResult ->
-            activityResult.data?.let { viewModel.onSignInResult(it) }
+            GoogleSignInContract { googleSignInClient }
+        ) { token ->
+            viewModel.onSignInResult(token)
         }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -57,7 +51,7 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
 
         with(binding) {
             btnGoogleSignIn.setOnClickListener {
-                googleSignInLauncher.launch(googleSignInClient.signInIntent)
+                googleSignInLauncher.launch(null)
             }
         }
     }

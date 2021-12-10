@@ -22,10 +22,12 @@ class SplashViewModel @Inject constructor(
     val navigate: LiveData<Event<Directions>> get() = _navigate
 
     init {
-        if (auth.currentUser == null) {
-            _navigate.value = Event(Directions.AUTH_SCREEN)
+        val event = if (auth.currentUser == null) {
+            Directions.AUTH_SCREEN
         } else {
-            _navigate.value = Event(Directions.TASKS_SCREEN)
+            Directions.TASKS_SCREEN
         }
+
+        _navigate.value = Event(event)
     }
 }

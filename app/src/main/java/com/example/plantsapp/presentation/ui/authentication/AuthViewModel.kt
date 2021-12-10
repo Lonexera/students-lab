@@ -1,6 +1,6 @@
 package com.example.plantsapp.presentation.ui.authentication
 
-import android.content.Intent
+import androidx.annotation.StringRes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,26 +20,27 @@ class AuthViewModel @Inject constructor(
 
     sealed class AuthResult {
         object NavigateToTasks : AuthResult()
-        data class AuthError(val errorId: Int) : AuthResult()
+        data class AuthError(@StringRes val errorId: Int) : AuthResult()
     }
 
     private val _authResult: MutableLiveData<Event<AuthResult>> = MutableLiveData()
     val authResult: LiveData<Event<AuthResult>> get() = _authResult
 
-    @Suppress("TooGenericExceptionCaught")
-    fun onSignInResult(intent: Intent) {
+    fun onSignInResult(token: String?) {
         viewModelScope.launch {
-            try {
-                authUseCase(intent).apply {
-                    Timber.d("User name - $name")
-                    Timber.d("User profile picture url - $profilePicture")
-                }
-
-                _authResult.value = Event(AuthResult.NavigateToTasks)
-            } catch (e: Exception) {
-                Timber.e(e)
+            if (token == null) {
                 _authResult.value = Event(AuthResult.AuthError(R.string.error_unable_to_sign_in))
+                return@launch
             }
+
+            val event = try {
+                authUseCase(AuthUseCase.AuthInput(token))
+                AuthResult.NavigateToTasks
+            } catch (e: IllegalStateException) {
+                Timber.e(e)
+                AuthResult.AuthError(R.string.error_unable_to_sign_in)
+            }
+            _authResult.value = Event(event)
         }
     }
 }
