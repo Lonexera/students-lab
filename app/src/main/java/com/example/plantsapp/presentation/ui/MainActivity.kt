@@ -2,6 +2,7 @@ package com.example.plantsapp.presentation.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
@@ -14,11 +15,25 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+    private val binding: ActivityMainBinding by lazy {
+        ActivityMainBinding.inflate(layoutInflater)
+    }
+
+    // TODO maybe find a more proper way to handle bottom navigation visibility
+    private val bottomBarVisibilityCallback =
+        BottomBarVisibilityCallback { isBottomBarVisible ->
+            binding.bottomNavigation.isVisible = isBottomBarVisible
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        supportFragmentManager.registerFragmentLifecycleCallbacks(
+            bottomBarVisibilityCallback,
+            false
+        )
 
         binding.bottomNavigation.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
@@ -34,5 +49,13 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.commit {
             replace(R.id.fragment_container, fragment)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        supportFragmentManager.unregisterFragmentLifecycleCallbacks(
+            bottomBarVisibilityCallback
+        )
     }
 }

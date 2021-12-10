@@ -28,7 +28,7 @@ class TasksForDaysFragment : Fragment(R.layout.fragment_tasks_for_days) {
         with(viewModel) {
             todayDate.observe(viewLifecycleOwner) {
                 binding.vpTasks.adapter = TasksForDaysPagerAdapter(
-                    requireActivity(),
+                    this@TasksForDaysFragment,
                     it
                 )
 
