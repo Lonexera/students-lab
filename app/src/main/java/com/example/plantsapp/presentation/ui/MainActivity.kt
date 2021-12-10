@@ -9,6 +9,7 @@ import androidx.fragment.app.commit
 import com.example.plantsapp.R
 import com.example.plantsapp.databinding.ActivityMainBinding
 import com.example.plantsapp.presentation.ui.plants.PlantsFragment
+import com.example.plantsapp.presentation.ui.profile.ProfileFragment
 import com.example.plantsapp.presentation.ui.tasksfordays.TasksForDaysFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -39,6 +40,7 @@ class MainActivity : AppCompatActivity() {
             when (menuItem.itemId) {
                 R.id.bottom_nav_tasks -> openFragment(TasksForDaysFragment())
                 R.id.bottom_nav_plants -> openFragment(PlantsFragment())
+                R.id.bottom_nav_profile -> openFragment(ProfileFragment())
             }
             true
         }

@@ -1,0 +1,24 @@
+package com.example.plantsapp.presentation.ui.profile
+
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.plantsapp.di.module.FirebaseQualifier
+import com.example.plantsapp.domain.model.User
+import com.example.plantsapp.domain.repository.UserRepository
+import com.example.plantsapp.domain.usecase.SignOutUseCase
+import com.example.plantsapp.presentation.core.Event
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+
+@HiltViewModel
+class ProfileViewModel @Inject constructor(
+    private val signOutUseCase: SignOutUseCase,
+    @FirebaseQualifier private val userRepository: UserRepository
+) : ViewModel() {
+
+    private val _user: MutableLiveData<User> = MutableLiveData(userRepository.requireUser())
+    val user: LiveData<User> get() = _user
+
+}
