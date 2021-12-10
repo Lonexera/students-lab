@@ -3,9 +3,9 @@ package com.example.plantsapp.data.usecase
 import com.example.plantsapp.di.module.FirebaseQualifier
 import com.example.plantsapp.domain.repository.UserRepository
 import com.example.plantsapp.domain.usecase.SignOutUseCase
-import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class SignOutUseCaseImpl @Inject constructor(
@@ -16,7 +16,7 @@ class SignOutUseCaseImpl @Inject constructor(
 
     override suspend fun invoke() {
         auth.signOut()
-        Auth.GoogleSignInApi.signOut(googleSignInClient.asGoogleApiClient())
+        googleSignInClient.signOut().await()
         userRepository.signOut()
     }
 }

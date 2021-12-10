@@ -6,4 +6,5 @@ interface UserRepository {
     fun setUser(user: User)
     fun requireUser(): User
     fun isAuthorized(): Boolean
+    fun signOut()
 }

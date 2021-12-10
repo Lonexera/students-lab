@@ -10,6 +10,7 @@ import com.example.plantsapp.domain.repository.UserRepository
 import com.example.plantsapp.domain.usecase.SignOutUseCase
 import com.example.plantsapp.presentation.core.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,4 +22,13 @@ class ProfileViewModel @Inject constructor(
     private val _user: MutableLiveData<User> = MutableLiveData(userRepository.requireUser())
     val user: LiveData<User> get() = _user
 
+    private val _navigateToAuth: MutableLiveData<Event<Unit>> = MutableLiveData()
+    val navigateToAuth: LiveData<Event<Unit>> get() = _navigateToAuth
+
+    fun onSignOutClick() {
+        viewModelScope.launch {
+            signOutUseCase()
+            _navigateToAuth.value = Event(Unit)
+        }
+    }
 }

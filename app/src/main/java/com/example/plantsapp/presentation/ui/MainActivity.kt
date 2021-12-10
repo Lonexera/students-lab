@@ -36,6 +36,8 @@ class MainActivity : AppCompatActivity() {
             false
         )
 
+        // TODO set selected item on visible fragment
+        // can be visible Tasks but selected Profile - after signing out and signing in
         binding.bottomNavigation.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.bottom_nav_tasks -> openFragment(TasksForDaysFragment())
