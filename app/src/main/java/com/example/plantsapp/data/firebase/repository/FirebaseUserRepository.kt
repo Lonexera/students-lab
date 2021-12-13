@@ -8,14 +8,13 @@ import javax.inject.Singleton
 @Singleton
 class FirebaseUserRepository @Inject constructor() : UserRepository {
 
-    override var user: User? = null
-    private set
+    private var user: User? = null
 
     override fun setUser(user: User) {
         this.user = user
     }
 
-    override fun requireUser(): User = user!!
+    override fun requireUser(): User = user ?: throw IllegalStateException("User was not authorized!")
 
     override fun isAuthorized(): Boolean = (user != null)
 }

@@ -4,6 +4,7 @@ import android.net.Uri
 import com.example.plantsapp.data.firebase.entity.FirebasePlant
 import com.example.plantsapp.di.module.FirebaseQualifier
 import com.example.plantsapp.domain.model.Plant
+import com.example.plantsapp.domain.model.User
 import com.example.plantsapp.domain.repository.PlantsRepository
 import com.example.plantsapp.domain.repository.UserRepository
 import com.google.firebase.firestore.DocumentReference
@@ -94,7 +95,11 @@ class FirebasePlantsRepository @Inject constructor(
     }
 
     private suspend fun addImageToStorage(picture: Uri): Uri {
-        val storageImagePath = getPictureStoragePath(picture.lastPathSegment!!)
+        val storageImagePath = getPictureStoragePath(
+            user = userRepository.requireUser(),
+            pictureName = picture.lastPathSegment
+                ?: throw IllegalArgumentException("Provided picture uri has unsupported name!")
+        )
         return storageRef
             .child(storageImagePath)
             .apply {
@@ -105,9 +110,9 @@ class FirebasePlantsRepository @Inject constructor(
             .await()
     }
 
-    private fun getPictureStoragePath(pictureName: String): String {
+    private fun getPictureStoragePath(user: User, pictureName: String): String {
         return buildString {
-            append(userRepository.requireUser().uid)
+            append(user.uid)
             append("/")
             append(STORAGE_PICTURES_DIR_PATH)
             append(pictureName)

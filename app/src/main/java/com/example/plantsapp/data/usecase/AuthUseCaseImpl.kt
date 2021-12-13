@@ -23,7 +23,7 @@ class AuthUseCaseImpl @Inject constructor(
                 userRepository.setUser(
                     User(
                         uid = it.uid,
-                        name = it.displayName!!,
+                        name = it.displayName ?: "No Name",
                         profilePicture = it.photoUrl
                     )
                 )
