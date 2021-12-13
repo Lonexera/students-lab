@@ -17,6 +17,6 @@ class SignOutUseCaseImpl @Inject constructor(
     override suspend fun invoke() {
         auth.signOut()
         googleSignInClient.signOut().await()
-        userRepository.signOut()
+        userRepository.clearUser()
     }
 }

@@ -19,8 +19,7 @@ class ProfileViewModel @Inject constructor(
     @FirebaseQualifier private val userRepository: UserRepository
 ) : ViewModel() {
 
-    private val _user: MutableLiveData<User> = MutableLiveData(userRepository.requireUser())
-    val user: LiveData<User> get() = _user
+    val user: LiveData<User> = MutableLiveData(userRepository.requireUser())
 
     private val _navigateToAuth: MutableLiveData<Event<Unit>> = MutableLiveData()
     val navigateToAuth: LiveData<Event<Unit>> get() = _navigateToAuth
