@@ -1,7 +1,7 @@
 package com.example.plantsapp.data.usecase
 
+import com.example.plantsapp.data.firebase.utils.toUser
 import com.example.plantsapp.di.module.FirebaseQualifier
-import com.example.plantsapp.domain.model.User
 import com.example.plantsapp.domain.repository.UserRepository
 import com.example.plantsapp.domain.usecase.AuthUseCase
 import com.google.firebase.auth.FirebaseAuth
@@ -20,14 +20,7 @@ class AuthUseCaseImpl @Inject constructor(
     override suspend fun invoke(input: AuthUseCase.AuthInput) {
         getSignedInFirebaseUser(input.token)
             ?.let {
-                userRepository.setUser(
-                    // TODO handle situation when user has no displayName and remove !!
-                    User(
-                        uid = it.uid,
-                        name = it.displayName!!,
-                        profilePicture = it.photoUrl
-                    )
-                )
+                userRepository.setUser(it.toUser())
             } ?: throw IllegalStateException("Cannot sign in")
     }
 

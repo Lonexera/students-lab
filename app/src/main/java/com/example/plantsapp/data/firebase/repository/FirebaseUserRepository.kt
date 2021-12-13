@@ -1,5 +1,6 @@
 package com.example.plantsapp.data.firebase.repository
 
+import com.example.plantsapp.data.firebase.utils.toUser
 import com.example.plantsapp.domain.model.User
 import com.example.plantsapp.domain.repository.UserRepository
 import com.google.firebase.auth.FirebaseAuth
@@ -11,14 +12,7 @@ class FirebaseUserRepository @Inject constructor(
     private val auth: FirebaseAuth
 ) : UserRepository {
 
-    private var user: User? =
-        auth.currentUser?.let {
-            User(
-                uid = it.uid,
-                name = it.displayName!!,
-                profilePicture = it.photoUrl
-            )
-        }
+    private var user: User? = auth.currentUser?.toUser()
 
     override fun setUser(user: User) {
         this.user = user
