@@ -21,9 +21,10 @@ class AuthUseCaseImpl @Inject constructor(
         getSignedInFirebaseUser(input.token)
             ?.let {
                 userRepository.setUser(
+                    // TODO handle situation when user has no displayName and remove !!
                     User(
                         uid = it.uid,
-                        name = it.displayName ?: "No Name",
+                        name = it.displayName!!,
                         profilePicture = it.photoUrl
                     )
                 )

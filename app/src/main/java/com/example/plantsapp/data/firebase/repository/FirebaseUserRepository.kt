@@ -2,13 +2,23 @@ package com.example.plantsapp.data.firebase.repository
 
 import com.example.plantsapp.domain.model.User
 import com.example.plantsapp.domain.repository.UserRepository
+import com.google.firebase.auth.FirebaseAuth
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class FirebaseUserRepository @Inject constructor() : UserRepository {
+class FirebaseUserRepository @Inject constructor(
+    private val auth: FirebaseAuth
+) : UserRepository {
 
-    private var user: User? = null
+    private var user: User? =
+        auth.currentUser?.let {
+            User(
+                uid = it.uid,
+                name = it.displayName!!,
+                profilePicture = it.photoUrl
+            )
+        }
 
     override fun setUser(user: User) {
         this.user = user
