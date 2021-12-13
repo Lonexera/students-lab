@@ -1,6 +1,8 @@
 package com.example.plantsapp.data.usecase
 
-import com.example.plantsapp.domain.model.User
+import com.example.plantsapp.data.firebase.utils.toUser
+import com.example.plantsapp.di.module.FirebaseQualifier
+import com.example.plantsapp.domain.repository.UserRepository
 import com.example.plantsapp.domain.usecase.AuthUseCase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -10,17 +12,15 @@ import java.lang.IllegalStateException
 import javax.inject.Inject
 
 class AuthUseCaseImpl @Inject constructor(
-    private val auth: FirebaseAuth
+    private val auth: FirebaseAuth,
+    @FirebaseQualifier private val userRepository: UserRepository
 ) : AuthUseCase {
 
     @Throws(IllegalStateException::class)
-    override suspend fun invoke(input: AuthUseCase.AuthInput): User {
-        return getSignedInFirebaseUser(input.token)
+    override suspend fun invoke(input: AuthUseCase.AuthInput) {
+        getSignedInFirebaseUser(input.token)
             ?.let {
-                User(
-                    name = it.displayName!!,
-                    profilePicture = it.photoUrl
-                )
+                userRepository.setUser(it.toUser())
             } ?: throw IllegalStateException("Cannot sign in")
     }
 

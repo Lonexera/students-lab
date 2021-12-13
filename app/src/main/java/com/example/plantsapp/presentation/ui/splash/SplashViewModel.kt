@@ -3,14 +3,15 @@ package com.example.plantsapp.presentation.ui.splash
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.plantsapp.di.module.FirebaseQualifier
+import com.example.plantsapp.domain.repository.UserRepository
 import com.example.plantsapp.presentation.core.Event
-import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
-    private val auth: FirebaseAuth
+    @FirebaseQualifier private val userRepository: UserRepository
 ) : ViewModel() {
 
     enum class Directions {
@@ -22,10 +23,10 @@ class SplashViewModel @Inject constructor(
     val navigate: LiveData<Event<Directions>> get() = _navigate
 
     init {
-        val event = if (auth.currentUser == null) {
-            Directions.AUTH_SCREEN
-        } else {
+        val event = if (userRepository.isAuthorized()) {
             Directions.TASKS_SCREEN
+        } else {
+            Directions.AUTH_SCREEN
         }
 
         _navigate.value = Event(event)
