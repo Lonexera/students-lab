@@ -21,6 +21,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
     private val binding: FragmentProfileBinding by viewBinding(FragmentProfileBinding::bind)
     private val viewModel: ProfileViewModel by viewModels()
+    private var isSignOutBtnVisible = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +34,8 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         with(viewModel) {
             user.observe(viewLifecycleOwner) { user ->
                 showUserProfile(user)
+                isSignOutBtnVisible = true
+                requireActivity().invalidateOptionsMenu()
             }
 
             navigateToAuth.observe(viewLifecycleOwner) {
@@ -68,5 +71,11 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        super.onPrepareOptionsMenu(menu)
+        menu.findItem(R.id.action_sign_out)
+            .isVisible = isSignOutBtnVisible
     }
 }
