@@ -1,5 +1,6 @@
 package com.example.plantsapp.presentation.ui.profile
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -21,7 +22,6 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
     private val binding: FragmentProfileBinding by viewBinding(FragmentProfileBinding::bind)
     private val viewModel: ProfileViewModel by viewModels()
-    private var isSignOutBtnVisible = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,8 +34,6 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         with(viewModel) {
             user.observe(viewLifecycleOwner) { user ->
                 showUserProfile(user)
-                isSignOutBtnVisible = true
-                requireActivity().invalidateOptionsMenu()
             }
 
             navigateToAuth.observe(viewLifecycleOwner) {
@@ -61,21 +59,35 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_profile_appbar, menu)
+        with(viewModel) {
+            isSignOutBtnVisible.observe(viewLifecycleOwner) {
+                menu.findItem(R.id.action_sign_out)
+                    .isVisible = it
+            }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_sign_out -> {
-                viewModel.onSignOutClick()
+                showDialogSignOutConfirm()
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        super.onPrepareOptionsMenu(menu)
-        menu.findItem(R.id.action_sign_out)
-            .isVisible = isSignOutBtnVisible
+    private fun showDialogSignOutConfirm() {
+        AlertDialog.Builder(requireContext())
+            .setTitle(R.string.title_sign_out_dialog_confirmation)
+            .setMessage(R.string.msg_sign_out_dialog_confirmation)
+            .setPositiveButton(R.string.title_sign_out_dialog_btn_positive) { _, _ ->
+                viewModel.onSignOutClick()
+            }
+            .setNegativeButton(R.string.title_sign_out_dialog_btn_negative) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .create()
+            .show()
     }
 }
