@@ -64,5 +64,9 @@
 
     <!-- Profile Screen -->
     <string name="title_btn_sign_out">Sign out</string>
+    <string name="title_sign_out_dialog_confirmation">Sign Out</string>
+    <string name="msg_sign_out_dialog_confirmation">Are you sure you want to sign out?</string>
+    <string name="title_sign_out_dialog_btn_positive">Yes</string>
+    <string name="title_sign_out_dialog_btn_negative">No</string>
 
 </resources>
