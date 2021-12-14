@@ -19,6 +19,7 @@
     <string name="hint_watering_frequency">Watering Frequency</string>
     <string name="hint_spraying_frequency">Spraying Frequency</string>
     <string name="hint_loosening_frequency">Loosening Frequency</string>
+    <string name="hint_taking_photo_frequency">Taking Photo Frequency</string>
     <string name="title_button_save">Save</string>
 
     <plurals name="msg_creation_frequency_units">
@@ -31,6 +32,7 @@
     <string name="error_invalid_watering_frequency">Select watering frequency</string>
     <string name="error_invalid_spraying_frequency">Select spraying frequency</string>
     <string name="error_invalid_loosening_frequency">Select loosening frequency</string>
+    <string name="error_invalid_taking_photo_frequency">Select taking photo frequency</string>
     <string name="error_indistinctive_name">Plant with this name already exists!</string>
     <string name="error_copying_image">Cannot copy image from Gallery</string>
 
@@ -47,6 +49,7 @@
     <string name="title_watering_task">Watering</string>
     <string name="title_spraying_task">Spraying</string>
     <string name="title_loosening_task">Loosening soil</string>
+    <string name="title_taking_photo_task">Taking photo</string>
     <string name="title_plant_tasks">Tasks:</string>
     <string name="title_btn_uncompleted_state">Complete</string>
     <string name="title_btn_completed_state">Completed</string>
@@ -57,6 +60,7 @@
     <string name="msg_notification_task_watering">Don\'t forget to water %s</string>
     <string name="msg_notification_task_spraying">Don\'t forget to spray %s</string>
     <string name="msg_notification_task_loosening">Don\'t forget to loosen soil for %s</string>
+    <string name="msg_notification_task_taking_photo">Don\'t forget to take photo of %s</string>
     <string name="title_notification_complete_button">Complete</string>
 
     <!-- Authentication Screen -->

@@ -130,6 +130,7 @@ class TaskNotificationManager @Inject constructor(
                 is Task.WateringTask -> R.string.msg_notification_task_watering
                 is Task.SprayingTask -> R.string.msg_notification_task_spraying
                 is Task.LooseningTask -> R.string.msg_notification_task_loosening
+                is Task.TakingPhotoTask -> R.string.msg_notification_task_taking_photo
             },
             plantName
         )

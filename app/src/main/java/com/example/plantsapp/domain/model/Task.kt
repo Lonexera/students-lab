@@ -24,4 +24,10 @@ sealed class Task {
         override val lastUpdateDate: Date,
         override val id: Int = 0
     ) : Task()
+
+    data class TakingPhotoTask(
+        override val frequency: Int,
+        override val lastUpdateDate: Date,
+        override val id: Int = 0
+    ) : Task()
 }

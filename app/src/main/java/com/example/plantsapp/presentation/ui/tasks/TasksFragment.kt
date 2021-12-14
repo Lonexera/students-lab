@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.plantsapp.R
 import com.example.plantsapp.databinding.FragmentTasksBinding
+import com.example.plantsapp.presentation.ui.plantcreation.CameraContract
 import com.example.plantsapp.presentation.ui.tasks.adapter.PlantWithTasksAdapter
+import com.example.plantsapp.presentation.ui.utils.getCameraImageOutputUri
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Date
 import javax.inject.Inject
@@ -29,6 +31,14 @@ class TasksFragment : Fragment(R.layout.fragment_tasks) {
     private val plantsWithTasksAdapter = PlantWithTasksAdapter { (plant, task) ->
         tasksViewModel.onCompleteTaskClicked(plant, task)
     }
+    private val cameraLauncher =
+        registerForActivityResult(
+            CameraContract()
+        ) { uri ->
+            uri?.let {
+                tasksViewModel.onImageCaptured(uri)
+            }
+        }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -36,6 +46,14 @@ class TasksFragment : Fragment(R.layout.fragment_tasks) {
         with(tasksViewModel) {
             plantsWithTasks.observe(viewLifecycleOwner) {
                 plantsWithTasksAdapter.submitList(it)
+            }
+
+            launchCamera.observe(viewLifecycleOwner) {
+                it.getContentIfNotHandled()?.let {
+                    cameraLauncher.launch(
+                        requireContext().getCameraImageOutputUri()
+                    )
+                }
             }
         }
 

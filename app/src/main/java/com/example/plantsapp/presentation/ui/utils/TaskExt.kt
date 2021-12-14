@@ -8,6 +8,7 @@ fun Task.getTitleRes(): Int {
         is Task.WateringTask -> R.string.title_watering_task
         is Task.SprayingTask -> R.string.title_spraying_task
         is Task.LooseningTask -> R.string.title_loosening_task
+        is Task.TakingPhotoTask -> R.string.title_taking_photo_task
     }
 }
 
@@ -16,5 +17,6 @@ fun Task.getIconRes(): Int {
         is Task.WateringTask -> R.drawable.ic_watering
         is Task.SprayingTask -> R.drawable.ic_spraying
         is Task.LooseningTask -> R.drawable.ic_watering
+        is Task.TakingPhotoTask -> R.drawable.ic_taking_photo
     }
 }

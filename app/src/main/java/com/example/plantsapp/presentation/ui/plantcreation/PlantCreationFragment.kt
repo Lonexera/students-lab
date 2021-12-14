@@ -79,6 +79,9 @@ class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
                 frequenciesModel.looseningFrequency?.let {
                     binding.etCreationLooseningFrequency.setTextWithUnits(it)
                 }
+                frequenciesModel.takingPhotoFrequency?.let {
+                    binding.etCreationTakingPhotoFrequency.setTextWithUnits(it)
+                }
             }
         }
     }
@@ -126,6 +129,12 @@ class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
             frequencyAdapter,
             valuesList,
             creationViewModel::onLooseningFrequencySelected
+        )
+
+        binding.etCreationTakingPhotoFrequency.setUpWithAdapter(
+            frequencyAdapter,
+            valuesList,
+            creationViewModel::onTakingPhotoFrequencySelected
         )
     }
 
