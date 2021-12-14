@@ -32,7 +32,8 @@ class PlantCreationViewModel @Inject constructor(
     data class PlantTaskFrequencies(
         val wateringFrequency: Int?,
         val sprayingFrequency: Int?,
-        val looseningFrequency: Int?
+        val looseningFrequency: Int?,
+        val takingPhotoFrequency: Int?
     )
 
     private val _toNavigateBack: MutableLiveData<Event<Unit>> = MutableLiveData()
@@ -42,7 +43,7 @@ class PlantCreationViewModel @Inject constructor(
     val selectedPicture: LiveData<Uri> get() = _selectedPicture
 
     private val _frequencies: MutableLiveData<PlantTaskFrequencies> = MutableLiveData(
-        PlantTaskFrequencies(null, null, null)
+        PlantTaskFrequencies(null, null, null, null)
     )
     val frequencies: LiveData<PlantTaskFrequencies> = _frequencies
 
@@ -107,6 +108,10 @@ class PlantCreationViewModel @Inject constructor(
         _frequencies.value = _frequencies.value?.copy(looseningFrequency = frequency)
     }
 
+    fun onTakingPhotoFrequencySelected(frequency: Int) {
+        _frequencies.value = _frequencies.value?.copy(takingPhotoFrequency = frequency)
+    }
+
     @Suppress(
         "TooGenericExceptionCaught",
         "LongParameterList"
@@ -144,7 +149,8 @@ class PlantCreationViewModel @Inject constructor(
             listOf(
                 Task.WateringTask(frequencies.wateringFrequency!!, todayDate),
                 Task.SprayingTask(frequencies.sprayingFrequency!!, todayDate),
-                Task.LooseningTask(frequencies.looseningFrequency!!, todayDate)
+                Task.LooseningTask(frequencies.looseningFrequency!!, todayDate),
+                Task.TakingPhotoTask(frequencies.takingPhotoFrequency!!, todayDate)
             )
         )
     }

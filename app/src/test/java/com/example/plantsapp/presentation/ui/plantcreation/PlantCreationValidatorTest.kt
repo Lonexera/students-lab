@@ -6,7 +6,7 @@ import org.junit.Test
 
 class PlantCreationValidatorTest {
 
-    private val defaultFrequencies = PlantCreationViewModel.PlantTaskFrequencies(null, null, null)
+    private val defaultFrequencies = PlantCreationViewModel.PlantTaskFrequencies(null, null, null, null)
 
     private fun PlantCreationValidator.validateDefault(
         plantName: String = "",
@@ -33,7 +33,8 @@ class PlantCreationValidatorTest {
             frequencies = defaultFrequencies.copy(
                 wateringFrequency = 1,
                 sprayingFrequency = 3,
-                looseningFrequency = 5
+                looseningFrequency = 5,
+                takingPhotoFrequency = 2
             )
         )
 
@@ -50,7 +51,8 @@ class PlantCreationValidatorTest {
             frequencies = defaultFrequencies.copy(
                 wateringFrequency = 3,
                 sprayingFrequency = 4,
-                looseningFrequency = 1
+                looseningFrequency = 1,
+                takingPhotoFrequency = 2
             )
         )
 
@@ -67,7 +69,8 @@ class PlantCreationValidatorTest {
             speciesName = "Cactus",
             frequencies = defaultFrequencies.copy(
                 sprayingFrequency = 3,
-                looseningFrequency = 5
+                looseningFrequency = 5,
+                takingPhotoFrequency = 2
             )
         )
 
@@ -84,7 +87,8 @@ class PlantCreationValidatorTest {
             speciesName = "Cactus",
             frequencies = defaultFrequencies.copy(
                 wateringFrequency = 4,
-                looseningFrequency = 5
+                looseningFrequency = 5,
+                takingPhotoFrequency = 2
             )
         )
 
@@ -101,7 +105,8 @@ class PlantCreationValidatorTest {
             speciesName = "Cactus",
             frequencies = defaultFrequencies.copy(
                 wateringFrequency = 3,
-                sprayingFrequency = 3
+                sprayingFrequency = 3,
+                takingPhotoFrequency = 2
             )
         )
 
@@ -117,7 +122,8 @@ class PlantCreationValidatorTest {
             frequencies = defaultFrequencies.copy(
                 wateringFrequency = 2,
                 sprayingFrequency = 4,
-                looseningFrequency = 22
+                looseningFrequency = 22,
+                takingPhotoFrequency = 2
             )
         )
 
@@ -145,7 +151,8 @@ class PlantCreationValidatorTest {
             speciesName = "Cactus",
             frequencies = defaultFrequencies.copy(
                 sprayingFrequency = 3,
-                looseningFrequency = 4
+                looseningFrequency = 4,
+                takingPhotoFrequency = 2
             )
         )
 
@@ -163,7 +170,8 @@ class PlantCreationValidatorTest {
             frequencies = defaultFrequencies.copy(
                 wateringFrequency = 3,
                 sprayingFrequency = 4,
-                looseningFrequency = 12
+                looseningFrequency = 12,
+                takingPhotoFrequency = 2
             )
         )
 
