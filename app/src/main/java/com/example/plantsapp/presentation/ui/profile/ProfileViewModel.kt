@@ -19,16 +19,10 @@ class ProfileViewModel @Inject constructor(
     @FirebaseQualifier private val userRepository: UserRepository
 ) : ViewModel() {
 
-    val user: LiveData<User>
-    val isSignOutBtnVisible: LiveData<Boolean>
+    val user: LiveData<User> = MutableLiveData(userRepository.requireUser())
 
     private val _navigateToAuth: MutableLiveData<Event<Unit>> = MutableLiveData()
     val navigateToAuth: LiveData<Event<Unit>> get() = _navigateToAuth
-
-    init {
-        user = MutableLiveData(userRepository.requireUser())
-        isSignOutBtnVisible = MutableLiveData(true)
-    }
 
     fun onSignOutClick() {
         viewModelScope.launch {

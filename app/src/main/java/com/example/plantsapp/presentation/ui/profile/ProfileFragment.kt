@@ -59,12 +59,6 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_profile_appbar, menu)
-        with(viewModel) {
-            isSignOutBtnVisible.observe(viewLifecycleOwner) {
-                menu.findItem(R.id.action_sign_out)
-                    .isVisible = it
-            }
-        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
