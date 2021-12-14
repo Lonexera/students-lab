@@ -8,11 +8,11 @@ import androidx.lifecycle.viewModelScope
 import com.example.plantsapp.di.module.FirebaseQualifier
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.model.Task
-import com.example.plantsapp.presentation.model.TaskWithState
 import com.example.plantsapp.domain.repository.PlantsRepository
 import com.example.plantsapp.domain.usecase.CompleteTaskUseCase
 import com.example.plantsapp.domain.usecase.GetTasksForPlantAndDateUseCase
 import com.example.plantsapp.presentation.core.Event
+import com.example.plantsapp.presentation.model.TaskWithState
 import com.example.plantsapp.presentation.ui.utils.isSameDay
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -33,8 +33,7 @@ class TasksViewModel @AssistedInject constructor(
 
     private val _launchCamera: MutableLiveData<Event<Unit>> = MutableLiveData()
     val launchCamera: LiveData<Event<Unit>> = _launchCamera
-    private val takingPhotoTaskWithPlant: MutableLiveData<Pair<Plant, Task>> =
-        MutableLiveData()
+    private var takingPhotoTaskWithPlant: Pair<Plant, Task>? = null
 
     init {
         viewModelScope.launch {
@@ -45,25 +44,30 @@ class TasksViewModel @AssistedInject constructor(
     fun onCompleteTaskClicked(plant: Plant, task: Task) {
         when (task) {
             is Task.TakingPhotoTask -> {
-                takingPhotoTaskWithPlant.value = plant to task
+                takingPhotoTaskWithPlant = plant to task
                 _launchCamera.value = Event(Unit)
             }
-            else -> completeTask(plant, task)
+            else -> {
+                viewModelScope.launch {
+                    completeTask(plant, task)
+                }
+            }
         }
     }
 
     fun onImageCaptured(uri: Uri) {
         // TODO save image in storage
         Timber.d("image uri - $uri")
-        val (plant, task) = takingPhotoTaskWithPlant.value!!
-        completeTask(plant, task)
+        val (plant, task) = takingPhotoTaskWithPlant
+            ?: throw IllegalStateException("Cannot access stored plant and task for taking photo")
+        viewModelScope.launch {
+            completeTask(plant, task)
+        }
     }
 
-    private fun completeTask(plant: Plant, task: Task) {
-        viewModelScope.launch {
-            completeTaskUseCase(plant, task, date)
-            fetchTasks()
-        }
+    private suspend fun completeTask(plant: Plant, task: Task) {
+        completeTaskUseCase(plant, task, date)
+        fetchTasks()
     }
 
     private suspend fun fetchTasks() {
