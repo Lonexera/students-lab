@@ -1,13 +1,8 @@
+@file:Suppress("WildcardImport", "NoWildcardImports")
 package com.example.plantsapp.di.module
 
-import com.example.plantsapp.data.usecase.AuthUseCaseImpl
-import com.example.plantsapp.data.usecase.CompleteTaskUseCaseImpl
-import com.example.plantsapp.data.usecase.GetTasksForPlantAndDateUseCaseImpl
-import com.example.plantsapp.data.usecase.SaveUriInStorageUseCaseImpl
-import com.example.plantsapp.domain.usecase.AuthUseCase
-import com.example.plantsapp.domain.usecase.CompleteTaskUseCase
-import com.example.plantsapp.domain.usecase.GetTasksForPlantAndDateUseCase
-import com.example.plantsapp.domain.usecase.SaveUriInStorageUseCase
+import com.example.plantsapp.data.usecase.*
+import com.example.plantsapp.domain.usecase.*
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -36,4 +31,9 @@ interface UseCaseModule {
     fun bindAuthUseCase(
         authUseCaseImpl: AuthUseCaseImpl
     ): AuthUseCase
+
+    @Binds
+    fun bindSignOutUseCase(
+        signOutUseCaseImpl: SignOutUseCaseImpl
+    ): SignOutUseCase
 }

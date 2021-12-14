@@ -1,24 +1,31 @@
 package com.example.plantsapp.data.firebase.repository
 
-import com.example.plantsapp.data.firebase.utils.toUser
+import android.content.SharedPreferences
+import com.example.plantsapp.data.firebase.utils.user
 import com.example.plantsapp.domain.model.User
 import com.example.plantsapp.domain.repository.UserRepository
-import com.google.firebase.auth.FirebaseAuth
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class FirebaseUserRepository @Inject constructor(
-    private val auth: FirebaseAuth
+    private val sharedPrefs: SharedPreferences
 ) : UserRepository {
 
-    private var user: User? = auth.currentUser?.toUser()
+    private var user: User? = sharedPrefs.user
 
-    override fun setUser(user: User) {
+    override suspend fun setUser(user: User) {
+        sharedPrefs.user = user
         this.user = user
     }
 
-    override fun requireUser(): User = user ?: throw IllegalStateException("User was not authorized!")
+    override fun requireUser(): User =
+        user ?: throw IllegalStateException("User was not authorized!")
 
-    override fun isAuthorized(): Boolean = (user != null)
+    override fun isUserCached(): Boolean = (user != null)
+
+    override suspend fun clearUser() {
+        sharedPrefs.user = null
+        user = null
+    }
 }

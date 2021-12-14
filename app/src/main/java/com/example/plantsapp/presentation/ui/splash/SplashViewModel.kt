@@ -23,7 +23,7 @@ class SplashViewModel @Inject constructor(
     val navigate: LiveData<Event<Directions>> get() = _navigate
 
     init {
-        val event = if (userRepository.isAuthorized()) {
+        val event = if (userRepository.isUserCached()) {
             Directions.TASKS_SCREEN
         } else {
             Directions.AUTH_SCREEN
