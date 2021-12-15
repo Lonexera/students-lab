@@ -1,10 +1,9 @@
 package com.example.plantsapp.data.firebase.repository
 
-import android.net.Uri
 import com.example.plantsapp.data.firebase.entity.FirebasePlant
+import com.example.plantsapp.data.firebase.utils.addImage
 import com.example.plantsapp.di.module.FirebaseQualifier
 import com.example.plantsapp.domain.model.Plant
-import com.example.plantsapp.domain.model.User
 import com.example.plantsapp.domain.repository.PlantsRepository
 import com.example.plantsapp.domain.repository.UserRepository
 import com.google.firebase.firestore.DocumentReference
@@ -67,7 +66,11 @@ class FirebasePlantsRepository @Inject constructor(
 
     override suspend fun addPlant(plant: Plant) {
         val storageImageUri = plant.plantPicture?.let {
-            addImageToStorage(it)
+            storageRef.addImage(
+                user = userRepository.requireUser(),
+                plant = plant,
+                picture = it
+            )
         }
 
         getPlantDocumentByName(plant.name)
@@ -94,35 +97,9 @@ class FirebasePlantsRepository @Inject constructor(
         return plantsCollection.document(plantName.value)
     }
 
-    private suspend fun addImageToStorage(picture: Uri): Uri {
-        val storageImagePath = getPictureStoragePath(
-            user = userRepository.requireUser(),
-            pictureName = picture.lastPathSegment
-                ?: throw IllegalArgumentException("Provided picture uri has unsupported name!")
-        )
-        return storageRef
-            .child(storageImagePath)
-            .apply {
-                putFile(picture)
-                    .await()
-            }
-            .downloadUrl
-            .await()
-    }
-
-    private fun getPictureStoragePath(user: User, pictureName: String): String {
-        return buildString {
-            append(user.uid)
-            append("/")
-            append(STORAGE_PICTURES_DIR_PATH)
-            append(pictureName)
-        }
-    }
-
     companion object {
         // TODO maybe move this collection name somewhere
         private const val KEY_COLLECTION_USERS = "users"
         private const val KEY_COLLECTION_PLANTS = "plants"
-        private const val STORAGE_PICTURES_DIR_PATH = "images/"
     }
 }

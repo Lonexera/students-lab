@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.plantsapp.di.module.FirebaseQualifier
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.model.Task
+import com.example.plantsapp.domain.repository.PlantPhotosRepository
 import com.example.plantsapp.domain.repository.PlantsRepository
 import com.example.plantsapp.domain.usecase.CompleteTaskUseCase
 import com.example.plantsapp.domain.usecase.GetTasksForPlantAndDateUseCase
@@ -17,11 +18,11 @@ import com.example.plantsapp.presentation.ui.utils.isSameDay
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import java.util.Date
 
 class TasksViewModel @AssistedInject constructor(
     @FirebaseQualifier private val plantsRepository: PlantsRepository,
+    @FirebaseQualifier private val plantPhotosRepository: PlantPhotosRepository,
     private val completeTaskUseCase: CompleteTaskUseCase,
     private val getTasksForPlantAndDateUseCase: GetTasksForPlantAndDateUseCase,
     @Assisted private val date: Date
@@ -56,11 +57,11 @@ class TasksViewModel @AssistedInject constructor(
     }
 
     fun onImageCaptured(uri: Uri) {
-        // TODO save image in storage
-        Timber.d("image uri - $uri")
-        val (plant, task) = takingPhotoTaskWithPlant
-            ?: throw IllegalStateException("Cannot access stored plant and task for taking photo")
         viewModelScope.launch {
+            val (plant, task) = takingPhotoTaskWithPlant
+                ?: throw IllegalStateException("Cannot access stored plant and task for taking photo")
+
+            plantPhotosRepository.savePhoto(plant, uri)
             completeTask(plant, task)
         }
     }
