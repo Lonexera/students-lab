@@ -22,35 +22,25 @@ class FirestorePlantPhotosRepository @Inject constructor(
     private val storageRef = storage.reference
 
     override suspend fun savePhoto(plant: Plant, photoUri: Uri) {
-        val photoUrl = storageRef.addImage(
+        storageRef.addImage(
             user = userRepository.requireUser(),
             plant = plant,
             picture = photoUri
         )
-
-        saveImageUrlInDatabase(photoUrl, plant, Date())
     }
 
-    private fun saveImageUrlInDatabase(photoUri: Uri, plant: Plant, creationDate: Date) {
-        getPhotosCollection(plant)
-            .document(creationDate.toString())
-            .set(
-                FirebasePlantPhoto.from(photoUri, creationDate)
-            )
-    }
-
-    private fun getPhotosCollection(plant: Plant): CollectionReference {
+    /*private fun getPhotosCollection(plant: Plant): CollectionReference {
         return firestore
             .collection(KEY_COLLECTION_USERS)
             .document(userRepository.requireUser().uid)
             .collection(KEY_COLLECTION_PLANTS)
             .document(plant.name.value)
             .collection(KEY_COLLECTION_PHOTOS)
-    }
+    }*/
 
-    companion object {
+    /*companion object {
         private const val KEY_COLLECTION_USERS = "users"
         private const val KEY_COLLECTION_PLANTS = "plants"
         private const val KEY_COLLECTION_PHOTOS = "photos"
-    }
+    }*/
 }
