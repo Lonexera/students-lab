@@ -22,9 +22,8 @@ suspend fun StorageReference.addImage(user: User, plant: Plant, picture: Uri): U
         .await()
 }
 
-fun getPictureStoragePath(
+fun getPlantImagesStoragePath(
     userUid: String,
-    pictureName: String,
     plantName: String
 ): String {
     return buildString {
@@ -32,6 +31,16 @@ fun getPictureStoragePath(
         append("/")
         append(STORAGE_PICTURES_DIR_PATH)
         append(plantName)
+    }
+}
+
+private fun getPictureStoragePath(
+    userUid: String,
+    plantName: String,
+    pictureName: String
+): String {
+    return buildString {
+        append(getPlantImagesStoragePath(userUid, plantName))
         append("/")
         append(pictureName)
     }

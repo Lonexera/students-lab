@@ -1,20 +1,18 @@
 package com.example.plantsapp.data.firebase.repository
 
 import android.net.Uri
-import com.example.plantsapp.data.firebase.entity.FirebasePlantPhoto
 import com.example.plantsapp.data.firebase.utils.addImage
+import com.example.plantsapp.data.firebase.utils.getPlantImagesStoragePath
 import com.example.plantsapp.di.module.FirebaseQualifier
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.repository.PlantPhotosRepository
 import com.example.plantsapp.domain.repository.UserRepository
-import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+import kotlinx.coroutines.tasks.await
 import java.util.Date
 import javax.inject.Inject
 
 class FirestorePlantPhotosRepository @Inject constructor(
-    private val firestore: FirebaseFirestore,
     private val storage: FirebaseStorage,
     @FirebaseQualifier private val userRepository: UserRepository
 ) : PlantPhotosRepository {
@@ -29,18 +27,22 @@ class FirestorePlantPhotosRepository @Inject constructor(
         )
     }
 
-    /*private fun getPhotosCollection(plant: Plant): CollectionReference {
-        return firestore
-            .collection(KEY_COLLECTION_USERS)
-            .document(userRepository.requireUser().uid)
-            .collection(KEY_COLLECTION_PLANTS)
-            .document(plant.name.value)
-            .collection(KEY_COLLECTION_PHOTOS)
-    }*/
+    override suspend fun getPlantPhotos(plant: Plant): List<Pair<Uri, Date>> {
+        return storageRef
+            .child(
+                getPlantImagesStoragePath(
+                    userUid = userRepository.requireUser().uid,
+                    plantName = plant.name.value
+                )
+            )
+            .listAll()
+            .await()
+            .items
+            .map {
+                val imageUrl = it.downloadUrl.await()
+                val creationDate = Date(it.metadata.await().creationTimeMillis)
 
-    /*companion object {
-        private const val KEY_COLLECTION_USERS = "users"
-        private const val KEY_COLLECTION_PLANTS = "plants"
-        private const val KEY_COLLECTION_PHOTOS = "photos"
-    }*/
+                imageUrl to creationDate
+            }
+    }
 }
