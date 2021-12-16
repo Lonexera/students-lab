@@ -12,6 +12,7 @@
     <string name="msg_detail_watering_text">Watering frequency: \n every %d days</string>
     <string name="title_button_delete">Delete</string>
     <string name="title_task_detail">%1$s: every %2$s</string>
+    <string name="title_plant_gallery_text">Plant gallery</string>
 
     <!-- Plant Creation Screen -->
     <string name="hint_plant_name">Name</string>
