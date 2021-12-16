@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.plantsapp.databinding.ItemPlantPhotoBinding
+import com.example.plantsapp.presentation.ui.utils.formatDate
 import com.example.plantsapp.presentation.ui.utils.loadPicture
 import java.util.Date
 
@@ -16,7 +17,7 @@ class PlantPhotoViewHolder(
         with(binding) {
             ivPlantPhoto.loadPicture(photoUri)
 
-            tvPhotoCreationDate.text = creationDate.toString() // TODO format date
+            tvPhotoCreationDate.text = creationDate.formatDate(DATE_FORMAT_WITH_YEAR)
         }
     }
 
@@ -25,10 +26,11 @@ class PlantPhotoViewHolder(
             parent: ViewGroup
         ): PlantPhotoViewHolder {
             val inflater = LayoutInflater.from(parent.context)
-            val binding =
-                ItemPlantPhotoBinding.inflate(inflater, parent, false)
+            val binding = ItemPlantPhotoBinding.inflate(inflater, parent, false)
 
             return PlantPhotoViewHolder(binding)
         }
+
+        private const val DATE_FORMAT_WITH_YEAR = "d MMM YYYY"
     }
 }

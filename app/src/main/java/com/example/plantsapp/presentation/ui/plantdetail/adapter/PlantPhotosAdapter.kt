@@ -6,8 +6,7 @@ import androidx.recyclerview.widget.ListAdapter
 import com.example.plantsapp.presentation.model.PlantPhotoWithDateItemCallback
 import java.util.Date
 
-class PlantPhotosAdapter
-    : ListAdapter<Pair<Uri, Date>, PlantPhotoViewHolder>(PlantPhotoWithDateItemCallback()) {
+class PlantPhotosAdapter : ListAdapter<Pair<Uri, Date>, PlantPhotoViewHolder>(PlantPhotoWithDateItemCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlantPhotoViewHolder {
         return PlantPhotoViewHolder.create(parent)

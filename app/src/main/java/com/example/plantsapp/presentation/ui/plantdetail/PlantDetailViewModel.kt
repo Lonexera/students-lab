@@ -15,7 +15,7 @@ import com.example.plantsapp.presentation.core.Event
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
-import java.util.*
+import java.util.Date
 
 class PlantDetailViewModel @AssistedInject constructor(
     @FirebaseQualifier private val plantsRepository: PlantsRepository,
@@ -28,8 +28,8 @@ class PlantDetailViewModel @AssistedInject constructor(
     val plant: LiveData<Plant> get() = _plant
     private val _tasks: MutableLiveData<List<Task>> = MutableLiveData()
     val tasks: LiveData<List<Task>> get() = _tasks
-    private val _photos: MutableLiveData<List<Pair<Uri, Date>>> = MutableLiveData()
-    val photos: LiveData<List<Pair<Uri, Date>>> get() = _photos
+    private val _plantPhotos: MutableLiveData<List<Pair<Uri, Date>>> = MutableLiveData()
+    val plantPhotos: LiveData<List<Pair<Uri, Date>>> get() = _plantPhotos
 
     private val _toNavigateBack: MutableLiveData<Event<Unit>> = MutableLiveData()
     val toNavigateBack: LiveData<Event<Unit>> get() = _toNavigateBack
@@ -39,7 +39,9 @@ class PlantDetailViewModel @AssistedInject constructor(
             plantsRepository.getPlantByName(Plant.Name(plantName)).run {
                 _plant.value = this
                 _tasks.value = tasksRepository.getTasksForPlant(this)
-                _photos.value = plantPhotosRepository.getPlantPhotos(this)
+                _plantPhotos.value = plantPhotosRepository
+                    .getPlantPhotos(this)
+                    .sortedByDescending { (_, creationDate) -> creationDate.time }
             }
         }
     }

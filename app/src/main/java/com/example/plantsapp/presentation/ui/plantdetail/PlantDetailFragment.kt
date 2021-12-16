@@ -3,9 +3,9 @@ package com.example.plantsapp.presentation.ui.plantdetail
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.plantsapp.R
@@ -50,8 +50,9 @@ class PlantDetailFragment : Fragment(R.layout.fragment_plant_detail) {
                 tasksAdapter.submitList(it)
             }
 
-            photos.observe(viewLifecycleOwner) {
-                photosAdapter.submitList(it)
+            plantPhotos.observe(viewLifecycleOwner) { photos ->
+                photosAdapter.submitList(photos)
+                setPlantGalleryVisibility(isVisible = photos.isNotEmpty())
             }
         }
 
@@ -81,11 +82,22 @@ class PlantDetailFragment : Fragment(R.layout.fragment_plant_detail) {
             }
 
             rvPlantPhotos.apply {
-                layoutManager = GridLayoutManager(context, 3)
+                layoutManager = LinearLayoutManager(
+                    context,
+                    LinearLayoutManager.HORIZONTAL,
+                    false
+                )
                 adapter = photosAdapter
             }
 
             btnDelete.isEnabled = true
+        }
+    }
+
+    private fun setPlantGalleryVisibility(isVisible: Boolean) {
+        with(binding) {
+            tvPlantGalleryText.isVisible = isVisible
+            rvPlantPhotos.isVisible = isVisible
         }
     }
 
