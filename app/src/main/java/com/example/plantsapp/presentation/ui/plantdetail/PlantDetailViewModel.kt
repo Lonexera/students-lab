@@ -39,6 +39,7 @@ class PlantDetailViewModel @AssistedInject constructor(
             plantsRepository.getPlantByName(Plant.Name(plantName)).run {
                 _plant.value = this
                 _tasks.value = tasksRepository.getTasksForPlant(this)
+                // TODO Add loading for whole screen
                 _plantPhotos.value = plantPhotosRepository
                     .getPlantPhotos(this)
                     .sortedByDescending { (_, creationDate) -> creationDate.time }

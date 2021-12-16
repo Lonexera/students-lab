@@ -6,7 +6,6 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.plantsapp.R
 import com.example.plantsapp.databinding.FragmentPlantDetailBinding
@@ -52,7 +51,7 @@ class PlantDetailFragment : Fragment(R.layout.fragment_plant_detail) {
 
             plantPhotos.observe(viewLifecycleOwner) { photos ->
                 photosAdapter.submitList(photos)
-                setPlantGalleryVisibility(isVisible = photos.isNotEmpty())
+                binding.clPlantGallery.isVisible = photos.isNotEmpty()
             }
         }
 
@@ -76,28 +75,10 @@ class PlantDetailFragment : Fragment(R.layout.fragment_plant_detail) {
                 plant.speciesName
             )
 
-            rvDetailTasks.apply {
-                layoutManager = LinearLayoutManager(context)
-                adapter = tasksAdapter
-            }
-
-            rvPlantPhotos.apply {
-                layoutManager = LinearLayoutManager(
-                    context,
-                    LinearLayoutManager.HORIZONTAL,
-                    false
-                )
-                adapter = photosAdapter
-            }
+            rvDetailTasks.adapter = tasksAdapter
+            rvPlantPhotos.adapter = photosAdapter
 
             btnDelete.isEnabled = true
-        }
-    }
-
-    private fun setPlantGalleryVisibility(isVisible: Boolean) {
-        with(binding) {
-            tvPlantGalleryText.isVisible = isVisible
-            rvPlantPhotos.isVisible = isVisible
         }
     }
 
