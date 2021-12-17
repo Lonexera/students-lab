@@ -102,8 +102,7 @@ class TaskNotificationManager @Inject constructor(
             .addAction(
                 R.drawable.ic_complete,
                 context.getString(R.string.title_notification_complete_button),
-                NotificationBroadcastReceiver.createCompletePendingIntent(
-                    context = context,
+                context.getPendingIntentForCompleteAction(
                     task = task,
                     notificationId = notificationId,
                     requestCode = notificationId,
@@ -134,6 +133,26 @@ class TaskNotificationManager @Inject constructor(
             },
             plantName
         )
+    }
+
+    private fun Context.getPendingIntentForCompleteAction(
+        task: Task,
+        notificationId: Int,
+        requestCode: Int,
+        plantName: Plant.Name
+    ): PendingIntent {
+        return when (task) {
+            is Task.TakingPhotoTask -> clickPendingIntent
+            else -> {
+                NotificationBroadcastReceiver.createCompletePendingIntent(
+                    context = this,
+                    task = task,
+                    notificationId = notificationId,
+                    requestCode = requestCode,
+                    plantName = plantName
+                )
+            }
+        }
     }
 
     companion object {
