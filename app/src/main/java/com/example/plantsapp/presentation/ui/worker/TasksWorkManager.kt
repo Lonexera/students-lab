@@ -6,13 +6,26 @@ import android.content.Context
 import androidx.work.*
 import com.example.plantsapp.presentation.ui.notification.NotificationWorker
 import com.example.plantsapp.presentation.ui.utils.calculateDelay
+import dagger.hilt.android.qualifiers.ApplicationContext
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
-class TasksWorkManager(appContext: Context) {
+class TasksWorkManager @Inject constructor(
+    @ApplicationContext appContext: Context
+) {
     private val workManager = WorkManager.getInstance(appContext)
 
-    fun startNotificationWork(startDate: Calendar) {
+    fun startWork(startDate: Calendar) {
+        startNotificationWork(startDate)
+        startReschedulingWork(startDate)
+    }
+
+    fun cancelAllWork() {
+        workManager.cancelAllWork()
+    }
+
+    private fun startNotificationWork(startDate: Calendar) {
         workManager.enqueueUniquePeriodicWork(
             NotificationWorker.NOTIFICATION_WORK_NAME,
             ExistingPeriodicWorkPolicy.KEEP,
@@ -23,7 +36,7 @@ class TasksWorkManager(appContext: Context) {
         )
     }
 
-    fun startReschedulingWork(startDate: Calendar) {
+    private fun startReschedulingWork(startDate: Calendar) {
         workManager.enqueueUniquePeriodicWork(
             ReschedulingWorker.RESCHEDULING_WORK_NAME,
             ExistingPeriodicWorkPolicy.KEEP,
@@ -32,10 +45,6 @@ class TasksWorkManager(appContext: Context) {
                 startHour = HOUR_OF_RESCHEDULING_WORK_STARTING
             )
         )
-    }
-
-    fun cancelAllWork() {
-        workManager.cancelAllWork()
     }
 
     private inline fun <reified T : ListenableWorker> getEveryDayWorkRequest(

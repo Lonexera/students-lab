@@ -18,7 +18,6 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(
     private val signOutUseCase: SignOutUseCase,
     @FirebaseQualifier private val userRepository: UserRepository,
-    private val tasksWorkManager: TasksWorkManager
 ) : ViewModel() {
 
     val user: LiveData<User> = MutableLiveData(userRepository.requireUser())
@@ -29,7 +28,6 @@ class ProfileViewModel @Inject constructor(
     fun onSignOutClick() {
         viewModelScope.launch {
             signOutUseCase()
-            tasksWorkManager.cancelAllWork()
             _navigateToAuth.value = Event(Unit)
         }
     }
