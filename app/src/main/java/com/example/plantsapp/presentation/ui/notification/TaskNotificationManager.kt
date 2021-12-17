@@ -144,7 +144,6 @@ class TaskNotificationManager @Inject constructor(
         return when (task) {
             is Task.TakingPhotoTask -> clickPendingIntent
             else -> {
-                // TODO - open camera on creation of task
                 NotificationBroadcastReceiver.createCompletePendingIntent(
                     context = this,
                     task = task,
