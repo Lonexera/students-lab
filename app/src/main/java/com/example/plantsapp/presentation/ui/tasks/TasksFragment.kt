@@ -16,9 +16,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.util.Date
 import javax.inject.Inject
 
+// TODO - open camera on creation of task screen
 @AndroidEntryPoint
 class TasksFragment : Fragment(R.layout.fragment_tasks) {
-
     private val binding: FragmentTasksBinding by viewBinding(FragmentTasksBinding::bind)
     @Inject
     lateinit var assistedFactory: TasksViewModelAssistedFactory
