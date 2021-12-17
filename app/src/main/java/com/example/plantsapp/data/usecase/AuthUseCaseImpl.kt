@@ -4,7 +4,7 @@ import com.example.plantsapp.data.firebase.utils.toUser
 import com.example.plantsapp.di.module.FirebaseQualifier
 import com.example.plantsapp.domain.repository.UserRepository
 import com.example.plantsapp.domain.usecase.AuthUseCase
-import com.example.plantsapp.presentation.ui.worker.TasksWorkManager
+import com.example.plantsapp.domain.workmanager.TasksWorkManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider

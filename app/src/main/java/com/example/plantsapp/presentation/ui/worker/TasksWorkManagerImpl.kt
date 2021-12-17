@@ -4,6 +4,7 @@ package com.example.plantsapp.presentation.ui.worker
 
 import android.content.Context
 import androidx.work.*
+import com.example.plantsapp.domain.workmanager.TasksWorkManager
 import com.example.plantsapp.presentation.ui.notification.NotificationWorker
 import com.example.plantsapp.presentation.ui.utils.calculateDelay
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -11,17 +12,17 @@ import java.util.Calendar
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class TasksWorkManager @Inject constructor(
+class TasksWorkManagerImpl @Inject constructor(
     @ApplicationContext appContext: Context
-) {
+) : TasksWorkManager {
     private val workManager = WorkManager.getInstance(appContext)
 
-    fun startWork(startDate: Calendar) {
+    override fun startWork(startDate: Calendar) {
         startNotificationWork(startDate)
         startReschedulingWork(startDate)
     }
 
-    fun cancelAllWork() {
+    override fun cancelAllWork() {
         workManager.cancelAllWork()
     }
 
