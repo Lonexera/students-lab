@@ -9,6 +9,7 @@ import com.example.plantsapp.domain.model.User
 import com.example.plantsapp.domain.repository.UserRepository
 import com.example.plantsapp.domain.usecase.SignOutUseCase
 import com.example.plantsapp.presentation.core.Event
+import com.example.plantsapp.presentation.ui.worker.TasksWorkManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -16,7 +17,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val signOutUseCase: SignOutUseCase,
-    @FirebaseQualifier private val userRepository: UserRepository
+    @FirebaseQualifier private val userRepository: UserRepository,
+    private val tasksWorkManager: TasksWorkManager
 ) : ViewModel() {
 
     val user: LiveData<User> = MutableLiveData(userRepository.requireUser())
@@ -27,6 +29,7 @@ class ProfileViewModel @Inject constructor(
     fun onSignOutClick() {
         viewModelScope.launch {
             signOutUseCase()
+            tasksWorkManager.cancelAllWork()
             _navigateToAuth.value = Event(Unit)
         }
     }

@@ -8,14 +8,17 @@ import androidx.lifecycle.viewModelScope
 import com.example.plantsapp.R
 import com.example.plantsapp.domain.usecase.AuthUseCase
 import com.example.plantsapp.presentation.core.Event
+import com.example.plantsapp.presentation.ui.worker.TasksWorkManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.util.Calendar
 import javax.inject.Inject
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-    private val authUseCase: AuthUseCase
+    private val authUseCase: AuthUseCase,
+    private val tasksWorkManager: TasksWorkManager
 ) : ViewModel() {
 
     sealed class AuthResult {
@@ -35,6 +38,7 @@ class AuthViewModel @Inject constructor(
 
             val event = try {
                 authUseCase(AuthUseCase.AuthInput(token))
+                startWorks(startDate = Calendar.getInstance())
                 AuthResult.NavigateToTasks
             } catch (e: IllegalStateException) {
                 Timber.e(e)
@@ -42,5 +46,10 @@ class AuthViewModel @Inject constructor(
             }
             _authResult.value = Event(event)
         }
+    }
+
+    private fun startWorks(startDate: Calendar) {
+        tasksWorkManager.startNotificationWork(startDate)
+        tasksWorkManager.startReschedulingWork(startDate)
     }
 }
