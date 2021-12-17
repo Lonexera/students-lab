@@ -102,7 +102,7 @@ class TaskNotificationManager @Inject constructor(
             .addAction(
                 R.drawable.ic_complete,
                 context.getString(R.string.title_notification_complete_button),
-                context.getPendingIntentForCompleteAction(
+                context.getPendingIntentForTask(
                     task = task,
                     notificationId = notificationId,
                     requestCode = notificationId,
@@ -135,7 +135,7 @@ class TaskNotificationManager @Inject constructor(
         )
     }
 
-    private fun Context.getPendingIntentForCompleteAction(
+    private fun Context.getPendingIntentForTask(
         task: Task,
         notificationId: Int,
         requestCode: Int,
@@ -144,6 +144,7 @@ class TaskNotificationManager @Inject constructor(
         return when (task) {
             is Task.TakingPhotoTask -> clickPendingIntent
             else -> {
+                // TODO - open camera on creation of task
                 NotificationBroadcastReceiver.createCompletePendingIntent(
                     context = this,
                     task = task,
