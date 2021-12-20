@@ -1,0 +1,10 @@
+plugins {
+    id 'java-library'
+    id 'kotlin'
+    id 'io.gitlab.arturbosch.detekt' version '1.18.1'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_7
+    targetCompatibility = JavaVersion.VERSION_1_7
+}

@@ -78,5 +78,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.google.android.gms:play-services-auth:19.2.0'
 
+    // Statistics Contract
+    implementation project(':plantStatsContract')
+
     detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:1.18.1"
 }
