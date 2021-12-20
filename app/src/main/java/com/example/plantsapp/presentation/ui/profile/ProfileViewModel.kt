@@ -16,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val signOutUseCase: SignOutUseCase,
-    @FirebaseQualifier private val userRepository: UserRepository
+    @FirebaseQualifier private val userRepository: UserRepository,
 ) : ViewModel() {
 
     val user: LiveData<User> = MutableLiveData(userRepository.requireUser())
