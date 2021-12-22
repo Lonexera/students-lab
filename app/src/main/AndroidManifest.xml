@@ -39,9 +39,14 @@
             android:authorities="${applicationId}.androidx-startup"
             tools:node="remove" />
 
-        <receiver android:name=".presentation.ui.notification.broadcastreceiver.NotificationBroadcastReceiver"
+        <receiver
+            android:name=".presentation.ui.notification.broadcastreceiver.NotificationBroadcastReceiver"
             android:exported="true" />
 
+        <provider
+            android:name=".data.contentprovider.PlantsContentProvider"
+            android:authorities="${applicationId}.PlantsContentProvider"
+            android:exported="true" />
     </application>
 
 </manifest>
