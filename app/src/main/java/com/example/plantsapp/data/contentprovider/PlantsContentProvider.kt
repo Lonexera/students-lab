@@ -1,4 +1,3 @@
-@file:Suppress("WildcardImport", "NoWildcardImports")
 package com.example.plantsapp.data.contentprovider
 
 import android.content.ContentProvider
@@ -9,7 +8,7 @@ import android.net.Uri
 import com.example.plantsapp.di.module.FirebaseQualifier
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.repository.PlantsRepository
-import com.example.plantstatscontract.*
+import com.example.plantstatscontract.PlantStatisticsContract
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
@@ -25,18 +24,19 @@ class PlantsContentProvider : ContentProvider() {
         fun plantsRepository(): PlantsRepository
     }
 
+    private lateinit var hiltEntryPoint: PlantsContentProviderEntryPoint
     private val plantsRepository: PlantsRepository by lazy {
-        val appContext = context?.applicationContext
-            ?: throw IllegalStateException("Unable to get applicationContext")
-
-        val hiltEntryPoint = EntryPointAccessors.fromApplication(
-            appContext,
-            PlantsContentProviderEntryPoint::class.java
-        )
         hiltEntryPoint.plantsRepository()
     }
 
     override fun onCreate(): Boolean {
+        val appContext = context?.applicationContext
+            ?: throw IllegalStateException("Unable to get applicationContext")
+
+        hiltEntryPoint = EntryPointAccessors.fromApplication(
+            appContext,
+            PlantsContentProviderEntryPoint::class.java
+        )
         return true
     }
 
@@ -48,19 +48,13 @@ class PlantsContentProvider : ContentProvider() {
         sortOrder: String?
     ): Cursor {
         return when (uri.toString()) {
-            CONTENT_URI -> {
-                MatrixCursor(
-                    arrayOf(
-                        FIELD_PLANT_NAME,
-                        FIELD_SPECIES_NAME,
-                        FIELD_PLANT_PICTURE
-                    )
-                )
+            PlantStatisticsContract.CONTENT_URI -> {
+                createPlantsCursor()
                     .apply {
                         runBlocking {
-                            putPlants(
-                                plants = plantsRepository.fetchPlants()
-                            )
+                            plantsRepository
+                                .fetchPlants()
+                                .forEach { putPlant(it) }
                         }
                     }
             }
@@ -69,7 +63,7 @@ class PlantsContentProvider : ContentProvider() {
     }
 
     override fun getType(uri: Uri): String {
-        return CONTENT_TYPE
+        return PlantStatisticsContract.CONTENT_TYPE
     }
 
     override fun insert(uri: Uri, values: ContentValues?): Uri? {
@@ -89,12 +83,20 @@ class PlantsContentProvider : ContentProvider() {
         TODO("Not implemented")
     }
 
-    private fun MatrixCursor.putPlants(plants: List<Plant>): Cursor = apply {
-        plants.forEach {
-            newRow()
-                .add(FIELD_PLANT_NAME, it.name.value)
-                .add(FIELD_SPECIES_NAME, it.speciesName)
-                .add(FIELD_PLANT_PICTURE, it.plantPicture?.toString())
-        }
+    private fun createPlantsCursor(): MatrixCursor {
+        return MatrixCursor(
+            arrayOf(
+                PlantStatisticsContract.FIELD_PLANT_NAME,
+                PlantStatisticsContract.FIELD_SPECIES_NAME,
+                PlantStatisticsContract.FIELD_PLANT_PICTURE
+            )
+        )
+    }
+
+    private fun MatrixCursor.putPlant(plant: Plant) {
+        newRow()
+            .add(PlantStatisticsContract.FIELD_PLANT_NAME, plant.name.value)
+            .add(PlantStatisticsContract.FIELD_SPECIES_NAME, plant.speciesName)
+            .add(PlantStatisticsContract.FIELD_PLANT_PICTURE, plant.plantPicture?.toString())
     }
 }

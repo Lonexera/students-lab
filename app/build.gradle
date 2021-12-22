@@ -1,7 +1,6 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-    id 'io.gitlab.arturbosch.detekt' version '1.18.1'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
     id 'com.google.gms.google-services'
@@ -80,6 +79,4 @@ dependencies {
 
     // Statistics Contract
     implementation project(':plantStatsContract')
-
-    detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:1.18.1"
 }
