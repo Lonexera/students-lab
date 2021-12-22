@@ -2,6 +2,7 @@ package com.example.plantsapp.presentation.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -30,6 +31,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(binding.root)
+        setUpHomeButtonOnAppBar()
 
         supportFragmentManager.registerFragmentLifecycleCallbacks(
             bottomBarVisibilityCallback,
@@ -48,6 +50,24 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+
+        supportFragmentManager.unregisterFragmentLifecycleCallbacks(
+            bottomBarVisibilityCallback
+        )
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                supportFragmentManager.popBackStack()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
     private fun openFragment(fragment: Fragment) {
         supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
         supportFragmentManager.commit {
@@ -55,11 +75,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-
-        supportFragmentManager.unregisterFragmentLifecycleCallbacks(
-            bottomBarVisibilityCallback
-        )
+    private fun setUpHomeButtonOnAppBar() {
+        supportFragmentManager.addOnBackStackChangedListener {
+            supportActionBar?.setDisplayHomeAsUpEnabled(
+                supportFragmentManager.backStackEntryCount > 0
+            )
+        }
     }
 }
