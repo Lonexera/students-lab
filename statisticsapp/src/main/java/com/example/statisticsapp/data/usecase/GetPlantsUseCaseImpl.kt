@@ -3,9 +3,8 @@ package com.example.statisticsapp.data.usecase
 import android.content.Context
 import android.database.Cursor
 import android.net.Uri
-import androidx.core.net.toUri
+import com.example.plantsapp.domain.model.Plant
 import com.example.plantstatscontract.PlantStatisticsContract
-import com.example.statisticsapp.domain.model.Plant
 import com.example.statisticsapp.domain.usecase.GetPlantsUseCase
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -47,7 +46,7 @@ class GetPlantsUseCaseImpl @Inject constructor(
                         getString(plantNameIndex)
                     ),
                     speciesName = getString(plantSpeciesNameIndex),
-                    plantPicture = getString(plantPictureIndex)?.toUri()
+                    plantPicture = getString(plantPictureIndex)
                 )
             }
         }

@@ -126,7 +126,7 @@ class PlantCreationViewModel @Inject constructor(
             val createdPlant = Plant(
                 Plant.Name(plantName),
                 speciesName,
-                plantPicture
+                plantPicture?.toString()
             )
 
             plantsRepository.addPlant(createdPlant)

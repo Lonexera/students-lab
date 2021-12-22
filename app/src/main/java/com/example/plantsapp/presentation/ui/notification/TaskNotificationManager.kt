@@ -10,6 +10,7 @@ import android.graphics.Bitmap
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.net.toUri
 import com.example.plantsapp.R
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.model.Task
@@ -47,7 +48,9 @@ class TaskNotificationManager @Inject constructor(
         plant: Plant,
         tasks: List<Task>
     ) {
-        val notificationPicture = plant.plantPicture.getBitmapWithPlaceholder(context)
+        val notificationPicture = plant.plantPicture
+            ?.toUri()
+            .getBitmapWithPlaceholder(context)
 
         val notifications = tasks.map {
             prepareTaskNotification(

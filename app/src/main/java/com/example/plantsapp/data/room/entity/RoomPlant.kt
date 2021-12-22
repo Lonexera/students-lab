@@ -1,6 +1,5 @@
 package com.example.plantsapp.data.room.entity
 
-import androidx.core.net.toUri
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.plantsapp.domain.model.Plant
@@ -26,7 +25,7 @@ data class RoomPlant(
         return Plant(
             Plant.Name(name),
             speciesName,
-            plantPicture?.toUri(),
+            plantPicture,
         )
     }
 }

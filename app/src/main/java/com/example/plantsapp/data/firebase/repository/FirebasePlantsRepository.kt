@@ -1,5 +1,6 @@
 package com.example.plantsapp.data.firebase.repository
 
+import androidx.core.net.toUri
 import com.example.plantsapp.data.firebase.entity.FirebasePlant
 import com.example.plantsapp.data.firebase.utils.addImage
 import com.example.plantsapp.di.module.FirebaseQualifier
@@ -69,7 +70,7 @@ class FirebasePlantsRepository @Inject constructor(
             storageRef.addImage(
                 user = userRepository.requireUser(),
                 plant = plant,
-                picture = it
+                picture = it.toUri()
             )
         }
 

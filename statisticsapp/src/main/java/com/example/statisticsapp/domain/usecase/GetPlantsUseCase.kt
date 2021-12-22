@@ -1,6 +1,6 @@
 package com.example.statisticsapp.domain.usecase
 
-import com.example.statisticsapp.domain.model.Plant
+import com.example.plantsapp.domain.model.Plant
 
 interface GetPlantsUseCase {
     suspend operator fun invoke(): List<Plant>

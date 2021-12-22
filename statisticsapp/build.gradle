@@ -44,6 +44,8 @@ dependencies {
 
     // Statistics Contract
     implementation project(':plantStatsContract')
+    // Domain Module
+    implementation project(':domain')
 
     // viewBinding delegate
     implementation 'com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.4.7'

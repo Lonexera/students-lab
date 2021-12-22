@@ -79,4 +79,6 @@ dependencies {
 
     // Statistics Contract
     implementation project(':plantStatsContract')
+    // Domain Module
+    implementation project(':domain')
 }
