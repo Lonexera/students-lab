@@ -21,36 +21,47 @@ class GetPlantsUseCaseImpl @Inject constructor(
             null,
             null
         )
-            ?.let { cursor ->
-                val plants = cursor.getPlants()
-                cursor.close()
-                plants
-            }
-            ?: emptyList()
+            ?.use { it.getPlants() } ?: emptyList()
     }
 
     private fun Cursor.getPlants(): List<Plant> {
-        val plants = mutableListOf<Plant>()
-
         val plantNameIndex = getColumnIndex(PlantStatisticsContract.FIELD_PLANT_NAME)
         val plantSpeciesNameIndex = getColumnIndex(PlantStatisticsContract.FIELD_SPECIES_NAME)
         val plantPictureIndex = getColumnIndex(PlantStatisticsContract.FIELD_PLANT_PICTURE)
 
-        if (plantNameIndex >= 0 &&
-            plantSpeciesNameIndex >= 0 &&
-            plantPictureIndex >= 0
+        return when (
+            checkIfColumnNamesExist(plantNameIndex, plantSpeciesNameIndex, plantPictureIndex)
         ) {
-            while (moveToNext()) {
-                plants += Plant(
-                    name = Plant.Name(
-                        getString(plantNameIndex)
-                    ),
-                    speciesName = getString(plantSpeciesNameIndex),
-                    plantPicture = getString(plantPictureIndex)
-                )
+            true -> {
+                val plants = mutableListOf<Plant>()
+                while (moveToNext()) {
+                    plants += getPlant(plantNameIndex, plantSpeciesNameIndex, plantPictureIndex)
+                }
+                plants
             }
+            false -> emptyList()
         }
+    }
 
-        return plants
+    private fun Cursor.getPlant(
+        plantNameIndex: Int,
+        plantSpeciesNameIndex: Int,
+        plantPictureIndex: Int
+    ): Plant {
+        return Plant(
+            name = Plant.Name(
+                getString(plantNameIndex)
+            ),
+            speciesName = getString(plantSpeciesNameIndex),
+            plantPicture = getString(plantPictureIndex)
+        )
+    }
+
+    private fun checkIfColumnNamesExist(
+        plantNameIndex: Int,
+        plantSpeciesNameIndex: Int,
+        plantPictureIndex: Int
+    ): Boolean {
+        return plantNameIndex >= 0 && plantSpeciesNameIndex >= 0 && plantPictureIndex >= 0
     }
 }
