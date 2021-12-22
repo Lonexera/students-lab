@@ -26,6 +26,8 @@ class PlantsFragment : Fragment(R.layout.fragment_plants) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        activity?.setTitle(R.string.title_plants_screen)
+
         with(plantsViewModel) {
             filteredPlants.observe(viewLifecycleOwner) {
                 plantsAdapter.submitList(it)

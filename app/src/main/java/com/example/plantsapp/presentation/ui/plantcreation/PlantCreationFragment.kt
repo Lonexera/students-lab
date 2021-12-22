@@ -41,6 +41,8 @@ class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        activity?.setTitle(R.string.title_plant_creation_screen)
+
         setUpObservers()
         setUpViews()
     }

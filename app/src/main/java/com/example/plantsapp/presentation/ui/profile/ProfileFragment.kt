@@ -31,6 +31,8 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        activity?.setTitle(R.string.title_profile_screen)
+
         with(viewModel) {
             user.observe(viewLifecycleOwner) { user ->
                 showUserProfile(user)

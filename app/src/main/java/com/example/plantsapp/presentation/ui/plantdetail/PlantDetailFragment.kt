@@ -34,6 +34,11 @@ class PlantDetailFragment : Fragment(R.layout.fragment_plant_detail) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        activity?.title = getString(
+            R.string.title_plant_detail_screen,
+            requireArguments().plantName.value
+        )
+
         with(detailViewModel) {
             plant.observe(viewLifecycleOwner) { plant ->
                 showPlantDetail(plant)

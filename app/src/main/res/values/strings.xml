@@ -7,6 +7,7 @@
     <string name="title_bottom_nav_profile">Profile</string>
 
     <!-- Plant Detail Screen -->
+    <string name="title_plant_detail_screen">%s</string>
     <string name="msg_detail_plant_name">Plant name: \n %s</string>
     <string name="msg_detail_species_name">Species name: \n %s</string>
     <string name="msg_detail_watering_text">Watering frequency: \n every %d days</string>
@@ -15,6 +16,7 @@
     <string name="title_plant_gallery_text">Plant gallery</string>
 
     <!-- Plant Creation Screen -->
+    <string name="title_plant_creation_screen">New Plant</string>
     <string name="hint_plant_name">Name</string>
     <string name="hint_species_name">Species name</string>
     <string name="hint_watering_frequency">Watering Frequency</string>
@@ -38,6 +40,7 @@
     <string name="error_copying_image">Cannot copy image from Gallery</string>
 
     <!-- Plants Screen -->
+    <string name="title_plants_screen">My Plants</string>
     <string name="title_intent_picker_dialog">Select plant picture</string>
     <string name="msg_intent_picker_dialog">Choose from where you what to get picture</string>
     <string name="title_intent_picker_dialog_btn_gallery">Upload from Gallery</string>
@@ -45,6 +48,7 @@
     <string name="title_intent_picker_dialog_btn_cancel">Cancel</string>
 
     <!-- Tasks Screen -->
+    <string name="title_tasks_screen">My Tasks</string>
     <string name="title_today_date">Today</string>
     <string name="title_tomorrow_date">Tomorrow</string>
     <string name="title_watering_task">Watering</string>
@@ -65,9 +69,11 @@
     <string name="title_notification_complete_button">Complete</string>
 
     <!-- Authentication Screen -->
+    <string name="title_auth_screen">Authentication</string>
     <string name="error_unable_to_sign_in">Unable to sign in</string>
 
     <!-- Profile Screen -->
+    <string name="title_profile_screen">Profile</string>
     <string name="title_btn_sign_out">Sign out</string>
     <string name="title_sign_out_dialog_confirmation">Sign Out</string>
     <string name="msg_sign_out_dialog_confirmation">Are you sure you want to sign out?</string>
