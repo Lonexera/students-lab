@@ -48,16 +48,7 @@ class PlantsContentProvider : ContentProvider() {
         sortOrder: String?
     ): Cursor {
         return when (uri.toString()) {
-            PlantStatisticsContract.CONTENT_URI -> {
-                createPlantsCursor()
-                    .apply {
-                        runBlocking {
-                            plantsRepository
-                                .fetchPlants()
-                                .forEach { putPlant(it) }
-                        }
-                    }
-            }
+            PlantStatisticsContract.CONTENT_URI -> createPlantsCursor()
             else -> throw IllegalStateException("Provided uri is not supported")
         }
     }
@@ -91,6 +82,14 @@ class PlantsContentProvider : ContentProvider() {
                 PlantStatisticsContract.FIELD_PLANT_PICTURE
             )
         )
+            .apply {
+                runBlocking {
+                    plantsRepository
+                        .fetchPlants()
+                        .forEach { putPlant(it) }
+                }
+            }
+
     }
 
     private fun MatrixCursor.putPlant(plant: Plant) {
