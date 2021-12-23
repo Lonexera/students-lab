@@ -16,7 +16,6 @@ fun <T> ImageView.loadPicture(
 ) {
     Glide.with(context)
         .load(picture)
-        .disableCache()
         .centerCrop()
         .placeholder(placeholder)
         .into(this)
@@ -28,16 +27,9 @@ fun Uri?.getBitmapWithPlaceholder(
 ): Bitmap {
     return Glide.with(context)
         .asBitmap()
-        .disableCache()
         .load(this ?: placeholder)
         .submit()
         .get()
-}
-
-private fun <T> RequestBuilder<T>.disableCache(): RequestBuilder<T> {
-    return this
-        .diskCacheStrategy(DiskCacheStrategy.NONE)
-        .skipMemoryCache(true)
 }
 
 @DrawableRes
