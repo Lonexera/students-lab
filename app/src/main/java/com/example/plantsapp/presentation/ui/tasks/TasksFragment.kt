@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.plantsapp.R
 import com.example.plantsapp.databinding.FragmentTasksBinding
+import com.example.plantsapp.presentation.ui.loading.LoadingDialog
 import com.example.plantsapp.presentation.ui.plantcreation.CameraContract
 import com.example.plantsapp.presentation.ui.tasks.adapter.PlantWithTasksAdapter
 import com.example.plantsapp.presentation.ui.utils.getCameraImageOutputUri
@@ -28,6 +29,7 @@ class TasksFragment : Fragment(R.layout.fragment_tasks) {
             date = requireArguments().date
         )
     }
+    private val loadingDialog by lazy { LoadingDialog(requireContext()) }
     private val plantsWithTasksAdapter = PlantWithTasksAdapter { (plant, task) ->
         tasksViewModel.onCompleteTaskClicked(plant, task)
     }
@@ -44,6 +46,13 @@ class TasksFragment : Fragment(R.layout.fragment_tasks) {
         super.onViewCreated(view, savedInstanceState)
 
         with(tasksViewModel) {
+            isLoading.observe(viewLifecycleOwner) { isLoading ->
+                when (isLoading) {
+                    true -> loadingDialog.show()
+                    false -> loadingDialog.dismiss()
+                }
+            }
+
             plantsWithTasks.observe(viewLifecycleOwner) {
                 plantsWithTasksAdapter.submitList(it)
             }

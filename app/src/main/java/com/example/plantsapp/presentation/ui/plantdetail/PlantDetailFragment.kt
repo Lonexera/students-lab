@@ -14,6 +14,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.plantsapp.R
 import com.example.plantsapp.databinding.FragmentPlantDetailBinding
 import com.example.plantsapp.domain.model.Plant
+import com.example.plantsapp.presentation.ui.loading.LoadingDialog
 import com.example.plantsapp.presentation.ui.plantdetail.adapter.DetailTasksAdapter
 import com.example.plantsapp.presentation.ui.plantdetail.adapter.PlantPhotosAdapter
 import com.example.plantsapp.presentation.ui.utils.loadPicture
@@ -32,6 +33,7 @@ class PlantDetailFragment : Fragment(R.layout.fragment_plant_detail) {
             plantName = requireArguments().plantName
         )
     }
+    private val loadingDialog by lazy { LoadingDialog(requireContext()) }
     private val tasksAdapter = DetailTasksAdapter()
     private val photosAdapter = PlantPhotosAdapter()
 
@@ -46,6 +48,13 @@ class PlantDetailFragment : Fragment(R.layout.fragment_plant_detail) {
         with(detailViewModel) {
             appBarTitle.observe(viewLifecycleOwner) {
                 activity?.title = it
+            }
+
+            isLoading.observe(viewLifecycleOwner) { isLoading ->
+                when (isLoading) {
+                    true -> loadingDialog.show()
+                    false -> loadingDialog.dismiss()
+                }
             }
 
             plant.observe(viewLifecycleOwner) { plant ->

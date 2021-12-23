@@ -23,10 +23,14 @@ class AuthViewModel @Inject constructor(
         data class AuthError(@StringRes val errorId: Int) : AuthResult()
     }
 
+    private val _isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isLoading: LiveData<Boolean> get() = _isLoading
+
     private val _authResult: MutableLiveData<Event<AuthResult>> = MutableLiveData()
     val authResult: LiveData<Event<AuthResult>> get() = _authResult
 
     fun onSignInResult(token: String?) {
+        _isLoading.value = true
         viewModelScope.launch {
             if (token == null) {
                 _authResult.value = Event(AuthResult.AuthError(R.string.error_unable_to_sign_in))
@@ -40,6 +44,7 @@ class AuthViewModel @Inject constructor(
                 Timber.e(e)
                 AuthResult.AuthError(R.string.error_unable_to_sign_in)
             }
+            _isLoading.value = false
             _authResult.value = Event(event)
         }
     }

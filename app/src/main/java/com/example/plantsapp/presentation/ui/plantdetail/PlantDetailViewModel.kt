@@ -33,10 +33,14 @@ class PlantDetailViewModel @AssistedInject constructor(
     private val _plantPhotos: MutableLiveData<List<Pair<Uri, Date>>> = MutableLiveData()
     val plantPhotos: LiveData<List<Pair<Uri, Date>>> get() = _plantPhotos
 
+    private val _isLoading: MutableLiveData<Boolean> = MutableLiveData(true)
+    val isLoading: LiveData<Boolean> get() = _isLoading
+
     private val _toNavigateBack: MutableLiveData<Event<Unit>> = MutableLiveData()
     val toNavigateBack: LiveData<Event<Unit>> get() = _toNavigateBack
 
     init {
+        _isLoading.value = true
         viewModelScope.launch {
             plantsRepository.getPlantByName(Plant.Name(plantName)).run {
                 _plant.value = this
@@ -46,13 +50,16 @@ class PlantDetailViewModel @AssistedInject constructor(
                     .getPlantPhotos(this)
                     .sortedByDescending { (_, creationDate) -> creationDate.time }
             }
+            _isLoading.value = false
         }
     }
 
     fun onDelete() {
+        _isLoading.value = true
         viewModelScope.launch {
             plantsRepository.deletePlant(plant.value!!)
 
+            _isLoading.value = false
             _toNavigateBack.value = Event(Unit)
         }
     }

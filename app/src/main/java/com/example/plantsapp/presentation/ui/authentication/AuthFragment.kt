@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.plantsapp.R
 import com.example.plantsapp.databinding.FragmentAuthBinding
+import com.example.plantsapp.presentation.ui.loading.LoadingDialog
 import com.example.plantsapp.presentation.ui.tasksfordays.TasksForDaysFragment
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,6 +21,7 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
     private val viewModel: AuthViewModel by viewModels()
     @Inject
     lateinit var googleSignInClient: GoogleSignInClient
+    private val loadingDialog by lazy { LoadingDialog(requireContext()) }
 
     private val googleSignInLauncher =
         registerForActivityResult(
@@ -34,6 +36,13 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
         activity?.setTitle(R.string.title_auth_screen)
 
         with(viewModel) {
+            isLoading.observe(viewLifecycleOwner) { isLoading ->
+                when (isLoading) {
+                    true -> loadingDialog.show()
+                    false -> loadingDialog.dismiss()
+                }
+            }
+
             authResult.observe(viewLifecycleOwner) {
                 it.getContentIfNotHandled()?.let { result ->
                     when (result) {

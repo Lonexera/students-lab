@@ -36,6 +36,9 @@ class PlantCreationViewModel @Inject constructor(
         val takingPhotoFrequency: Int?
     )
 
+    private val _isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isLoading: LiveData<Boolean> get() = _isLoading
+
     private val _toNavigateBack: MutableLiveData<Event<Unit>> = MutableLiveData()
     val toNavigateBack: LiveData<Event<Unit>> get() = _toNavigateBack
 
@@ -57,6 +60,7 @@ class PlantCreationViewModel @Inject constructor(
         plantName: String,
         speciesName: String
     ) {
+        _isLoading.value = true
         viewModelScope.launch {
 
             val validationResult = validator.validate(
@@ -79,6 +83,7 @@ class PlantCreationViewModel @Inject constructor(
                     _invalidInput.value = validationResult.errorMessageRes
                 }
             }
+            _isLoading.value = false
         }
     }
 
