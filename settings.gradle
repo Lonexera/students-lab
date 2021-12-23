@@ -8,3 +8,5 @@ dependencyResolutionManagement {
 rootProject.name = "PlantsApp"
 include ':app'
 include ':plantStatsContract'
+include ':statisticsapp'
+include ':domain'

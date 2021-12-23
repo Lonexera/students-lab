@@ -6,7 +6,7 @@ import com.example.plantsapp.domain.model.Plant
 internal fun createPlant(
     name: String = "",
     speciesName: String = "",
-    plantPicture: Uri? = null
+    plantPicture: String? = null
 ): Plant {
     return Plant(
         name = Plant.Name(name),

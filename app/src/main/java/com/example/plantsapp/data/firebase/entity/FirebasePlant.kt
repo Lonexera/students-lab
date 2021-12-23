@@ -14,7 +14,7 @@ data class FirebasePlant(
         return Plant(
             name = Plant.Name(plantName),
             speciesName = speciesName,
-            plantPicture = plantPicture?.toUri()
+            plantPicture = plantPicture
         )
     }
 
