@@ -1,6 +1,10 @@
 package com.example.plantsapp.presentation.ui.plantdetail
 
+import android.app.AlertDialog
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
@@ -31,6 +35,11 @@ class PlantDetailFragment : Fragment(R.layout.fragment_plant_detail) {
     private val tasksAdapter = DetailTasksAdapter()
     private val photosAdapter = PlantPhotosAdapter()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -54,11 +63,19 @@ class PlantDetailFragment : Fragment(R.layout.fragment_plant_detail) {
                 binding.clPlantGallery.isVisible = photos.isNotEmpty()
             }
         }
+    }
 
-        with(binding) {
-            btnDelete.setOnClickListener {
-                detailViewModel.onDelete()
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_plant_detail_appbar, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_delete_plant -> {
+                showDialogDeleteConfirm()
+                true
             }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
@@ -77,9 +94,21 @@ class PlantDetailFragment : Fragment(R.layout.fragment_plant_detail) {
 
             rvDetailTasks.adapter = tasksAdapter
             rvPlantPhotos.adapter = photosAdapter
-
-            btnDelete.isEnabled = true
         }
+    }
+
+    private fun showDialogDeleteConfirm() {
+        AlertDialog.Builder(requireContext())
+            .setTitle(R.string.title_delete_dialog_confirmation)
+            .setMessage(R.string.msg_delete_dialog_confirmation)
+            .setPositiveButton(R.string.title_dialog_confirmation_btn_positive) { _, _ ->
+                detailViewModel.onDelete()
+            }
+            .setNegativeButton(R.string.title_dialog_confirmation_btn_negative) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .create()
+            .show()
     }
 
     companion object {

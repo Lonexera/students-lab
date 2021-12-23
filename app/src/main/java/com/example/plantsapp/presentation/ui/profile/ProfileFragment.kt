@@ -75,10 +75,10 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         AlertDialog.Builder(requireContext())
             .setTitle(R.string.title_sign_out_dialog_confirmation)
             .setMessage(R.string.msg_sign_out_dialog_confirmation)
-            .setPositiveButton(R.string.title_sign_out_dialog_btn_positive) { _, _ ->
+            .setPositiveButton(R.string.title_dialog_confirmation_btn_positive) { _, _ ->
                 viewModel.onSignOutClick()
             }
-            .setNegativeButton(R.string.title_sign_out_dialog_btn_negative) { dialog, _ ->
+            .setNegativeButton(R.string.title_dialog_confirmation_btn_negative) { dialog, _ ->
                 dialog.dismiss()
             }
             .create()
