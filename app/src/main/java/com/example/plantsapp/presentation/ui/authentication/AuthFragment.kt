@@ -31,6 +31,8 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        activity?.setTitle(R.string.title_auth_screen)
+
         with(viewModel) {
             authResult.observe(viewLifecycleOwner) {
                 it.getContentIfNotHandled()?.let { result ->

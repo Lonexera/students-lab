@@ -44,6 +44,10 @@ class PlantDetailFragment : Fragment(R.layout.fragment_plant_detail) {
         super.onViewCreated(view, savedInstanceState)
 
         with(detailViewModel) {
+            appBarTitle.observe(viewLifecycleOwner) {
+                activity?.title = it
+            }
+
             plant.observe(viewLifecycleOwner) { plant ->
                 showPlantDetail(plant)
             }
