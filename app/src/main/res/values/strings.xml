@@ -13,6 +13,8 @@
     <string name="title_button_delete">Delete</string>
     <string name="title_task_detail">%1$s: every %2$s</string>
     <string name="title_plant_gallery_text">Plant gallery</string>
+    <string name="title_delete_dialog_confirmation">Delete Plant</string>
+    <string name="msg_delete_dialog_confirmation">Are you sure you want to delete this plant?</string>
 
     <!-- Plant Creation Screen -->
     <string name="hint_plant_name">Name</string>
@@ -71,7 +73,9 @@
     <string name="title_btn_sign_out">Sign out</string>
     <string name="title_sign_out_dialog_confirmation">Sign Out</string>
     <string name="msg_sign_out_dialog_confirmation">Are you sure you want to sign out?</string>
-    <string name="title_sign_out_dialog_btn_positive">Yes</string>
-    <string name="title_sign_out_dialog_btn_negative">No</string>
+
+    <!-- Other -->
+    <string name="title_dialog_confirmation_btn_positive">Yes</string>
+    <string name="title_dialog_confirmation_btn_negative">No</string>
 
 </resources>
