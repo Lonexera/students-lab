@@ -34,11 +34,11 @@ android {
 dependencies {
 
     //implementation 'androidx.core:core-ktx:1.6.0'
-    implementation "androidx.appcompat:appcompat:$rootProject.appcompat"
-    implementation "com.google.android.material:material:$rootProject.material"
-    implementation "androidx.constraintlayout:constraintlayout:$rootProject.constraintlayout"
+    implementation "androidx.appcompat:appcompat:$versions.appcompat"
+    implementation "com.google.android.material:material:$versions.material"
+    implementation "androidx.constraintlayout:constraintlayout:$versions.constraintlayout"
 
-    implementation "androidx.fragment:fragment-ktx:$rootProject.fragmentKtx"
+    implementation "androidx.fragment:fragment-ktx:$versions.fragmentKtx"
 
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.12.0'
@@ -53,7 +53,7 @@ dependencies {
     implementation 'com.jakewharton.timber:timber:5.0.1'
 
     // viewBinding delegate
-    implementation "com.github.kirich1409:viewbindingpropertydelegate-noreflection:$rootProject.viewBindingDelagate"
+    implementation "com.github.kirich1409:viewbindingpropertydelegate-noreflection:$versions.viewBindingDelagate"
 
     // JUnit 4 framework
     testImplementation 'junit:junit:4.13.2'
@@ -61,8 +61,8 @@ dependencies {
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.1'
 
     // Hilt
-    implementation "com.google.dagger:hilt-android:$rootProject.hilt"
-    kapt "com.google.dagger:hilt-android-compiler:$rootProject.hilt"
+    implementation "com.google.dagger:hilt-android:$versions.hilt"
+    kapt "com.google.dagger:hilt-android-compiler:$versions.hilt"
 
     // WorkManager
     implementation 'androidx.work:work-runtime-ktx:2.7.0'
