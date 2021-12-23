@@ -24,6 +24,8 @@ class PlantDetailViewModel @AssistedInject constructor(
     @Assisted plantName: String
 ) : ViewModel() {
 
+    val appBarTitle: LiveData<String> = MutableLiveData(plantName)
+
     private val _plant: MutableLiveData<Plant> = MutableLiveData()
     val plant: LiveData<Plant> get() = _plant
     private val _tasks: MutableLiveData<List<Task>> = MutableLiveData()

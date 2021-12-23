@@ -77,9 +77,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun setUpHomeButtonOnAppBar() {
         supportFragmentManager.addOnBackStackChangedListener {
-            supportActionBar?.setDisplayHomeAsUpEnabled(
-                supportFragmentManager.backStackEntryCount > 0
-            )
+            val isHomeButtonVisible = supportFragmentManager.backStackEntryCount > 0
+
+            supportActionBar?.setDisplayHomeAsUpEnabled(isHomeButtonVisible)
         }
     }
 }
