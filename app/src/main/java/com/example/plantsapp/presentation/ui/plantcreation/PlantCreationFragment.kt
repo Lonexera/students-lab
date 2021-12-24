@@ -12,6 +12,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.plantsapp.R
 import com.example.plantsapp.databinding.FragmentPlantCreationBinding
 import com.example.plantsapp.presentation.ui.loading.LoadingDialog
+import com.example.plantsapp.presentation.ui.loading.connectWith
 import com.example.plantsapp.presentation.ui.utils.getCameraImageOutputUri
 import com.example.plantsapp.presentation.ui.utils.loadPicture
 import com.example.plantsapp.presentation.ui.utils.setUpWithAdapter
@@ -51,12 +52,7 @@ class PlantCreationFragment : Fragment(R.layout.fragment_plant_creation) {
 
     private fun setUpObservers() {
         with(creationViewModel) {
-            isLoading.observe(viewLifecycleOwner) { isLoading ->
-                when (isLoading) {
-                    true -> loadingDialog.show()
-                    false -> loadingDialog.dismiss()
-                }
-            }
+            loadingDialog.connectWith(isLoading, viewLifecycleOwner)
 
             toNavigateBack.observe(viewLifecycleOwner) {
                 it.getContentIfNotHandled()?.let {

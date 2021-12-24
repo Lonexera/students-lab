@@ -32,7 +32,7 @@ class TasksViewModel @AssistedInject constructor(
         MutableLiveData()
     val plantsWithTasks: LiveData<List<Pair<Plant, List<TaskWithState>>>> = _plantsWithTasks
 
-    private val _isLoading: MutableLiveData<Boolean> = MutableLiveData(true)
+    private val _isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
     val isLoading: LiveData<Boolean> get() = _isLoading
 
     private val _launchCamera: MutableLiveData<Event<Unit>> = MutableLiveData()
@@ -41,8 +41,12 @@ class TasksViewModel @AssistedInject constructor(
 
     init {
         viewModelScope.launch {
-            fetchTasks()
-            _isLoading.value = false
+            try {
+                _isLoading.value = true
+                fetchTasks()
+            } finally {
+                _isLoading.value = false
+            }
         }
     }
 
@@ -53,24 +57,31 @@ class TasksViewModel @AssistedInject constructor(
                 _launchCamera.value = Event(Unit)
             }
             else -> {
-                _isLoading.value = true
                 viewModelScope.launch {
-                    completeTask(plant, task)
-                    _isLoading.value = false
+                    try {
+                        _isLoading.value = true
+                        completeTask(plant, task)
+                    } finally {
+                        _isLoading.value = false
+                    }
                 }
             }
         }
     }
 
     fun onImageCaptured(uri: Uri) {
-        _isLoading.value = true
         viewModelScope.launch {
-            val (plant, task) = takingPhotoTaskWithPlant
-                ?: throw IllegalStateException("Cannot access stored plant and task for taking photo")
+            try {
+                _isLoading.value = true
 
-            plantPhotosRepository.savePhoto(plant, uri)
-            completeTask(plant, task)
-            _isLoading.value = false
+                val (plant, task) = takingPhotoTaskWithPlant
+                    ?: throw IllegalStateException("Cannot access stored plant and task for taking photo")
+
+                plantPhotosRepository.savePhoto(plant, uri)
+                completeTask(plant, task)
+            } finally {
+                _isLoading.value = false
+            }
         }
     }
 

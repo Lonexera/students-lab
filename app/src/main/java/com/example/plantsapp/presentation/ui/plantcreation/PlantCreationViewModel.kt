@@ -60,30 +60,33 @@ class PlantCreationViewModel @Inject constructor(
         plantName: String,
         speciesName: String
     ) {
-        _isLoading.value = true
         viewModelScope.launch {
+            try {
+                _isLoading.value = true
 
-            val validationResult = validator.validate(
-                plantName,
-                speciesName,
-                frequencies.value!!
-            )
+                val validationResult = validator.validate(
+                    plantName,
+                    speciesName,
+                    frequencies.value!!
+                )
 
-            when (validationResult) {
-                is PlantCreationValidator.ValidatorOutput.Success -> {
-                    addPlant(
-                        plantName,
-                        speciesName,
-                        selectedPicture.value,
-                        frequencies.value!!
-                    )
+                when (validationResult) {
+                    is PlantCreationValidator.ValidatorOutput.Success -> {
+                        addPlant(
+                            plantName,
+                            speciesName,
+                            selectedPicture.value,
+                            frequencies.value!!
+                        )
+                    }
+
+                    is PlantCreationValidator.ValidatorOutput.Error -> {
+                        _invalidInput.value = validationResult.errorMessageRes
+                    }
                 }
-
-                is PlantCreationValidator.ValidatorOutput.Error -> {
-                    _invalidInput.value = validationResult.errorMessageRes
-                }
+            } finally {
+                _isLoading.value = false
             }
-            _isLoading.value = false
         }
     }
 

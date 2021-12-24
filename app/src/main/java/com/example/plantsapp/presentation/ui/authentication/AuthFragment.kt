@@ -10,6 +10,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.plantsapp.R
 import com.example.plantsapp.databinding.FragmentAuthBinding
 import com.example.plantsapp.presentation.ui.loading.LoadingDialog
+import com.example.plantsapp.presentation.ui.loading.connectWith
 import com.example.plantsapp.presentation.ui.tasksfordays.TasksForDaysFragment
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,12 +37,7 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
         activity?.setTitle(R.string.title_auth_screen)
 
         with(viewModel) {
-            isLoading.observe(viewLifecycleOwner) { isLoading ->
-                when (isLoading) {
-                    true -> loadingDialog.show()
-                    false -> loadingDialog.dismiss()
-                }
-            }
+            loadingDialog.connectWith(isLoading, viewLifecycleOwner)
 
             authResult.observe(viewLifecycleOwner) {
                 it.getContentIfNotHandled()?.let { result ->

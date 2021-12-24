@@ -40,27 +40,34 @@ class PlantDetailViewModel @AssistedInject constructor(
     val toNavigateBack: LiveData<Event<Unit>> get() = _toNavigateBack
 
     init {
-        _isLoading.value = true
         viewModelScope.launch {
-            plantsRepository.getPlantByName(Plant.Name(plantName)).run {
-                _plant.value = this
-                _tasks.value = tasksRepository.getTasksForPlant(this)
-                // TODO Add loading for whole screen
-                _plantPhotos.value = plantPhotosRepository
-                    .getPlantPhotos(this)
-                    .sortedByDescending { (_, creationDate) -> creationDate.time }
+            try {
+                _isLoading.value = true
+
+                plantsRepository.getPlantByName(Plant.Name(plantName)).run {
+                    _plant.value = this
+                    _tasks.value = tasksRepository.getTasksForPlant(this)
+                    // TODO Add loading for whole screen
+                    _plantPhotos.value = plantPhotosRepository
+                        .getPlantPhotos(this)
+                        .sortedByDescending { (_, creationDate) -> creationDate.time }
+                }
+            } finally {
+                _isLoading.value = false
             }
-            _isLoading.value = false
         }
     }
 
     fun onDelete() {
-        _isLoading.value = true
         viewModelScope.launch {
-            plantsRepository.deletePlant(plant.value!!)
+            try {
+                _isLoading.value = true
 
-            _isLoading.value = false
-            _toNavigateBack.value = Event(Unit)
+                plantsRepository.deletePlant(plant.value!!)
+                _toNavigateBack.value = Event(Unit)
+            } finally {
+                _isLoading.value = false
+            }
         }
     }
 }

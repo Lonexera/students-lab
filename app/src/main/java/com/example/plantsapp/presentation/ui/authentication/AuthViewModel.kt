@@ -30,22 +30,27 @@ class AuthViewModel @Inject constructor(
     val authResult: LiveData<Event<AuthResult>> get() = _authResult
 
     fun onSignInResult(token: String?) {
-        _isLoading.value = true
         viewModelScope.launch {
-            if (token == null) {
-                _authResult.value = Event(AuthResult.AuthError(R.string.error_unable_to_sign_in))
-                return@launch
-            }
+            try {
+                _isLoading.value = true
 
-            val event = try {
-                authUseCase(AuthUseCase.AuthInput(token))
-                AuthResult.NavigateToTasks
-            } catch (e: IllegalStateException) {
-                Timber.e(e)
-                AuthResult.AuthError(R.string.error_unable_to_sign_in)
+                if (token == null) {
+                    _authResult.value =
+                        Event(AuthResult.AuthError(R.string.error_unable_to_sign_in))
+                    return@launch
+                }
+
+                val event = try {
+                    authUseCase(AuthUseCase.AuthInput(token))
+                    AuthResult.NavigateToTasks
+                } catch (e: IllegalStateException) {
+                    Timber.e(e)
+                    AuthResult.AuthError(R.string.error_unable_to_sign_in)
+                }
+                _authResult.value = Event(event)
+            } finally {
+                _isLoading.value = false
             }
-            _isLoading.value = false
-            _authResult.value = Event(event)
         }
     }
 }
