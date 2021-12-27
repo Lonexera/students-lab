@@ -18,6 +18,7 @@ import com.example.plantsapp.presentation.ui.utils.isSameDay
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.util.Date
 
 class TasksViewModel @AssistedInject constructor(
@@ -40,16 +41,20 @@ class TasksViewModel @AssistedInject constructor(
     private var takingPhotoTaskWithPlant: Pair<Plant, Task>? = null
 
     init {
+        @Suppress("TooGenericExceptionCaught")
         viewModelScope.launch {
             try {
                 _isLoading.value = true
                 fetchTasks()
+            } catch (e: Exception) {
+                Timber.e(e)
             } finally {
                 _isLoading.value = false
             }
         }
     }
 
+    @Suppress("TooGenericExceptionCaught")
     fun onCompleteTaskClicked(plant: Plant, task: Task) {
         when (task) {
             is Task.TakingPhotoTask -> {
@@ -61,6 +66,8 @@ class TasksViewModel @AssistedInject constructor(
                     try {
                         _isLoading.value = true
                         completeTask(plant, task)
+                    } catch (e: Exception) {
+                        Timber.e(e)
                     } finally {
                         _isLoading.value = false
                     }
@@ -69,6 +76,7 @@ class TasksViewModel @AssistedInject constructor(
         }
     }
 
+    @Suppress("TooGenericExceptionCaught")
     fun onImageCaptured(uri: Uri) {
         viewModelScope.launch {
             try {
@@ -79,6 +87,8 @@ class TasksViewModel @AssistedInject constructor(
 
                 plantPhotosRepository.savePhoto(plant, uri)
                 completeTask(plant, task)
+            } catch (e: Exception) {
+                Timber.e(e)
             } finally {
                 _isLoading.value = false
             }

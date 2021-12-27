@@ -15,6 +15,7 @@ import com.example.plantsapp.presentation.core.Event
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.util.Date
 
 class PlantDetailViewModel @AssistedInject constructor(
@@ -40,6 +41,7 @@ class PlantDetailViewModel @AssistedInject constructor(
     val toNavigateBack: LiveData<Event<Unit>> get() = _toNavigateBack
 
     init {
+        @Suppress("TooGenericExceptionCaught")
         viewModelScope.launch {
             try {
                 _isLoading.value = true
@@ -47,17 +49,19 @@ class PlantDetailViewModel @AssistedInject constructor(
                 plantsRepository.getPlantByName(Plant.Name(plantName)).run {
                     _plant.value = this
                     _tasks.value = tasksRepository.getTasksForPlant(this)
-                    // TODO Add loading for whole screen
                     _plantPhotos.value = plantPhotosRepository
                         .getPlantPhotos(this)
                         .sortedByDescending { (_, creationDate) -> creationDate.time }
                 }
+            } catch (e: Exception) {
+                Timber.e(e)
             } finally {
                 _isLoading.value = false
             }
         }
     }
 
+    @Suppress("TooGenericExceptionCaught")
     fun onDelete() {
         viewModelScope.launch {
             try {
@@ -65,6 +69,8 @@ class PlantDetailViewModel @AssistedInject constructor(
 
                 plantsRepository.deletePlant(plant.value!!)
                 _toNavigateBack.value = Event(Unit)
+            } catch (e: Exception) {
+                Timber.e(e)
             } finally {
                 _isLoading.value = false
             }

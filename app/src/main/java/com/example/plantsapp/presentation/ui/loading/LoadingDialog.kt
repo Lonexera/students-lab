@@ -12,16 +12,16 @@ class LoadingDialog(context: Context) {
     private val alertDialog =
         AlertDialog.Builder(context)
             .setView(R.layout.dialog_loading)
+            .setCancelable(false)
             .create()
             .apply { setCanceledOnTouchOutside(false) }
+
+    private val dialogSize = DIALOG_SIZE_DP.toPx(context)
 
     fun show() {
         alertDialog.apply {
             show()
-            window?.setLayout(
-                DIALOG_WIDTH_DP.toPx(context),
-                DIALOG_HEIGHT_DP.toPx(context)
-            )
+            window?.setLayout(dialogSize, dialogSize)
         }
     }
 
@@ -39,8 +39,7 @@ class LoadingDialog(context: Context) {
     }
 
     companion object {
-        private const val DIALOG_WIDTH_DP = 270
-        private const val DIALOG_HEIGHT_DP = 110
+        private const val DIALOG_SIZE_DP = 110
     }
 }
 

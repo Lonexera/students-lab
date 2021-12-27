@@ -56,36 +56,39 @@ class PlantCreationViewModel @Inject constructor(
     private val _invalidInput: MutableLiveData<Int> = MutableLiveData()
     val invalidInput: LiveData<Int> get() = _invalidInput
 
+    @Suppress("TooGenericExceptionCaught")
     fun saveData(
         plantName: String,
         speciesName: String
     ) {
         viewModelScope.launch {
-            try {
-                _isLoading.value = true
 
-                val validationResult = validator.validate(
-                    plantName,
-                    speciesName,
-                    frequencies.value!!
-                )
+            val validationResult = validator.validate(
+                plantName,
+                speciesName,
+                frequencies.value!!
+            )
 
-                when (validationResult) {
-                    is PlantCreationValidator.ValidatorOutput.Success -> {
+            when (validationResult) {
+                is PlantCreationValidator.ValidatorOutput.Success -> {
+                    try {
+                        _isLoading.value = true
                         addPlant(
                             plantName,
                             speciesName,
                             selectedPicture.value,
                             frequencies.value!!
                         )
-                    }
-
-                    is PlantCreationValidator.ValidatorOutput.Error -> {
-                        _invalidInput.value = validationResult.errorMessageRes
+                    } catch (e: Exception) {
+                        Timber.e(e)
+                    } finally {
+                        _isLoading.value = false
                     }
                 }
-            } finally {
-                _isLoading.value = false
+
+                is PlantCreationValidator.ValidatorOutput.Error -> {
+                    _invalidInput.value = validationResult.errorMessageRes
+                }
             }
         }
     }
