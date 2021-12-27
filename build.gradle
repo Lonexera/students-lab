@@ -39,6 +39,11 @@ plugins {
 
 allprojects {
     apply plugin: 'io.gitlab.arturbosch.detekt'
+
+    detekt {
+        buildUponDefaultConfig = true
+        config = files("${project.rootDir}/config/detekt/detekt.yml")
+    }
 }
 
 task clean(type: Delete) {

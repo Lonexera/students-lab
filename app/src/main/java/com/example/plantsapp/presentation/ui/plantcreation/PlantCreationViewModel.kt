@@ -112,10 +112,7 @@ class PlantCreationViewModel @Inject constructor(
         _frequencies.value = _frequencies.value?.copy(takingPhotoFrequency = frequency)
     }
 
-    @Suppress(
-        "TooGenericExceptionCaught",
-        "LongParameterList"
-    )
+    @Suppress("LongParameterList")
     private suspend fun addPlant(
         plantName: String,
         speciesName: String,
