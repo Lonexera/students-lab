@@ -2,12 +2,12 @@ package com.example.plantsapp.data.contentprovider
 
 import android.content.ContentProvider
 import android.content.ContentValues
+import android.content.UriMatcher
 import android.database.Cursor
-import android.database.MatrixCursor
 import android.net.Uri
-import com.example.plantsapp.di.module.FirebaseQualifier
-import com.example.plantsapp.domain.model.Plant
-import com.example.plantsapp.domain.repository.PlantsRepository
+import com.example.plantsapp.data.contentprovider.usecase.CreatePlantsCursorUseCase
+import com.example.plantsapp.data.contentprovider.usecase.CreateTaskHistoryCursorUseCase
+import com.example.plantsapp.data.contentprovider.usecase.CreateTasksCursorUseCase
 import com.example.plantstatscontract.PlantStatisticsContract
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
@@ -20,14 +20,22 @@ class PlantsContentProvider : ContentProvider() {
     @EntryPoint
     @InstallIn(SingletonComponent::class)
     interface PlantsContentProviderEntryPoint {
-        @FirebaseQualifier
-        fun plantsRepository(): PlantsRepository
+        fun getCreatePlantsCursorUseCase(): CreatePlantsCursorUseCase
+        fun getCreateTasksCursorUseCase(): CreateTasksCursorUseCase
+        fun getCreateTaskHistoryCursorCase(): CreateTaskHistoryCursorUseCase
     }
 
     private lateinit var hiltEntryPoint: PlantsContentProviderEntryPoint
-    private val plantsRepository: PlantsRepository by lazy {
-        hiltEntryPoint.plantsRepository()
+    private val createPlantsCursorUseCase: CreatePlantsCursorUseCase by lazy {
+        hiltEntryPoint.getCreatePlantsCursorUseCase()
     }
+    private val createTasksCursorUseCase: CreateTasksCursorUseCase by lazy {
+        hiltEntryPoint.getCreateTasksCursorUseCase()
+    }
+    private val createTaskHistoryCursorUseCase: CreateTaskHistoryCursorUseCase by lazy {
+        hiltEntryPoint.getCreateTaskHistoryCursorCase()
+    }
+    private val uriMatcher = UriMatcher(UriMatcher.NO_MATCH)
 
     override fun onCreate(): Boolean {
         val appContext = context?.applicationContext
@@ -37,6 +45,8 @@ class PlantsContentProvider : ContentProvider() {
             appContext,
             PlantsContentProviderEntryPoint::class.java
         )
+
+        initializeUriMatcher()
         return true
     }
 
@@ -47,14 +57,32 @@ class PlantsContentProvider : ContentProvider() {
         selectionArgs: Array<out String>?,
         sortOrder: String?
     ): Cursor {
-        return when (uri.toString()) {
-            PlantStatisticsContract.CONTENT_URI -> createPlantsCursor()
+        return when (uriMatcher.match(uri)) {
+            PLANTS_URI_CODE -> runBlocking { createPlantsCursorUseCase() }
+            TASKS_URI_CODE -> runBlocking {
+                createTasksCursorUseCase(
+                    plantName = selectionArgs?.first()
+                        ?: throw IllegalArgumentException("Selection argument is required for this query")
+                )
+            }
+            TASK_HISTORY_URI_CODE -> runBlocking {
+                createTaskHistoryCursorUseCase(
+                    plantName = selectionArgs?.first()
+                        ?: throw IllegalArgumentException("Selection arguments are required for this query"),
+                    taskKey = selectionArgs[1]
+                )
+            }
             else -> throw IllegalStateException("Provided uri is not supported")
         }
     }
 
     override fun getType(uri: Uri): String {
-        return PlantStatisticsContract.CONTENT_TYPE
+        return when (uriMatcher.match(uri)) {
+            PLANTS_URI_CODE -> PlantStatisticsContract.Plants.CONTENT_TYPE
+            TASKS_URI_CODE -> PlantStatisticsContract.Tasks.CONTENT_TYPE
+            TASK_HISTORY_URI_CODE -> PlantStatisticsContract.TaskHistory.CONTENT_TYPE
+            else -> throw IllegalStateException("Provided uri is not supported")
+        }
     }
 
     override fun insert(uri: Uri, values: ContentValues?): Uri? {
@@ -74,28 +102,33 @@ class PlantsContentProvider : ContentProvider() {
         TODO("Not implemented")
     }
 
-    private fun createPlantsCursor(): MatrixCursor {
-        return MatrixCursor(
-            arrayOf(
-                PlantStatisticsContract.FIELD_PLANT_NAME,
-                PlantStatisticsContract.FIELD_SPECIES_NAME,
-                PlantStatisticsContract.FIELD_PLANT_PICTURE
-            )
+    private fun initializeUriMatcher() {
+        uriMatcher.addURI(
+            PlantStatisticsContract.AUTHORITY,
+            PlantStatisticsContract.Plants.PATH,
+            PLANTS_URI_CODE
         )
-            .apply {
-                runBlocking {
-                    plantsRepository
-                        .fetchPlants()
-                        .forEach { putPlant(it) }
-                }
-            }
-
+        uriMatcher.addURI(
+            PlantStatisticsContract.AUTHORITY,
+            PlantStatisticsContract.Tasks.PATH,
+            TASKS_URI_CODE
+        )
+        uriMatcher.addURI(
+            PlantStatisticsContract.AUTHORITY,
+            PlantStatisticsContract.TaskHistory.PATH,
+            TASK_HISTORY_URI_CODE
+        )
     }
 
-    private fun MatrixCursor.putPlant(plant: Plant) {
-        newRow()
-            .add(PlantStatisticsContract.FIELD_PLANT_NAME, plant.name.value)
-            .add(PlantStatisticsContract.FIELD_SPECIES_NAME, plant.speciesName)
-            .add(PlantStatisticsContract.FIELD_PLANT_PICTURE, plant.plantPicture?.toString())
+    companion object {
+        private const val PLANTS_URI_CODE = 0
+        private const val TASKS_URI_CODE = 1
+        private const val TASK_HISTORY_URI_CODE = 2
+    }
+
+    companion object {
+        private const val PLANTS_URI_CODE = 0
+        private const val TASKS_URI_CODE = 1
+        private const val TASK_HISTORY_URI_CODE = 2
     }
 }

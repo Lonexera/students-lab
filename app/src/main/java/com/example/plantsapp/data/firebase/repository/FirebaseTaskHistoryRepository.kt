@@ -11,6 +11,7 @@ import com.example.plantsapp.presentation.ui.utils.atEndDay
 import com.example.plantsapp.presentation.ui.utils.atStartDay
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.toObjects
 import kotlinx.coroutines.tasks.await
 import java.util.Date
 import javax.inject.Inject
@@ -33,6 +34,14 @@ class FirebaseTaskHistoryRepository @Inject constructor(
             .get()
             .await()
             .size() > 0
+    }
+
+    override suspend fun getTaskHistory(plant: Plant, task: Task): List<Date> {
+        return getTaskHistoryCollection(plant, task)
+            .get()
+            .await()
+            .toObjects<FirebaseTaskCompletion>()
+            .map { it.completionDate }
     }
 
     private fun getTaskHistoryCollection(plant: Plant, task: Task): CollectionReference {
