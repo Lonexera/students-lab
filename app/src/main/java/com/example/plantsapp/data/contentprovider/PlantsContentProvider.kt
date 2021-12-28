@@ -126,9 +126,4 @@ class PlantsContentProvider : ContentProvider() {
         private const val TASK_HISTORY_URI_CODE = 2
     }
 
-    companion object {
-        private const val PLANTS_URI_CODE = 0
-        private const val TASKS_URI_CODE = 1
-        private const val TASK_HISTORY_URI_CODE = 2
-    }
 }

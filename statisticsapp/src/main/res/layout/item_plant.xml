@@ -5,28 +5,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
-        android:id="@+id/tv_plant_picture"
+        android:id="@+id/tv_plant_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    <TextView
-        android:id="@+id/tv_plant_name"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_tasks_with_completions_number"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:paddingTop="@dimen/margin_8dp"
+        android:paddingBottom="@dimen/margin_8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_plant_picture"/>
-
-    <TextView
-        android:id="@+id/tv_plant_species_name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_plant_name"/>
+        app:layout_constraintTop_toBottomOf="@id/tv_plant_name" />
 
     <View
         android:id="@+id/divider"
@@ -34,7 +30,7 @@
         android:layout_height="1dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_plant_species_name"
+        app:layout_constraintTop_toBottomOf="@id/rv_tasks_with_completions_number"
         android:background="?android:attr/listDivider" />
 
 

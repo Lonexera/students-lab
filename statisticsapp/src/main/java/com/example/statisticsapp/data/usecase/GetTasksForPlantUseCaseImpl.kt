@@ -30,12 +30,21 @@ class GetTasksForPlantUseCaseImpl @Inject constructor(
 
     private fun Cursor.getTasks(): List<Task> {
         val taskKeyIndex = getColumnIndex(PlantStatisticsContract.Tasks.FIELD_TASK_KEY)
+        val taskFrequencyIndex = getColumnIndex(PlantStatisticsContract.Tasks.FIELD_FREQUENCY)
+        val taskLastUpdateDateIndex =
+            getColumnIndex(PlantStatisticsContract.Tasks.FIELD_LAST_UPDATE_DATE)
 
-        return when (checkIfColumnNameExists(taskKeyIndex)) {
+        return when (
+            checkIfColumnNamesExists(
+                taskKeyIndex,
+                taskFrequencyIndex,
+                taskLastUpdateDateIndex
+            )
+        ) {
             true -> {
                 val tasks = mutableListOf<Task>()
                 while (moveToNext()) {
-                    tasks += getTask(taskKeyIndex)
+                    tasks += getTask(taskKeyIndex, taskFrequencyIndex, taskLastUpdateDateIndex)
                 }
                 tasks
             }
@@ -43,20 +52,25 @@ class GetTasksForPlantUseCaseImpl @Inject constructor(
         }
     }
 
-    private fun Cursor.getTask(taskKeyIndex: Int): Task {
+    private fun Cursor.getTask(
+        taskKeyIndex: Int,
+        taskFrequencyIndex: Int,
+        taskLastUpdateDateIndex: Int
+    ): Task {
         return TaskKeys
             .getFromKey(getString(taskKeyIndex))
-            // TODO change this to normal task
             .toTask(
-                taskId = 0,
-                frequency = 0,
-                lastUpdateDate = Date()
+                taskId = 0, // TODO remove id from Task model
+                frequency = getInt(taskFrequencyIndex),
+                lastUpdateDate = Date(getLong(taskLastUpdateDateIndex))
             )
     }
 
-    private fun checkIfColumnNameExists(
-        taskKeyIndex: Int
+    private fun checkIfColumnNamesExists(
+        taskKeyIndex: Int,
+        taskFrequencyIndex: Int,
+        taskLastUpdateDateIndex: Int
     ): Boolean {
-        return taskKeyIndex >= 0
+        return taskKeyIndex >= 0 && taskFrequencyIndex >= 0 && taskLastUpdateDateIndex >= 0
     }
 }

@@ -5,16 +5,20 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.plantsapp.domain.model.Plant
 import com.example.statisticsapp.databinding.ItemPlantBinding
+import com.example.statisticsapp.presentation.ui.statistics.StatisticsViewModel
 
 class PlantViewHolder(
     private val binding: ItemPlantBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(plant: Plant) {
+    fun bind(plantStatisticsInfo: StatisticsViewModel.PlantStatisticsInfo) {
         with(binding) {
-            tvPlantPicture.text = plant.plantPicture.toString()
-            tvPlantName.text = plant.name.value
-            tvPlantSpeciesName.text = plant.speciesName
+            tvPlantName.text = plantStatisticsInfo.plant.name.value
+
+            rvTasksWithCompletionsNumber.adapter = TasksStatisticsAdapter()
+                .apply {
+                    submitList(plantStatisticsInfo.tasks)
+                }
         }
     }
 

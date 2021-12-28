@@ -21,7 +21,7 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         super.onViewCreated(view, savedInstanceState)
 
         with(viewModel) {
-            plants.observe(viewLifecycleOwner) {
+            plantsWithTasksStatistics.observe(viewLifecycleOwner) {
                 plantAdapter.submitList(it)
             }
         }
