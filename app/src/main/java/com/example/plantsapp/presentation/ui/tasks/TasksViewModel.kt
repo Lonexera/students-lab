@@ -21,6 +21,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.Date
 
+@Suppress("TooGenericExceptionCaught")
 class TasksViewModel @AssistedInject constructor(
     @FirebaseQualifier private val plantsRepository: PlantsRepository,
     @FirebaseQualifier private val plantPhotosRepository: PlantPhotosRepository,
@@ -41,7 +42,6 @@ class TasksViewModel @AssistedInject constructor(
     private var takingPhotoTaskWithPlant: Pair<Plant, Task>? = null
 
     init {
-        @Suppress("TooGenericExceptionCaught")
         viewModelScope.launch {
             try {
                 _isLoading.value = true
@@ -54,7 +54,6 @@ class TasksViewModel @AssistedInject constructor(
         }
     }
 
-    @Suppress("TooGenericExceptionCaught")
     fun onCompleteTaskClicked(plant: Plant, task: Task) {
         when (task) {
             is Task.TakingPhotoTask -> {
@@ -76,7 +75,6 @@ class TasksViewModel @AssistedInject constructor(
         }
     }
 
-    @Suppress("TooGenericExceptionCaught")
     fun onImageCaptured(uri: Uri) {
         viewModelScope.launch {
             try {

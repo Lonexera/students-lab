@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.plantsapp.R
 import com.example.plantsapp.domain.usecase.AuthUseCase
-import com.example.plantsapp.presentation.core.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -25,20 +24,20 @@ class AuthViewModel @Inject constructor(
         data class AuthError(@StringRes val errorId: Int) : AuthState()
     }
 
-    private val _authState: MutableLiveData<Event<AuthState>> = MutableLiveData()
-    val authState: LiveData<Event<AuthState>> get() = _authState
+    private val _authState: MutableLiveData<AuthState> = MutableLiveData()
+    val authState: LiveData<AuthState> get() = _authState
 
     @Suppress("TooGenericExceptionCaught")
     fun onSignInResult(token: String?) {
         viewModelScope.launch {
             if (token == null) {
                 _authState.value =
-                    Event(AuthState.AuthError(R.string.error_unable_to_sign_in))
+                    AuthState.AuthError(R.string.error_unable_to_sign_in)
                 return@launch
             }
 
-            val event = try {
-                _authState.value = Event(AuthState.Loading)
+            val state = try {
+                _authState.value = AuthState.Loading
                 authUseCase(AuthUseCase.AuthInput(token))
                 AuthState.NavigateToTasks
             } catch (e: Exception) {
@@ -46,7 +45,7 @@ class AuthViewModel @Inject constructor(
                 AuthState.AuthError(R.string.error_unable_to_sign_in)
             }
 
-            _authState.value = Event(event)
+            _authState.value = state
         }
     }
 }

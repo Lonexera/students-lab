@@ -21,6 +21,7 @@ import java.util.Date
 import javax.inject.Inject
 import kotlin.Exception
 
+@Suppress("TooGenericExceptionCaught")
 @HiltViewModel
 class PlantCreationViewModel @Inject constructor(
     @FirebaseQualifier private val plantsRepository: PlantsRepository,
@@ -56,7 +57,6 @@ class PlantCreationViewModel @Inject constructor(
     private val _invalidInput: MutableLiveData<Int> = MutableLiveData()
     val invalidInput: LiveData<Int> get() = _invalidInput
 
-    @Suppress("TooGenericExceptionCaught")
     fun saveData(
         plantName: String,
         speciesName: String
@@ -123,10 +123,7 @@ class PlantCreationViewModel @Inject constructor(
         _frequencies.value = _frequencies.value?.copy(takingPhotoFrequency = frequency)
     }
 
-    @Suppress(
-        "TooGenericExceptionCaught",
-        "LongParameterList"
-    )
+    @Suppress("LongParameterList")
     private suspend fun addPlant(
         plantName: String,
         speciesName: String,

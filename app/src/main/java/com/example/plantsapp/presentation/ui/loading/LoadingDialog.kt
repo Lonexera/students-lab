@@ -14,7 +14,6 @@ class LoadingDialog(context: Context) {
             .setView(R.layout.dialog_loading)
             .setCancelable(false)
             .create()
-            .apply { setCanceledOnTouchOutside(false) }
 
     private val dialogSize = DIALOG_SIZE_DP.toPx(context)
 

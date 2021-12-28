@@ -18,6 +18,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.Date
 
+@Suppress("TooGenericExceptionCaught")
 class PlantDetailViewModel @AssistedInject constructor(
     @FirebaseQualifier private val plantsRepository: PlantsRepository,
     @FirebaseQualifier private val tasksRepository: TasksRepository,
@@ -41,7 +42,6 @@ class PlantDetailViewModel @AssistedInject constructor(
     val toNavigateBack: LiveData<Event<Unit>> get() = _toNavigateBack
 
     init {
-        @Suppress("TooGenericExceptionCaught")
         viewModelScope.launch {
             try {
                 _isLoading.value = true
@@ -61,7 +61,6 @@ class PlantDetailViewModel @AssistedInject constructor(
         }
     }
 
-    @Suppress("TooGenericExceptionCaught")
     fun onDelete() {
         viewModelScope.launch {
             try {

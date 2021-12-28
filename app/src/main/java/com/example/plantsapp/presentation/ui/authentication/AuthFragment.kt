@@ -19,6 +19,7 @@ import javax.inject.Inject
 class AuthFragment : Fragment(R.layout.fragment_auth) {
     private val binding: FragmentAuthBinding by viewBinding(FragmentAuthBinding::bind)
     private val viewModel: AuthViewModel by viewModels()
+
     @Inject
     lateinit var googleSignInClient: GoogleSignInClient
     private val loadingDialog by lazy { LoadingDialog(requireContext()) }
@@ -36,22 +37,20 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
         activity?.setTitle(R.string.title_auth_screen)
 
         with(viewModel) {
-            authState.observe(viewLifecycleOwner) {
-                it.getContentIfNotHandled()?.let { result ->
-                    when (result) {
-                        is AuthViewModel.AuthState.Loading -> loadingDialog.show()
+            authState.observe(viewLifecycleOwner) { state ->
+                when (state) {
+                    is AuthViewModel.AuthState.Loading -> loadingDialog.show()
 
-                        is AuthViewModel.AuthState.NavigateToTasks -> {
-                            loadingDialog.dismiss()
-                            requireActivity().supportFragmentManager.commit {
-                                replace(R.id.fragment_container, TasksForDaysFragment())
-                            }
+                    is AuthViewModel.AuthState.NavigateToTasks -> {
+                        loadingDialog.dismiss()
+                        requireActivity().supportFragmentManager.commit {
+                            replace(R.id.fragment_container, TasksForDaysFragment())
                         }
-                        is AuthViewModel.AuthState.AuthError -> {
-                            loadingDialog.dismiss()
-                            Toast.makeText(requireContext(), result.errorId, Toast.LENGTH_SHORT)
-                                .show()
-                        }
+                    }
+                    is AuthViewModel.AuthState.AuthError -> {
+                        loadingDialog.dismiss()
+                        Toast.makeText(requireContext(), state.errorId, Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
             }
