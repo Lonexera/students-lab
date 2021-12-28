@@ -21,6 +21,7 @@ import java.util.Date
 import javax.inject.Inject
 import kotlin.Exception
 
+@Suppress("TooGenericExceptionCaught")
 @HiltViewModel
 class PlantCreationViewModel @Inject constructor(
     @FirebaseQualifier private val plantsRepository: PlantsRepository,
@@ -35,6 +36,9 @@ class PlantCreationViewModel @Inject constructor(
         val looseningFrequency: Int?,
         val takingPhotoFrequency: Int?
     )
+
+    private val _isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isLoading: LiveData<Boolean> get() = _isLoading
 
     private val _toNavigateBack: MutableLiveData<Event<Unit>> = MutableLiveData()
     val toNavigateBack: LiveData<Event<Unit>> get() = _toNavigateBack
@@ -67,12 +71,19 @@ class PlantCreationViewModel @Inject constructor(
 
             when (validationResult) {
                 is PlantCreationValidator.ValidatorOutput.Success -> {
-                    addPlant(
-                        plantName,
-                        speciesName,
-                        selectedPicture.value,
-                        frequencies.value!!
-                    )
+                    try {
+                        _isLoading.value = true
+                        addPlant(
+                            plantName,
+                            speciesName,
+                            selectedPicture.value,
+                            frequencies.value!!
+                        )
+                    } catch (e: Exception) {
+                        Timber.e(e)
+                    } finally {
+                        _isLoading.value = false
+                    }
                 }
 
                 is PlantCreationValidator.ValidatorOutput.Error -> {
@@ -112,10 +123,7 @@ class PlantCreationViewModel @Inject constructor(
         _frequencies.value = _frequencies.value?.copy(takingPhotoFrequency = frequency)
     }
 
-    @Suppress(
-        "TooGenericExceptionCaught",
-        "LongParameterList"
-    )
+    @Suppress("LongParameterList")
     private suspend fun addPlant(
         plantName: String,
         speciesName: String,

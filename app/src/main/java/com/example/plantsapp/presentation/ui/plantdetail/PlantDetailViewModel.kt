@@ -15,8 +15,10 @@ import com.example.plantsapp.presentation.core.Event
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.util.Date
 
+@Suppress("TooGenericExceptionCaught")
 class PlantDetailViewModel @AssistedInject constructor(
     @FirebaseQualifier private val plantsRepository: PlantsRepository,
     @FirebaseQualifier private val tasksRepository: TasksRepository,
@@ -33,27 +35,44 @@ class PlantDetailViewModel @AssistedInject constructor(
     private val _plantPhotos: MutableLiveData<List<Pair<Uri, Date>>> = MutableLiveData()
     val plantPhotos: LiveData<List<Pair<Uri, Date>>> get() = _plantPhotos
 
+    private val _isLoading: MutableLiveData<Boolean> = MutableLiveData(true)
+    val isLoading: LiveData<Boolean> get() = _isLoading
+
     private val _toNavigateBack: MutableLiveData<Event<Unit>> = MutableLiveData()
     val toNavigateBack: LiveData<Event<Unit>> get() = _toNavigateBack
 
     init {
         viewModelScope.launch {
-            plantsRepository.getPlantByName(Plant.Name(plantName)).run {
-                _plant.value = this
-                _tasks.value = tasksRepository.getTasksForPlant(this)
-                // TODO Add loading for whole screen
-                _plantPhotos.value = plantPhotosRepository
-                    .getPlantPhotos(this)
-                    .sortedByDescending { (_, creationDate) -> creationDate.time }
+            try {
+                _isLoading.value = true
+
+                plantsRepository.getPlantByName(Plant.Name(plantName)).run {
+                    _plant.value = this
+                    _tasks.value = tasksRepository.getTasksForPlant(this)
+                    _plantPhotos.value = plantPhotosRepository
+                        .getPlantPhotos(this)
+                        .sortedByDescending { (_, creationDate) -> creationDate.time }
+                }
+            } catch (e: Exception) {
+                Timber.e(e)
+            } finally {
+                _isLoading.value = false
             }
         }
     }
 
     fun onDelete() {
         viewModelScope.launch {
-            plantsRepository.deletePlant(plant.value!!)
+            try {
+                _isLoading.value = true
 
-            _toNavigateBack.value = Event(Unit)
+                plantsRepository.deletePlant(plant.value!!)
+                _toNavigateBack.value = Event(Unit)
+            } catch (e: Exception) {
+                Timber.e(e)
+            } finally {
+                _isLoading.value = false
+            }
         }
     }
 }

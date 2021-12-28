@@ -18,8 +18,10 @@ import com.example.plantsapp.presentation.ui.utils.isSameDay
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.util.Date
 
+@Suppress("TooGenericExceptionCaught")
 class TasksViewModel @AssistedInject constructor(
     @FirebaseQualifier private val plantsRepository: PlantsRepository,
     @FirebaseQualifier private val plantPhotosRepository: PlantPhotosRepository,
@@ -32,13 +34,23 @@ class TasksViewModel @AssistedInject constructor(
         MutableLiveData()
     val plantsWithTasks: LiveData<List<Pair<Plant, List<TaskWithState>>>> = _plantsWithTasks
 
+    private val _isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isLoading: LiveData<Boolean> get() = _isLoading
+
     private val _launchCamera: MutableLiveData<Event<Unit>> = MutableLiveData()
     val launchCamera: LiveData<Event<Unit>> = _launchCamera
     private var takingPhotoTaskWithPlant: Pair<Plant, Task>? = null
 
     init {
         viewModelScope.launch {
-            fetchTasks()
+            try {
+                _isLoading.value = true
+                fetchTasks()
+            } catch (e: Exception) {
+                Timber.e(e)
+            } finally {
+                _isLoading.value = false
+            }
         }
     }
 
@@ -50,7 +62,14 @@ class TasksViewModel @AssistedInject constructor(
             }
             else -> {
                 viewModelScope.launch {
-                    completeTask(plant, task)
+                    try {
+                        _isLoading.value = true
+                        completeTask(plant, task)
+                    } catch (e: Exception) {
+                        Timber.e(e)
+                    } finally {
+                        _isLoading.value = false
+                    }
                 }
             }
         }
@@ -58,11 +77,19 @@ class TasksViewModel @AssistedInject constructor(
 
     fun onImageCaptured(uri: Uri) {
         viewModelScope.launch {
-            val (plant, task) = takingPhotoTaskWithPlant
-                ?: throw IllegalStateException("Cannot access stored plant and task for taking photo")
+            try {
+                _isLoading.value = true
 
-            plantPhotosRepository.savePhoto(plant, uri)
-            completeTask(plant, task)
+                val (plant, task) = takingPhotoTaskWithPlant
+                    ?: throw IllegalStateException("Cannot access stored plant and task for taking photo")
+
+                plantPhotosRepository.savePhoto(plant, uri)
+                completeTask(plant, task)
+            } catch (e: Exception) {
+                Timber.e(e)
+            } finally {
+                _isLoading.value = false
+            }
         }
     }
 

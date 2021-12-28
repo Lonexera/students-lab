@@ -7,10 +7,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.plantsapp.R
 import com.example.plantsapp.domain.usecase.AuthUseCase
-import com.example.plantsapp.presentation.core.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.lang.Exception
 import javax.inject.Inject
 
 @HiltViewModel
@@ -18,29 +18,34 @@ class AuthViewModel @Inject constructor(
     private val authUseCase: AuthUseCase,
 ) : ViewModel() {
 
-    sealed class AuthResult {
-        object NavigateToTasks : AuthResult()
-        data class AuthError(@StringRes val errorId: Int) : AuthResult()
+    sealed class AuthState {
+        object Loading : AuthState()
+        object NavigateToTasks : AuthState()
+        data class AuthError(@StringRes val errorId: Int) : AuthState()
     }
 
-    private val _authResult: MutableLiveData<Event<AuthResult>> = MutableLiveData()
-    val authResult: LiveData<Event<AuthResult>> get() = _authResult
+    private val _authState: MutableLiveData<AuthState> = MutableLiveData()
+    val authState: LiveData<AuthState> get() = _authState
 
+    @Suppress("TooGenericExceptionCaught")
     fun onSignInResult(token: String?) {
         viewModelScope.launch {
             if (token == null) {
-                _authResult.value = Event(AuthResult.AuthError(R.string.error_unable_to_sign_in))
+                _authState.value =
+                    AuthState.AuthError(R.string.error_unable_to_sign_in)
                 return@launch
             }
 
-            val event = try {
+            val state = try {
+                _authState.value = AuthState.Loading
                 authUseCase(AuthUseCase.AuthInput(token))
-                AuthResult.NavigateToTasks
-            } catch (e: IllegalStateException) {
+                AuthState.NavigateToTasks
+            } catch (e: Exception) {
                 Timber.e(e)
-                AuthResult.AuthError(R.string.error_unable_to_sign_in)
+                AuthState.AuthError(R.string.error_unable_to_sign_in)
             }
-            _authResult.value = Event(event)
+
+            _authState.value = state
         }
     }
 }

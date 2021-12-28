@@ -84,4 +84,7 @@
     <string name="title_dialog_confirmation_btn_positive">Yes</string>
     <string name="title_dialog_confirmation_btn_negative">No</string>
 
+    <!-- Loading -->
+    <string name="title_dialog_loading">Loading...</string>
+
 </resources>
