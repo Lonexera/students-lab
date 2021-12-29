@@ -16,4 +16,8 @@ class StubTasksHistoryRepository(
     override suspend fun isTaskCompletedForDate(plant: Plant, task: Task, date: Date): Boolean {
         return areTasksCompleted
     }
+
+    override suspend fun getTaskHistory(plant: Plant, task: Task): List<Date> {
+        TODO("Not yet implemented")
+    }
 }
