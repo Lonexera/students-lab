@@ -3,8 +3,11 @@ package com.example.plantsapp.presentation.ui.loading
 import android.app.AlertDialog
 import android.content.Context
 import android.util.TypedValue
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.OnLifecycleEvent
 import com.example.plantsapp.R
 
 class LoadingDialog(context: Context) {
@@ -52,4 +55,11 @@ fun LoadingDialog.connectWith(
             false -> dismiss()
         }
     }
+
+    lifecycleOwner.lifecycle.addObserver(object : LifecycleObserver {
+        @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+        fun hideOnDestroy() {
+            dismiss()
+        }
+    })
 }
