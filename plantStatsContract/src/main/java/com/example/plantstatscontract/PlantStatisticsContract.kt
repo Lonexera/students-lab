@@ -46,7 +46,7 @@ object PlantStatisticsContract {
         private const val ARGUMENT_TASK_FREQUENCY = 4
         private const val ARGUMENT_TASK_LAST_UPDATE_DATE = 5
 
-        fun putPlantInArgs(plant: Plant): Array<out String?> {
+        fun putPlantInArgs(plant: Plant): Array<String?> {
             return arrayOf(
                 plant.name.value,
                 plant.speciesName,
@@ -54,7 +54,7 @@ object PlantStatisticsContract {
             )
         }
 
-        fun putPlantAndTaskInArgs(plant: Plant, task: Task): Array<out String?> {
+        fun putPlantAndTaskInArgs(plant: Plant, task: Task): Array<String?> {
             return arrayOf(
                 plant.name.value,
                 plant.speciesName,

@@ -37,7 +37,7 @@ class PlantsContentProvider : ContentProvider() {
     private val createTaskHistoryCursorUseCase: CreateTaskHistoryCursorUseCase by lazy {
         hiltEntryPoint.getCreateTaskHistoryCursorCase()
     }
-    private val uriMatcher = initializeUriMatcher()
+    private val uriMatcher: UriMatcher = initializeUriMatcher()
 
     override fun onCreate(): Boolean {
         val appContext = context?.applicationContext
