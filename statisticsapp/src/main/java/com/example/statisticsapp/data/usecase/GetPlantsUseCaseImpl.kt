@@ -15,7 +15,7 @@ class GetPlantsUseCaseImpl @Inject constructor(
 
     override suspend fun invoke(): List<Plant> {
         return appContext.contentResolver.query(
-            Uri.parse(PlantStatisticsContract.CONTENT_URI),
+            Uri.parse(PlantStatisticsContract.Plants.CONTENT_URI),
             null,
             null,
             null,
@@ -25,22 +25,30 @@ class GetPlantsUseCaseImpl @Inject constructor(
     }
 
     private fun Cursor.getPlants(): List<Plant> {
-        val plantNameIndex = getColumnIndex(PlantStatisticsContract.FIELD_PLANT_NAME)
-        val plantSpeciesNameIndex = getColumnIndex(PlantStatisticsContract.FIELD_SPECIES_NAME)
-        val plantPictureIndex = getColumnIndex(PlantStatisticsContract.FIELD_PLANT_PICTURE)
+        val plantNameIndex = getColumnIndex(PlantStatisticsContract.Plants.FIELD_NAME)
+        val plantSpeciesNameIndex =
+            getColumnIndex(PlantStatisticsContract.Plants.FIELD_SPECIES_NAME)
+        val plantPictureIndex = getColumnIndex(PlantStatisticsContract.Plants.FIELD_PICTURE)
 
-        return when (
-            checkIfColumnNamesExist(plantNameIndex, plantSpeciesNameIndex, plantPictureIndex)
-        ) {
-            true -> {
-                val plants = mutableListOf<Plant>()
+        val areColumnNamesFound = checkIfColumnNamesExist(
+            plantNameIndex,
+            plantSpeciesNameIndex,
+            plantPictureIndex
+        )
+
+        return if (areColumnNamesFound) {
+            mutableListOf<Plant>().apply {
                 while (moveToNext()) {
-                    plants += getPlant(plantNameIndex, plantSpeciesNameIndex, plantPictureIndex)
+                    add(
+                        getPlant(
+                            plantNameIndex,
+                            plantSpeciesNameIndex,
+                            plantPictureIndex
+                        )
+                    )
                 }
-                plants
             }
-            false -> emptyList()
-        }
+        } else emptyList()
     }
 
     private fun Cursor.getPlant(

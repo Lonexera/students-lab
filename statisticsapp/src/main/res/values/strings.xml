@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">StatisticsApp</string>
+
+    <string name="title_watering_task">Watering: %d</string>
+    <string name="title_spraying_task">Spraying: %d</string>
+    <string name="title_loosening_task">Loosening soil: %d</string>
+    <string name="title_taking_photo_task">Taken photos: %d</string>
 </resources>
