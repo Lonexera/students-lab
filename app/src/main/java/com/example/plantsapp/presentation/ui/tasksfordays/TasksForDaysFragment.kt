@@ -76,7 +76,7 @@ class TasksForDaysFragment : Fragment(R.layout.fragment_tasks_for_days) {
     }
 
     companion object {
-        private const val DATE_FORMAT_WITH_YEAR = "d MMM YYYY"
+        private const val DATE_FORMAT_WITH_YEAR = "d MMM yyyy"
         private const val DATE_FORMAT_WITHOUT_YEAR = "d MMM"
     }
 }

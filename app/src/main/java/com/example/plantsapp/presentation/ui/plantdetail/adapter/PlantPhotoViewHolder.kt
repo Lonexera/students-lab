@@ -31,6 +31,6 @@ class PlantPhotoViewHolder(
             return PlantPhotoViewHolder(binding)
         }
 
-        private const val DATE_FORMAT_WITH_YEAR = "d MMM YYYY HH:mm"
+        private const val DATE_FORMAT_WITH_YEAR = "d MMM yyyy HH:mm"
     }
 }
