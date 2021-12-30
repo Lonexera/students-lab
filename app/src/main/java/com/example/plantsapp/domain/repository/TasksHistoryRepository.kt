@@ -8,5 +8,5 @@ interface TasksHistoryRepository {
 
     suspend fun createTaskCompletion(plant: Plant, task: Task, completionDate: Date)
     suspend fun isTaskCompletedForDate(plant: Plant, task: Task, date: Date): Boolean
-    suspend fun getTaskHistory(plant: Plant, task: Task): List<Date>
+    suspend fun getTaskCompletionDates(plant: Plant, task: Task): List<Date>
 }

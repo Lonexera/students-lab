@@ -26,21 +26,29 @@ class GetPlantsUseCaseImpl @Inject constructor(
 
     private fun Cursor.getPlants(): List<Plant> {
         val plantNameIndex = getColumnIndex(PlantStatisticsContract.Plants.FIELD_NAME)
-        val plantSpeciesNameIndex = getColumnIndex(PlantStatisticsContract.Plants.FIELD_SPECIES_NAME)
+        val plantSpeciesNameIndex =
+            getColumnIndex(PlantStatisticsContract.Plants.FIELD_SPECIES_NAME)
         val plantPictureIndex = getColumnIndex(PlantStatisticsContract.Plants.FIELD_PICTURE)
 
-        return when (
-            checkIfColumnNamesExist(plantNameIndex, plantSpeciesNameIndex, plantPictureIndex)
-        ) {
-            true -> {
-                val plants = mutableListOf<Plant>()
+        val areColumnNamesFound = checkIfColumnNamesExist(
+            plantNameIndex,
+            plantSpeciesNameIndex,
+            plantPictureIndex
+        )
+
+        return if (areColumnNamesFound) {
+            mutableListOf<Plant>().apply {
                 while (moveToNext()) {
-                    plants += getPlant(plantNameIndex, plantSpeciesNameIndex, plantPictureIndex)
+                    add(
+                        getPlant(
+                            plantNameIndex,
+                            plantSpeciesNameIndex,
+                            plantPictureIndex
+                        )
+                    )
                 }
-                plants
             }
-            false -> emptyList()
-        }
+        } else emptyList()
     }
 
     private fun Cursor.getPlant(

@@ -9,6 +9,8 @@ import com.example.plantsapp.data.contentprovider.usecase.CreatePlantsCursorUseC
 import com.example.plantsapp.data.contentprovider.usecase.CreateTaskHistoryCursorUseCase
 import com.example.plantsapp.data.contentprovider.usecase.CreateTasksCursorUseCase
 import com.example.plantstatscontract.PlantStatisticsContract
+import com.example.plantstatscontract.PlantStatisticsContract.SelectionArgs.getPlant
+import com.example.plantstatscontract.PlantStatisticsContract.SelectionArgs.getTask
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
@@ -35,7 +37,7 @@ class PlantsContentProvider : ContentProvider() {
     private val createTaskHistoryCursorUseCase: CreateTaskHistoryCursorUseCase by lazy {
         hiltEntryPoint.getCreateTaskHistoryCursorCase()
     }
-    private val uriMatcher = UriMatcher(UriMatcher.NO_MATCH)
+    private val uriMatcher = initializeUriMatcher()
 
     override fun onCreate(): Boolean {
         val appContext = context?.applicationContext
@@ -46,7 +48,6 @@ class PlantsContentProvider : ContentProvider() {
             PlantsContentProviderEntryPoint::class.java
         )
 
-        initializeUriMatcher()
         return true
     }
 
@@ -57,19 +58,29 @@ class PlantsContentProvider : ContentProvider() {
         selectionArgs: Array<out String>?,
         sortOrder: String?
     ): Cursor {
+        return runBlocking {
+            getResultCursor(uri, selectionArgs)
+        }
+    }
+
+    // TODO Think how to extract selectionArgs creation and parsing
+    @Suppress("ThrowsCount")
+    private suspend fun getResultCursor(uri: Uri, selectionArgs: Array<out String>?): Cursor {
         return when (uriMatcher.match(uri)) {
-            PLANTS_URI_CODE -> runBlocking { createPlantsCursorUseCase() }
-            TASKS_URI_CODE -> runBlocking {
+            PLANTS_URI_CODE -> createPlantsCursorUseCase()
+            TASKS_URI_CODE -> {
+                selectionArgs
+                    ?: throw IllegalArgumentException("Selection argument is required for this query")
                 createTasksCursorUseCase(
-                    plantName = selectionArgs?.first()
-                        ?: throw IllegalArgumentException("Selection argument is required for this query")
+                    plant = selectionArgs.getPlant()
                 )
             }
-            TASK_HISTORY_URI_CODE -> runBlocking {
+            TASK_HISTORY_URI_CODE -> {
+                selectionArgs
+                    ?: throw IllegalArgumentException("Selection arguments are required for this query")
                 createTaskHistoryCursorUseCase(
-                    plantName = selectionArgs?.first()
-                        ?: throw IllegalArgumentException("Selection arguments are required for this query"),
-                    taskKey = selectionArgs[1]
+                    plant = selectionArgs.getPlant(),
+                    task = selectionArgs.getTask()
                 )
             }
             else -> throw IllegalStateException("Provided uri is not supported")
@@ -102,22 +113,25 @@ class PlantsContentProvider : ContentProvider() {
         TODO("Not implemented")
     }
 
-    private fun initializeUriMatcher() {
-        uriMatcher.addURI(
-            PlantStatisticsContract.AUTHORITY,
-            PlantStatisticsContract.Plants.PATH,
-            PLANTS_URI_CODE
-        )
-        uriMatcher.addURI(
-            PlantStatisticsContract.AUTHORITY,
-            PlantStatisticsContract.Tasks.PATH,
-            TASKS_URI_CODE
-        )
-        uriMatcher.addURI(
-            PlantStatisticsContract.AUTHORITY,
-            PlantStatisticsContract.TaskHistory.PATH,
-            TASK_HISTORY_URI_CODE
-        )
+    private fun initializeUriMatcher(): UriMatcher {
+        return UriMatcher(UriMatcher.NO_MATCH)
+            .apply {
+                addURI(
+                    PlantStatisticsContract.AUTHORITY,
+                    PlantStatisticsContract.Plants.PATH,
+                    PLANTS_URI_CODE
+                )
+                addURI(
+                    PlantStatisticsContract.AUTHORITY,
+                    PlantStatisticsContract.Tasks.PATH,
+                    TASKS_URI_CODE
+                )
+                addURI(
+                    PlantStatisticsContract.AUTHORITY,
+                    PlantStatisticsContract.TaskHistory.PATH,
+                    TASK_HISTORY_URI_CODE
+                )
+            }
     }
 
     companion object {
@@ -125,5 +139,4 @@ class PlantsContentProvider : ContentProvider() {
         private const val TASKS_URI_CODE = 1
         private const val TASK_HISTORY_URI_CODE = 2
     }
-
 }

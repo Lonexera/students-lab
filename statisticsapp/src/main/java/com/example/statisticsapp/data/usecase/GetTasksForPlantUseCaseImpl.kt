@@ -22,10 +22,11 @@ class GetTasksForPlantUseCaseImpl @Inject constructor(
             Uri.parse(PlantStatisticsContract.Tasks.CONTENT_URI),
             null,
             null,
-            arrayOf(plant.name.value),
+            PlantStatisticsContract.SelectionArgs.putPlantInArgs(plant),
             null
         )
-            ?.use { it.getTasks() } ?: emptyList()
+            ?.use { it.getTasks() }
+            ?: throw IllegalStateException("Tasks for plant should never be empty")
     }
 
     private fun Cursor.getTasks(): List<Task> {
@@ -34,22 +35,25 @@ class GetTasksForPlantUseCaseImpl @Inject constructor(
         val taskLastUpdateDateIndex =
             getColumnIndex(PlantStatisticsContract.Tasks.FIELD_LAST_UPDATE_DATE)
 
-        return when (
-            checkIfColumnNamesExists(
-                taskKeyIndex,
-                taskFrequencyIndex,
-                taskLastUpdateDateIndex
-            )
-        ) {
-            true -> {
-                val tasks = mutableListOf<Task>()
+        val areColumnNamesFound = checkIfColumnNamesExists(
+            taskKeyIndex,
+            taskFrequencyIndex,
+            taskLastUpdateDateIndex
+        )
+
+        return if (areColumnNamesFound) {
+            mutableListOf<Task>().apply {
                 while (moveToNext()) {
-                    tasks += getTask(taskKeyIndex, taskFrequencyIndex, taskLastUpdateDateIndex)
+                    add(
+                        getTask(
+                            taskKeyIndex,
+                            taskFrequencyIndex,
+                            taskLastUpdateDateIndex
+                        )
+                    )
                 }
-                tasks
             }
-            false -> emptyList()
-        }
+        } else throw IllegalStateException("Tasks for plant should never be empty")
     }
 
     private fun Cursor.getTask(

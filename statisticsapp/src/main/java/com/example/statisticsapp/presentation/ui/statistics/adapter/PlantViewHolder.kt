@@ -3,23 +3,23 @@ package com.example.statisticsapp.presentation.ui.statistics.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.plantsapp.domain.model.Plant
 import com.example.statisticsapp.databinding.ItemPlantBinding
-import com.example.statisticsapp.presentation.ui.statistics.StatisticsViewModel
+import com.example.statisticsapp.presentation.model.PlantStatisticsInfo
 
 class PlantViewHolder(
     private val binding: ItemPlantBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(plantStatisticsInfo: StatisticsViewModel.PlantStatisticsInfo) {
-        with(binding) {
-            tvPlantName.text = plantStatisticsInfo.plant.name.value
+    private val tasksStatisticsAdapter = TasksStatisticsAdapter()
 
-            rvTasksWithCompletionsNumber.adapter = TasksStatisticsAdapter()
-                .apply {
-                    submitList(plantStatisticsInfo.tasks)
-                }
-        }
+    init {
+        binding.rvTasksWithCompletionsNumber.adapter = tasksStatisticsAdapter
+    }
+
+    fun bind(plantStatisticsInfo: PlantStatisticsInfo) {
+        binding.tvPlantName.text = plantStatisticsInfo.plant.name.value
+
+        tasksStatisticsAdapter.submitList(plantStatisticsInfo.tasks)
     }
 
     companion object {

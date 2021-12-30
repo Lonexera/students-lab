@@ -6,13 +6,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.plantsapp.domain.model.Task
 import com.example.statisticsapp.databinding.ItemTaskAndCompletionsNumberBinding
-import com.example.statisticsapp.presentation.ui.statistics.StatisticsViewModel
+import com.example.statisticsapp.presentation.model.TaskStatisticsInfo
 
 class TasksStatisticsViewHolder(
     private val binding: ItemTaskAndCompletionsNumberBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(taskStatisticsInfo: StatisticsViewModel.TaskStatisticsInfo) {
+    fun bind(taskStatisticsInfo: TaskStatisticsInfo) {
         with (binding) {
             tvTaskAndCompletionNumber.text = root.context.getString(
                 taskStatisticsInfo.task.getTitleRes(),

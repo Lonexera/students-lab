@@ -36,7 +36,7 @@ class FirebaseTaskHistoryRepository @Inject constructor(
             .size() > 0
     }
 
-    override suspend fun getTaskHistory(plant: Plant, task: Task): List<Date> {
+    override suspend fun getTaskCompletionDates(plant: Plant, task: Task): List<Date> {
         return getTaskHistoryCollection(plant, task)
             .get()
             .await()

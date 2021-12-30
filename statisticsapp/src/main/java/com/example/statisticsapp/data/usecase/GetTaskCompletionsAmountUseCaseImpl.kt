@@ -4,7 +4,6 @@ import android.content.Context
 import android.net.Uri
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.model.Task
-import com.example.plantsapp.domain.model.TaskKeys
 import com.example.plantstatscontract.PlantStatisticsContract
 import com.example.statisticsapp.domain.usecase.GetTaskCompletionsAmountUseCase
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -19,7 +18,8 @@ class GetTaskCompletionsAmountUseCaseImpl @Inject constructor(
             Uri.parse(PlantStatisticsContract.TaskHistory.CONTENT_URI),
             null,
             null,
-            arrayOf(plant.name.value, TaskKeys.from(task).key),
+            // TODO Think how to extract selectionArgs creation and parsing
+            PlantStatisticsContract.SelectionArgs.putPlantAndTaskInArgs(plant, task),
             null
         )
             ?.use{ it.count } ?: throw NoSuchElementException("Task History data is not found (null cursor)")

@@ -1,8 +1,8 @@
 package com.example.plantsapp.data.contentprovider.usecase
 
 import android.database.MatrixCursor
-import com.example.plantsapp.data.contentprovider.usecase.utils.getDefaultPlantWithName
 import com.example.plantsapp.di.module.FirebaseQualifier
+import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.model.Task
 import com.example.plantsapp.domain.model.TaskKeys
 import com.example.plantsapp.domain.repository.TasksRepository
@@ -12,7 +12,7 @@ import javax.inject.Inject
 class CreateTasksCursorUseCase @Inject constructor(
     @FirebaseQualifier private val tasksRepository: TasksRepository
 ) {
-    suspend operator fun invoke(plantName: String): MatrixCursor {
+    suspend operator fun invoke(plant: Plant): MatrixCursor {
         return MatrixCursor(
             arrayOf(
                 PlantStatisticsContract.Tasks.FIELD_TASK_KEY,
@@ -22,7 +22,7 @@ class CreateTasksCursorUseCase @Inject constructor(
         )
             .apply {
                 tasksRepository
-                    .getTasksForPlant(plant = getDefaultPlantWithName(plantName))
+                    .getTasksForPlant(plant)
                     .forEach { putTask(it) }
             }
     }
