@@ -11,23 +11,26 @@ import com.example.statisticsapp.domain.usecase.GetTasksForPlantUseCase
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.util.Date
 import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 
 class GetTasksForPlantUseCaseImpl @Inject constructor(
     @ApplicationContext private val appContext: Context
 ) : GetTasksForPlantUseCase {
 
-    override suspend fun invoke(plant: Plant): List<Task> {
-        return appContext.contentResolver.query(
-            Uri.parse(PlantStatisticsContract.Tasks.CONTENT_URI),
-            null,
-            null,
-            PlantStatisticsContract.SelectionArgs.putPlantInArgs(plant),
-            null
-        )
-            ?.use { it.getTasks() }
-            ?: throw IllegalStateException("Tasks for plant should never be empty")
-    }
+    override suspend fun invoke(plant: Plant): List<Task> =
+        withContext(Dispatchers.IO) {
+            appContext.contentResolver.query(
+                Uri.parse(PlantStatisticsContract.Tasks.CONTENT_URI),
+                null,
+                null,
+                PlantStatisticsContract.SelectionArgs.putPlantInArgs(plant),
+                null
+            )
+                ?.use { it.getTasks() }
+                ?: throw IllegalStateException("Tasks for plant should never be empty")
+        }
 
     private fun Cursor.getTasks(): List<Task> {
         val taskKeyIndex = getColumnIndex(PlantStatisticsContract.Tasks.FIELD_TASK_KEY)

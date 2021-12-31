@@ -2,6 +2,7 @@ package com.example.statisticsapp.presentation.ui.statistics
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -21,6 +22,10 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         super.onViewCreated(view, savedInstanceState)
 
         with(viewModel) {
+            isLoading.observe(viewLifecycleOwner) { isLoading ->
+                binding.pbLoading.isVisible = isLoading
+            }
+
             plantsWithTasksStatistics.observe(viewLifecycleOwner) {
                 plantAdapter.submitList(it)
             }

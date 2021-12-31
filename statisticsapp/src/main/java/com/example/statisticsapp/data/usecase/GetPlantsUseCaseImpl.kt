@@ -8,21 +8,24 @@ import com.example.plantstatscontract.PlantStatisticsContract
 import com.example.statisticsapp.domain.usecase.GetPlantsUseCase
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class GetPlantsUseCaseImpl @Inject constructor(
     @ApplicationContext private val appContext: Context
 ) : GetPlantsUseCase {
 
-    override suspend fun invoke(): List<Plant> {
-        return appContext.contentResolver.query(
-            Uri.parse(PlantStatisticsContract.Plants.CONTENT_URI),
-            null,
-            null,
-            null,
-            null
-        )
-            ?.use { it.getPlants() } ?: emptyList()
-    }
+    override suspend fun invoke(): List<Plant> =
+        withContext(Dispatchers.IO) {
+            appContext.contentResolver.query(
+                Uri.parse(PlantStatisticsContract.Plants.CONTENT_URI),
+                null,
+                null,
+                null,
+                null
+            )
+                ?.use { it.getPlants() } ?: emptyList()
+        }
 
     private fun Cursor.getPlants(): List<Plant> {
         val plantNameIndex = getColumnIndex(PlantStatisticsContract.Plants.FIELD_NAME)
