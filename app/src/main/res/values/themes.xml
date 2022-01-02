@@ -22,4 +22,9 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">12%</item>
     </style>
+
+    <style name="Widget.PlantsApp.LinearProgressIndicator" parent="Widget.MaterialComponents.LinearProgressIndicator">
+        <item name="indicatorColor">?attr/colorAccent</item>
+        <item name="android:indeterminate">true</item>
+    </style>
 </resources>
