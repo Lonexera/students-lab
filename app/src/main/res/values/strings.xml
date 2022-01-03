@@ -60,6 +60,7 @@
     <string name="title_plant_tasks">Tasks:</string>
     <string name="title_btn_uncompleted_state">Complete</string>
     <string name="title_btn_completed_state">Completed</string>
+    <string name="title_btn_statistics">Statistics</string>
 
     <!-- Task Notification -->
     <string name="title_notification_channel">Notification</string>

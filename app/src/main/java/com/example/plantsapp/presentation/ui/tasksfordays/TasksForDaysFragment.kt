@@ -2,6 +2,9 @@ package com.example.plantsapp.presentation.ui.tasksfordays
 
 import android.content.Context
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -21,6 +24,11 @@ class TasksForDaysFragment : Fragment(R.layout.fragment_tasks_for_days) {
 
     private val binding: FragmentTasksForDaysBinding by viewBinding(FragmentTasksForDaysBinding::bind)
     private val viewModel: TasksForDaysViewModel by viewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -48,11 +56,33 @@ class TasksForDaysFragment : Fragment(R.layout.fragment_tasks_for_days) {
                     }
                 })
             }
+
+            launchStatisticsApp.observe(viewLifecycleOwner) {
+                startActivity(it)
+            }
         }
 
         with(binding) {
             btnPrevDate.setOnClickListener { vpTasks.currentItem -= 1 }
             btnNextDate.setOnClickListener { vpTasks.currentItem += 1 }
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_tasks_appbar, menu)
+
+        viewModel.isStatisticsAppInstalled.observe(viewLifecycleOwner) { isInstalled ->
+            menu.findItem(R.id.action_statistics).isVisible = isInstalled
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_statistics -> {
+                viewModel.onStatisticsClicked()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
