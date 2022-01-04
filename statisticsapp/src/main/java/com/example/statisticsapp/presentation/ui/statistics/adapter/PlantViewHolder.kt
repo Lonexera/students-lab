@@ -24,8 +24,8 @@ class PlantViewHolder(
 
             Glide.with(root.context)
                 .load(plantStatisticsInfo.plant.plantPicture)
-                .placeholder(R.drawable.placeholder_image)
                 .centerCrop()
+                .placeholder(R.drawable.placeholder_image)
                 .into(ivPlant)
         }
 
