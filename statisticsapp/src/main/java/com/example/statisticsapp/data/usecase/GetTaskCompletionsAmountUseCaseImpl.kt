@@ -21,7 +21,6 @@ class GetTaskCompletionsAmountUseCaseImpl @Inject constructor(
                 Uri.parse(PlantStatisticsContract.TaskHistory.CONTENT_URI),
                 null,
                 null,
-                // TODO Think how to extract selectionArgs creation and parsing
                 PlantStatisticsContract.SelectionArgs.putPlantAndTaskInArgs(plant, task),
                 null
             )
