@@ -47,12 +47,13 @@ class TasksFragment : Fragment(R.layout.fragment_tasks) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        loadingDialog.hideOnLifecycle(viewLifecycleOwner)
+
         with(tasksViewModel) {
             tasksUiState.observe(viewLifecycleOwner) { state ->
                 when (state) {
                     is TasksViewModel.TasksUiState.Loading -> {
                         loadingDialog.show()
-                        loadingDialog.hideOnLifecycle(viewLifecycleOwner)
                     }
                     is TasksViewModel.TasksUiState.InitialState -> {
                         binding.pbLoading.isVisible = true
