@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.statisticsapp">
 
+    <queries>
+        <package android:name="com.example.plantsapp" />
+    </queries>
+
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application

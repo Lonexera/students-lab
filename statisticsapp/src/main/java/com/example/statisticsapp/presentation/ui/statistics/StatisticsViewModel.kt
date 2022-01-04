@@ -4,9 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.statisticsapp.R
 import com.example.statisticsapp.domain.usecase.GetPlantsUseCase
 import com.example.statisticsapp.domain.usecase.GetTaskCompletionsAmountUseCase
 import com.example.statisticsapp.domain.usecase.GetTasksForPlantUseCase
+import com.example.statisticsapp.presentation.core.Event
 import com.example.statisticsapp.presentation.model.PlantStatisticsInfo
 import com.example.statisticsapp.presentation.model.TaskStatisticsInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,6 +31,9 @@ class StatisticsViewModel @Inject constructor(
     private val _isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
     val isLoading: LiveData<Boolean> get() = _isLoading
 
+    private val _error: MutableLiveData<Event<Int>> = MutableLiveData()
+    val error: LiveData<Event<Int>> get() = _error
+
     init {
         viewModelScope.launch {
             try {
@@ -36,7 +41,7 @@ class StatisticsViewModel @Inject constructor(
                 _plantsWithTasksStats.value = fetchPlantsStatisticsInfo()
             } catch (e: Exception) {
                 Timber.e(e)
-                // TODO process loading error
+                _error.value = Event(R.string.error_data_loading)
             } finally {
                 _isLoading.value = false
             }

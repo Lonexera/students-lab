@@ -9,6 +9,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.statisticsapp.R
 import com.example.statisticsapp.databinding.FragmentStatisticsBinding
 import com.example.statisticsapp.presentation.ui.statistics.adapter.PlantAdapter
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -28,6 +29,14 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
 
             plantsWithTasksStatistics.observe(viewLifecycleOwner) {
                 plantAdapter.submitList(it)
+            }
+
+            error.observe(viewLifecycleOwner) {
+                it.getContentIfNotHandled()?.let { errorId ->
+                    Snackbar
+                        .make(binding.rvPlants, errorId, Snackbar.LENGTH_SHORT)
+                        .show()
+                }
             }
         }
 

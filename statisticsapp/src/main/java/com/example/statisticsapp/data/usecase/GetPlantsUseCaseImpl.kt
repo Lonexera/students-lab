@@ -24,7 +24,8 @@ class GetPlantsUseCaseImpl @Inject constructor(
                 null,
                 null
             )
-                ?.use { it.getPlants() } ?: emptyList()
+                ?.use { it.getPlants() }
+                ?: throw NoSuchElementException("Plants were not found or provider does not exist")
         }
 
     private fun Cursor.getPlants(): List<Plant> {
