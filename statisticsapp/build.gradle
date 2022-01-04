@@ -54,6 +54,4 @@ dependencies {
     implementation project(':plantStatsContract')
     // Domain Module
     implementation project(':domain')
-    // UI Core Module
-    implementation project(':ui-core')
 }

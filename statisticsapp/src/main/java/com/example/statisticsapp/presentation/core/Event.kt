@@ -1,4 +1,4 @@
-package com.example.plantsapp.uicore
+package com.example.statisticsapp.presentation.core
 
 class Event<out T>(private val content: T) {
     var hasBeenHandled = false
@@ -12,6 +12,4 @@ class Event<out T>(private val content: T) {
             content
         }
     }
-
-    fun peekContent(): T = content
 }

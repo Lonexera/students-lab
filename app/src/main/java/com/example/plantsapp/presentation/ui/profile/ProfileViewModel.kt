@@ -8,7 +8,7 @@ import com.example.plantsapp.di.module.FirebaseQualifier
 import com.example.plantsapp.domain.model.User
 import com.example.plantsapp.domain.repository.UserRepository
 import com.example.plantsapp.domain.usecase.SignOutUseCase
-import com.example.plantsapp.uicore.Event
+import com.example.plantsapp.presentation.core.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

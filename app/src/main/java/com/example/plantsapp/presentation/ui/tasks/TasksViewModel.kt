@@ -12,9 +12,9 @@ import com.example.plantsapp.domain.repository.PlantPhotosRepository
 import com.example.plantsapp.domain.repository.PlantsRepository
 import com.example.plantsapp.domain.usecase.CompleteTaskUseCase
 import com.example.plantsapp.domain.usecase.GetTasksForPlantAndDateUseCase
+import com.example.plantsapp.presentation.core.Event
 import com.example.plantsapp.presentation.model.TaskWithState
 import com.example.plantsapp.presentation.ui.utils.isSameDay
-import com.example.plantsapp.uicore.Event
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
