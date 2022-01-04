@@ -1,28 +1,23 @@
 package com.example.plantsapp.presentation.ui.tasksfordays
 
-import android.content.ComponentName
 import android.content.Context
-import android.content.Intent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
+import kotlin.IllegalStateException
 
 class StatisticsAppResolver @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
 
-    val intent = Intent().apply {
-        component = ComponentName(
-            PACKAGE_NAME,
-            ACTIVITY_CLASS_NAME
-        )
-    }
+    val intent = context.packageManager.getLaunchIntentForPackage(PACKAGE_NAME)
 
     fun isAppInstalled(): Boolean {
-        return context.packageManager.resolveActivity(intent,0) != null
+        return intent != null
     }
+
+    fun requireIntent() = intent ?: throw IllegalStateException("Statistics App is not installed")
 
     companion object {
         private const val PACKAGE_NAME = "com.example.statisticsapp"
-        private const val ACTIVITY_CLASS_NAME = "com.example.statisticsapp.presentation.ui.MainActivity"
     }
 }

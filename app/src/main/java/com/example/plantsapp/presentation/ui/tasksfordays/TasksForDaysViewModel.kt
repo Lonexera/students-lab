@@ -24,6 +24,6 @@ class TasksForDaysViewModel @Inject constructor(
     val launchStatisticsApp: LiveData<Event<Intent>>get() = _launchStatisticsApp
 
     fun onStatisticsClicked() {
-        _launchStatisticsApp.value = Event(statisticsAppResolver.intent)
+        _launchStatisticsApp.value = Event(statisticsAppResolver.requireIntent())
     }
 }
