@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.plantsapp.di.module.FirebaseQualifier
 import com.example.plantsapp.domain.repository.UserRepository
-import com.example.plantsapp.presentation.core.Event
+import com.example.plantsapp.uicore.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

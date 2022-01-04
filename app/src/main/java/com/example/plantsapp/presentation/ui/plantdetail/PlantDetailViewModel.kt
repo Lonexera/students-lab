@@ -11,7 +11,7 @@ import com.example.plantsapp.domain.model.Task
 import com.example.plantsapp.domain.repository.PlantPhotosRepository
 import com.example.plantsapp.domain.repository.PlantsRepository
 import com.example.plantsapp.domain.repository.TasksRepository
-import com.example.plantsapp.presentation.core.Event
+import com.example.plantsapp.uicore.Event
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch

@@ -4,11 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.plantsapp.uicore.Event
 import com.example.statisticsapp.R
 import com.example.statisticsapp.domain.usecase.GetPlantsUseCase
 import com.example.statisticsapp.domain.usecase.GetTaskCompletionsAmountUseCase
 import com.example.statisticsapp.domain.usecase.GetTasksForPlantUseCase
-import com.example.statisticsapp.presentation.core.Event
 import com.example.statisticsapp.presentation.model.PlantStatisticsInfo
 import com.example.statisticsapp.presentation.model.TaskStatisticsInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
