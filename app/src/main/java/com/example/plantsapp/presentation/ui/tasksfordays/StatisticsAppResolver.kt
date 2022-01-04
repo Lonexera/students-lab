@@ -9,7 +9,7 @@ class StatisticsAppResolver @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
 
-    val intent = context.packageManager.getLaunchIntentForPackage(PACKAGE_NAME)
+    private val intent = context.packageManager.getLaunchIntentForPackage(PACKAGE_NAME)
 
     fun isAppInstalled(): Boolean {
         return intent != null
