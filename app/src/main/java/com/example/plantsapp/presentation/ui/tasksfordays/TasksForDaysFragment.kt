@@ -58,7 +58,9 @@ class TasksForDaysFragment : Fragment(R.layout.fragment_tasks_for_days) {
             }
 
             launchStatisticsApp.observe(viewLifecycleOwner) {
-                startActivity(it)
+                it.getContentIfNotHandled()?.let { intent ->
+                    startActivity(intent)
+                }
             }
         }
 

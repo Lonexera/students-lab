@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.plantsapp.presentation.core.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.Date
 import javax.inject.Inject
@@ -15,15 +16,14 @@ class TasksForDaysViewModel @Inject constructor(
 
     val todayDate: LiveData<Date> = MutableLiveData(Date())
 
-    private val _isStatisticsAppInstalled: MutableLiveData<Boolean> = MutableLiveData(
+    val isStatisticsAppInstalled: LiveData<Boolean> = MutableLiveData(
         statisticsAppResolver.isAppInstalled()
     )
-    val isStatisticsAppInstalled: LiveData<Boolean> get() = _isStatisticsAppInstalled
 
-    private val _launchStatisticsApp: MutableLiveData<Intent> = MutableLiveData()
-    val launchStatisticsApp: LiveData<Intent> get() = _launchStatisticsApp
+    private val _launchStatisticsApp: MutableLiveData<Event<Intent>> = MutableLiveData()
+    val launchStatisticsApp: LiveData<Event<Intent>>get() = _launchStatisticsApp
 
     fun onStatisticsClicked() {
-        _launchStatisticsApp.value = statisticsAppResolver.intent
+        _launchStatisticsApp.value = Event(statisticsAppResolver.intent)
     }
 }
