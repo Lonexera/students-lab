@@ -34,7 +34,6 @@ class PlantDetailFragment : Fragment(R.layout.fragment_plant_detail) {
             plantName = requireArguments().plantName
         )
     }
-    private val loadingDialog by lazy { LoadingDialog(requireContext()) }
     private val tasksAdapter = DetailTasksAdapter()
     private val photosAdapter = PlantPhotosAdapter()
 
@@ -51,7 +50,9 @@ class PlantDetailFragment : Fragment(R.layout.fragment_plant_detail) {
                 activity?.title = it
             }
 
-            loadingDialog.connectWith(isLoading, viewLifecycleOwner)
+            isLoading.observe(viewLifecycleOwner) { isLoading ->
+                binding.pbLoading.isVisible = isLoading
+            }
 
             plant.observe(viewLifecycleOwner) { plant ->
                 showPlantDetail(plant)
