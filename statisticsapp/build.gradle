@@ -41,6 +41,12 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$versions.hilt"
     kapt "com.google.dagger:hilt-android-compiler:$versions.hilt"
 
+    // Timber
+    implementation "com.jakewharton.timber:timber:$versions.timber"
+
+    // Glide
+    implementation "com.github.bumptech.glide:glide:$versions.glide"
+
     // viewBinding delegate
     implementation "com.github.kirich1409:viewbindingpropertydelegate-noreflection:$versions.viewBindingDelagate"
 

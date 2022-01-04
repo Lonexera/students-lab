@@ -3,6 +3,8 @@ package com.example.statisticsapp.presentation.ui.statistics.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.example.statisticsapp.R
 import com.example.statisticsapp.databinding.ItemPlantBinding
 import com.example.statisticsapp.presentation.model.PlantStatisticsInfo
 
@@ -17,7 +19,15 @@ class PlantViewHolder(
     }
 
     fun bind(plantStatisticsInfo: PlantStatisticsInfo) {
-        binding.tvPlantName.text = plantStatisticsInfo.plant.name.value
+        with(binding) {
+            tvPlantName.text = plantStatisticsInfo.plant.name.value
+
+            Glide.with(root.context)
+                .load(plantStatisticsInfo.plant.plantPicture)
+                .centerCrop()
+                .placeholder(R.drawable.placeholder_image)
+                .into(ivPlant)
+        }
 
         tasksStatisticsAdapter.submitList(plantStatisticsInfo.tasks)
     }

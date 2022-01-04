@@ -18,14 +18,5 @@ class MainActivity : AppCompatActivity() {
 
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        openFragment(StatisticsFragment())
-    }
-
-    private fun openFragment(fragment: Fragment) {
-        supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-        supportFragmentManager.commit {
-            replace(R.id.fragment_container, fragment)
-        }
     }
 }
