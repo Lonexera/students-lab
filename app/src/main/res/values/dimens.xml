@@ -12,10 +12,12 @@
     <dimen name="card_plant_photo_width">132dp</dimen>
     <dimen name="btn_sign_in_height">56dp</dimen>
 
-    <!-- margins -->
+    <!-- margins and paddings -->
     <dimen name="margin_16dp">16dp</dimen>
     <dimen name="margin_8dp">8dp</dimen>
     <dimen name="margin_32dp">32dp</dimen>
+    <dimen name="padding_64dp">64dp</dimen>
+    <dimen name="padding_56dp">56dp</dimen>
 
     <!-- Image size -->
     <dimen name="profile_image_size">112dp</dimen>
