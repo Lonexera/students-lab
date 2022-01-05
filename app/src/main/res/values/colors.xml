@@ -4,9 +4,10 @@
 
     <color name="green_primary">#FF376B4D</color>
     <color name="green_secondary">#FF25543E</color>
+    <color name="color_secondary">#FF197F7B</color>
 
     <color name="dark_green">#FF17302A</color>
     <color name="green_300">#FF256145</color>
 
-    <color name="color_secondary">#FF197F7B</color>
+    <color name="dark_grey">#555555</color>
 </resources>
