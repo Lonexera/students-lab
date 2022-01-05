@@ -23,19 +23,20 @@
         android:text="@string/app_name"
         android:textAlignment="center"
         android:textColor="@color/green_primary"
-        android:textSize="32sp"
+        android:textSize="@dimen/text_size_huge"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iv_plant_image" />
 
     <TextView
         android:id="@+id/tv_quote"
-        android:layout_width="270dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto"
         android:text="@string/title_auth_quote"
         android:textColor="@color/dark_green"
-        android:textSize="24sp"
+        android:textSize="@dimen/text_size_big"
+        app:layout_constraintWidth_percent="0.8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_app_name"
@@ -57,7 +58,7 @@
     <Button
         android:id="@+id/btn_google_sign_in"
         android:layout_width="0dp"
-        android:layout_height="56dp"
+        android:layout_height="@dimen/btn_sign_in_height"
         android:layout_marginStart="@dimen/margin_16dp"
         android:layout_marginEnd="@dimen/margin_16dp"
         android:layout_marginBottom="@dimen/margin_32dp"

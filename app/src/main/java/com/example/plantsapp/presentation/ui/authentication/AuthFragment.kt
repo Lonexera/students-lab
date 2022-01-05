@@ -63,4 +63,9 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
             }
         }
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        (activity as AppCompatActivity).supportActionBar?.show()
+    }
 }
