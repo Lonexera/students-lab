@@ -67,6 +67,8 @@ class TasksForDaysFragment : Fragment(R.layout.fragment_tasks_for_days) {
         with(binding) {
             btnPrevDate.setOnClickListener { vpTasks.currentItem -= 1 }
             btnNextDate.setOnClickListener { vpTasks.currentItem += 1 }
+
+            vpTasks.offscreenPageLimit = VIEW_PAGER_OFFSCREEN_PAGE_LIMIT
         }
     }
 
@@ -110,5 +112,6 @@ class TasksForDaysFragment : Fragment(R.layout.fragment_tasks_for_days) {
     companion object {
         private const val DATE_FORMAT_WITH_YEAR = "d MMM yyyy"
         private const val DATE_FORMAT_WITHOUT_YEAR = "d MMM"
+        private const val VIEW_PAGER_OFFSCREEN_PAGE_LIMIT = 2
     }
 }

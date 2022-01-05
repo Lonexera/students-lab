@@ -30,12 +30,18 @@ class TasksViewModel @AssistedInject constructor(
     @Assisted private val date: Date
 ) : ViewModel() {
 
-    private val _plantsWithTasks: MutableLiveData<List<Pair<Plant, List<TaskWithState>>>> =
-        MutableLiveData()
-    val plantsWithTasks: LiveData<List<Pair<Plant, List<TaskWithState>>>> = _plantsWithTasks
+    sealed class TasksUiState {
+        object InitialState : TasksUiState()
+        data class DataIsLoaded(
+            val plantsWithTasks: List<Pair<Plant, List<TaskWithState>>>
+        ) : TasksUiState()
 
-    private val _isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
-    val isLoading: LiveData<Boolean> get() = _isLoading
+        object Loading : TasksUiState()
+    }
+
+    private val _tasksUiState: MutableLiveData<TasksUiState> =
+        MutableLiveData(TasksUiState.InitialState)
+    val tasksUiState: LiveData<TasksUiState> get() = _tasksUiState
 
     private val _launchCamera: MutableLiveData<Event<Unit>> = MutableLiveData()
     val launchCamera: LiveData<Event<Unit>> = _launchCamera
@@ -44,12 +50,10 @@ class TasksViewModel @AssistedInject constructor(
     init {
         viewModelScope.launch {
             try {
-                _isLoading.value = true
-                fetchTasks()
+                val plantsWithTasks = fetchTasks()
+                _tasksUiState.value = TasksUiState.DataIsLoaded(plantsWithTasks)
             } catch (e: Exception) {
                 Timber.e(e)
-            } finally {
-                _isLoading.value = false
             }
         }
     }
@@ -63,12 +67,10 @@ class TasksViewModel @AssistedInject constructor(
             else -> {
                 viewModelScope.launch {
                     try {
-                        _isLoading.value = true
+                        _tasksUiState.value = TasksUiState.Loading
                         completeTask(plant, task)
                     } catch (e: Exception) {
                         Timber.e(e)
-                    } finally {
-                        _isLoading.value = false
                     }
                 }
             }
@@ -78,7 +80,7 @@ class TasksViewModel @AssistedInject constructor(
     fun onImageCaptured(uri: Uri) {
         viewModelScope.launch {
             try {
-                _isLoading.value = true
+                _tasksUiState.value = TasksUiState.Loading
 
                 val (plant, task) = takingPhotoTaskWithPlant
                     ?: throw IllegalStateException("Cannot access stored plant and task for taking photo")
@@ -87,26 +89,26 @@ class TasksViewModel @AssistedInject constructor(
                 completeTask(plant, task)
             } catch (e: Exception) {
                 Timber.e(e)
-            } finally {
-                _isLoading.value = false
             }
         }
     }
 
     private suspend fun completeTask(plant: Plant, task: Task) {
         completeTaskUseCase(plant, task, date)
-        fetchTasks()
+
+        _tasksUiState.value = TasksUiState.DataIsLoaded(
+            plantsWithTasks = fetchTasks()
+        )
     }
 
-    private suspend fun fetchTasks() {
-        _plantsWithTasks.value =
-            plantsRepository.fetchPlants()
-                .map { plant ->
-                    plant to
-                            getTasksForPlantAndDateUseCase(plant, date)
-                                .map { it.toTaskWithState() }
-                }
-                .filter { it.second.isNotEmpty() }
+    private suspend fun fetchTasks(): List<Pair<Plant, List<TaskWithState>>> {
+        return plantsRepository.fetchPlants()
+            .map { plant ->
+                plant to
+                        getTasksForPlantAndDateUseCase(plant, date)
+                            .map { it.toTaskWithState() }
+            }
+            .filter { it.second.isNotEmpty() }
     }
 
     private fun Pair<Task, Boolean>.toTaskWithState(): TaskWithState {

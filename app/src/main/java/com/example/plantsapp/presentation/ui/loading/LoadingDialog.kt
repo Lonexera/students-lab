@@ -56,6 +56,10 @@ fun LoadingDialog.connectWith(
         }
     }
 
+    hideOnLifecycle(lifecycleOwner)
+}
+
+fun LoadingDialog.hideOnLifecycle(lifecycleOwner: LifecycleOwner) {
     lifecycleOwner.lifecycle.addObserver(object : LifecycleObserver {
         @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
         fun hideOnDestroy() {

@@ -3,6 +3,7 @@ package com.example.plantsapp.presentation.ui.tasks
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -10,7 +11,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.plantsapp.R
 import com.example.plantsapp.databinding.FragmentTasksBinding
 import com.example.plantsapp.presentation.ui.loading.LoadingDialog
-import com.example.plantsapp.presentation.ui.loading.connectWith
+import com.example.plantsapp.presentation.ui.loading.hideOnLifecycle
 import com.example.plantsapp.presentation.ui.plantcreation.CameraContract
 import com.example.plantsapp.presentation.ui.tasks.adapter.PlantWithTasksAdapter
 import com.example.plantsapp.presentation.ui.utils.getCameraImageOutputUri
@@ -46,11 +47,23 @@ class TasksFragment : Fragment(R.layout.fragment_tasks) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(tasksViewModel) {
-            loadingDialog.connectWith(isLoading, viewLifecycleOwner)
+        loadingDialog.hideOnLifecycle(viewLifecycleOwner)
 
-            plantsWithTasks.observe(viewLifecycleOwner) {
-                plantsWithTasksAdapter.submitList(it)
+        with(tasksViewModel) {
+            tasksUiState.observe(viewLifecycleOwner) { state ->
+                when (state) {
+                    is TasksViewModel.TasksUiState.Loading -> {
+                        loadingDialog.show()
+                    }
+                    is TasksViewModel.TasksUiState.InitialState -> {
+                        binding.pbLoading.isVisible = true
+                    }
+                    is TasksViewModel.TasksUiState.DataIsLoaded -> {
+                        binding.pbLoading.isVisible = false
+                        loadingDialog.dismiss()
+                        plantsWithTasksAdapter.submitList(state.plantsWithTasks)
+                    }
+                }
             }
 
             launchCamera.observe(viewLifecycleOwner) {
