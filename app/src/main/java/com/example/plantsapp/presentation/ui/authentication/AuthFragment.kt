@@ -3,6 +3,7 @@ package com.example.plantsapp.presentation.ui.authentication
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
@@ -34,7 +35,7 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        activity?.setTitle(R.string.title_auth_screen)
+        (activity as AppCompatActivity).supportActionBar?.hide()
 
         with(viewModel) {
             authState.observe(viewLifecycleOwner) { state ->
@@ -61,5 +62,10 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
                 googleSignInLauncher.launch(null)
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        (activity as AppCompatActivity).supportActionBar?.show()
     }
 }

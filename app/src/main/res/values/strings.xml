@@ -73,7 +73,10 @@
 
     <!-- Authentication Screen -->
     <string name="title_auth_screen">Authentication</string>
+    <string name="title_sign_in_btn">Sign in with Google</string>
     <string name="error_unable_to_sign_in">Unable to sign in</string>
+    <string name="title_auth_quote">Life begins the day you start a garden</string>
+    <string name="title_auth_quote_author">– Chinese proverb</string>
 
     <!-- Profile Screen -->
     <string name="title_profile_screen">Profile</string>
