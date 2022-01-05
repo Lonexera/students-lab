@@ -11,7 +11,7 @@
         android:elevation="@dimen/search_view_plants_elevation"
         android:iconifiedByDefault="false"
         android:queryBackground="@android:color/transparent"
-        android:background="@color/white"
+        android:background="@drawable/background_white_rounded"
         android:layout_marginTop="@dimen/margin_8dp"
         android:layout_marginStart="@dimen/margin_8dp"
         android:layout_marginEnd="@dimen/margin_8dp"
@@ -25,12 +25,14 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:clipToPadding="false"
-        android:paddingTop="@dimen/margin_16dp"
+        android:layout_marginStart="@dimen/margin_8dp"
+        android:layout_marginEnd="@dimen/margin_8dp"
+        android:paddingTop="@dimen/padding_64dp"
         android:paddingBottom="@dimen/margin_16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/search_view_plants" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add_plant"
