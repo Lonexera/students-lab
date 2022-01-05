@@ -57,18 +57,30 @@ class PlantDetailFragment : Fragment(R.layout.fragment_plant_detail) {
             plantDetailUiState.observe(viewLifecycleOwner) { state ->
                 when (state) {
                     is PlantDetailViewModel.PlantDetailUiState.InitialState -> {
-                        binding.pbLoading.isVisible = true
+                        changeLoadingStates(
+                            isLoadingIndicatorVisible = true,
+                            isLoadingDialogVisible = false
+                        )
                     }
                     is PlantDetailViewModel.PlantDetailUiState.DataIsLoaded -> {
-                        hideLoadings()
+                        changeLoadingStates(
+                            isLoadingIndicatorVisible = false,
+                            isLoadingDialogVisible = false
+                        )
                         showPlantDetail(state.plant)
                         tasksAdapter.submitList(state.tasks)
                     }
                     is PlantDetailViewModel.PlantDetailUiState.LoadingState -> {
-                        loadingDialog.show()
+                        changeLoadingStates(
+                            isLoadingIndicatorVisible = false,
+                            isLoadingDialogVisible = true
+                        )
                     }
                     is PlantDetailViewModel.PlantDetailUiState.FinalState -> {
-                        hideLoadings()
+                        changeLoadingStates(
+                            isLoadingIndicatorVisible = false,
+                            isLoadingDialogVisible = false
+                        )
                         requireActivity().supportFragmentManager.popBackStack()
                     }
                 }
@@ -118,9 +130,14 @@ class PlantDetailFragment : Fragment(R.layout.fragment_plant_detail) {
         }
     }
 
-    private fun hideLoadings() {
-        binding.pbLoading.isVisible = false
-        loadingDialog.dismiss()
+    private fun changeLoadingStates(
+        isLoadingIndicatorVisible: Boolean,
+        isLoadingDialogVisible: Boolean
+    ) {
+        binding.pbLoading.isVisible = isLoadingIndicatorVisible
+
+        if (isLoadingDialogVisible) loadingDialog.show()
+        else loadingDialog.dismiss()
     }
 
     private fun showDialogDeleteConfirm() {
