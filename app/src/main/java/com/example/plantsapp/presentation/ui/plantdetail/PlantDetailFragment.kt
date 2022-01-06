@@ -116,14 +116,8 @@ class PlantDetailFragment : Fragment(R.layout.fragment_plant_detail) {
         with(binding) {
             ivDetailPlant.loadPicture(plant.plantPicture)
 
-            tvDetailPlantName.text = getString(
-                R.string.msg_detail_plant_name,
-                plant.name.value
-            )
-            tvDetailSpeciesName.text = getString(
-                R.string.msg_detail_species_name,
-                plant.speciesName
-            )
+            etDetailPlantName.setText(plant.name.value)
+            etDetailSpeciesName.setText(plant.speciesName)
 
             rvDetailTasks.adapter = tasksAdapter
             rvPlantPhotos.adapter = photosAdapter
