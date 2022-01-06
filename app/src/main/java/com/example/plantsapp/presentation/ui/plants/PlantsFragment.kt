@@ -13,6 +13,7 @@ import com.example.plantsapp.presentation.ui.plants.adapter.PlantsAdapter
 import com.example.plantsapp.databinding.FragmentPlantsBinding
 import com.example.plantsapp.presentation.ui.plantcreation.PlantCreationFragment
 import com.example.plantsapp.presentation.ui.plantdetail.PlantDetailFragment
+import com.example.plantsapp.presentation.ui.utils.setViews
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -72,9 +73,11 @@ class PlantsFragment : Fragment(R.layout.fragment_plants) {
                 }
             })
 
-            layoutNoPlants.ivNoItemsImage.setImageResource(R.drawable.ic_plant_outlined)
-            layoutNoPlants.tvNoItemsTitle.setText(R.string.title_no_plants)
-            layoutNoPlants.tvNoItemsDetail.setText(R.string.msg_no_plants)
+            layoutNoPlants.setViews(
+                imageRes = R.drawable.ic_plant_outlined,
+                titleRes = R.string.title_no_plants,
+                messageRes = R.string.msg_no_plants
+            )
         }
     }
 

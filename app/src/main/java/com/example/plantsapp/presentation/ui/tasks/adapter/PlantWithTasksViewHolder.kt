@@ -40,7 +40,7 @@ class PlantWithTasksViewHolder(
     }
 
     private val List<TaskWithState>.notCompletedAmount: Int
-        get() = filter { !it.isCompleted }.count()
+        get() = count { !it.isCompleted }
 
     companion object {
         fun create(

@@ -15,6 +15,7 @@ import com.example.plantsapp.presentation.ui.loading.hideOnLifecycle
 import com.example.plantsapp.presentation.ui.plantcreation.CameraContract
 import com.example.plantsapp.presentation.ui.tasks.adapter.PlantWithTasksAdapter
 import com.example.plantsapp.presentation.ui.utils.getCameraImageOutputUri
+import com.example.plantsapp.presentation.ui.utils.setViews
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Date
 import javax.inject.Inject
@@ -83,9 +84,11 @@ class TasksFragment : Fragment(R.layout.fragment_tasks) {
                 adapter = plantsWithTasksAdapter
             }
 
-            layoutNoTasks.ivNoItemsImage.setImageResource(R.drawable.ic_baseline_calendar_24)
-            layoutNoTasks.tvNoItemsTitle.setText(R.string.title_no_tasks)
-            layoutNoTasks.tvNoItemsDetail.setText(R.string.msg_no_tasks)
+            layoutNoTasks.setViews(
+                imageRes = R.drawable.ic_baseline_calendar_24,
+                titleRes = R.string.title_no_tasks,
+                messageRes = R.string.msg_no_tasks
+            )
         }
     }
 
