@@ -7,4 +7,5 @@ import java.util.Date
 interface PlantPhotosRepository {
     suspend fun savePhoto(plant: Plant, photoUri: Uri)
     suspend fun getPlantPhotos(plant: Plant): List<Pair<Uri, Date>>
+    suspend fun deletePlantPhotos(plant: Plant)
 }

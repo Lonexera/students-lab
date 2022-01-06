@@ -20,4 +20,8 @@ class StubTasksHistoryRepository(
     override suspend fun getTaskCompletionDates(plant: Plant, task: Task): List<Date> {
         TODO("Not yet implemented")
     }
+
+    override suspend fun deleteTaskHistory(plant: Plant, task: Task) {
+        TODO("Not yet implemented")
+    }
 }

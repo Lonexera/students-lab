@@ -44,6 +44,17 @@ class FirebaseTaskHistoryRepository @Inject constructor(
             .map { it.completionDate }
     }
 
+    override suspend fun deleteTaskHistory(plant: Plant, task: Task) {
+        getTaskHistoryCollection(plant, task)
+            .get()
+            .await()
+            .forEach {
+                it.reference
+                    .delete()
+                    .await()
+            }
+    }
+
     private fun getTaskHistoryCollection(plant: Plant, task: Task): CollectionReference {
         return firestore
             .collection(KEY_COLLECTION_USERS)

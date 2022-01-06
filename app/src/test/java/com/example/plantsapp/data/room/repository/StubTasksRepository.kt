@@ -20,4 +20,8 @@ class StubTasksRepository(
     override suspend fun updateTask(plant: Plant, task: Task, completionDate: Date) {
         TODO("Stub dao does not implement update method")
     }
+
+    override suspend fun deleteAllTasks(plant: Plant) {
+        TODO("Not yet implemented")
+    }
 }

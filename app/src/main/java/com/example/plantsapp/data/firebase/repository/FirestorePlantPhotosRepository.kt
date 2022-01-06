@@ -8,6 +8,8 @@ import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.repository.PlantPhotosRepository
 import com.example.plantsapp.domain.repository.UserRepository
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import dagger.internal.ProviderOfLazy
 import kotlinx.coroutines.tasks.await
 import java.util.Date
 import javax.inject.Inject
@@ -28,13 +30,7 @@ class FirestorePlantPhotosRepository @Inject constructor(
     }
 
     override suspend fun getPlantPhotos(plant: Plant): List<Pair<Uri, Date>> {
-        return storageRef
-            .child(
-                getPlantImagesStoragePath(
-                    userUid = userRepository.requireUser().uid,
-                    plantName = plant.name.value
-                )
-            )
+        return getPlantPhotosFolder(plant)
             .listAll()
             .await()
             .items
@@ -44,5 +40,23 @@ class FirestorePlantPhotosRepository @Inject constructor(
 
                 imageUrl to creationDate
             }
+    }
+
+    override suspend fun deletePlantPhotos(plant: Plant) {
+        getPlantPhotosFolder(plant)
+            .listAll()
+            .await()
+            .items
+            .forEach { it.delete().await() }
+    }
+
+    private fun getPlantPhotosFolder(plant: Plant): StorageReference {
+        return storageRef
+            .child(
+                getPlantImagesStoragePath(
+                    userUid = userRepository.requireUser().uid,
+                    plantName = plant.name.value
+                )
+            )
     }
 }
