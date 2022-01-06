@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.plantsapp.R
 import com.example.plantsapp.databinding.ItemPlantWithTasksBinding
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.model.Task
@@ -20,6 +21,12 @@ class PlantWithTasksViewHolder(
         with(binding) {
             tvTasksPlantName.text = plant.name.value
 
+            tvTasksAmount.text = root.context.resources.getQuantityString(
+                R.plurals.msg_task_amount_left,
+                tasks.notCompletedAmount,
+                tasks.notCompletedAmount
+            )
+
             ivTasksPlantPicture.loadPicture(plant.plantPicture)
 
             val tasksAdapter = TasksAdapter(plant, onTaskClick)
@@ -31,6 +38,9 @@ class PlantWithTasksViewHolder(
             tasksAdapter.submitList(tasks)
         }
     }
+
+    private val List<TaskWithState>.notCompletedAmount: Int
+        get() = count { !it.isCompleted }
 
     companion object {
         fun create(

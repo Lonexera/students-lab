@@ -16,7 +16,16 @@ fun Task.getIconRes(): Int {
     return when (this) {
         is Task.WateringTask -> R.drawable.ic_watering
         is Task.SprayingTask -> R.drawable.ic_spraying
-        is Task.LooseningTask -> R.drawable.ic_watering
+        is Task.LooseningTask -> R.drawable.ic_loosening
         is Task.TakingPhotoTask -> R.drawable.ic_taking_photo
+    }
+}
+
+fun Task.getColorRes(): Int {
+    return when (this) {
+        is Task.WateringTask -> R.color.blue
+        is Task.SprayingTask -> R.color.purple
+        is Task.LooseningTask -> R.color.brown
+        is Task.TakingPhotoTask -> R.color.green_blue
     }
 }

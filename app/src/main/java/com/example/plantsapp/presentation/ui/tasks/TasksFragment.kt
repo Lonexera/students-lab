@@ -15,6 +15,7 @@ import com.example.plantsapp.presentation.ui.loading.hideOnLifecycle
 import com.example.plantsapp.presentation.ui.plantcreation.CameraContract
 import com.example.plantsapp.presentation.ui.tasks.adapter.PlantWithTasksAdapter
 import com.example.plantsapp.presentation.ui.utils.getCameraImageOutputUri
+import com.example.plantsapp.presentation.ui.utils.setViews
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Date
 import javax.inject.Inject
@@ -62,6 +63,8 @@ class TasksFragment : Fragment(R.layout.fragment_tasks) {
                         binding.pbLoading.isVisible = false
                         loadingDialog.dismiss()
                         plantsWithTasksAdapter.submitList(state.plantsWithTasks)
+
+                        setTasksVisibility(areTasksVisible = state.plantsWithTasks.isNotEmpty())
                     }
                 }
             }
@@ -80,7 +83,18 @@ class TasksFragment : Fragment(R.layout.fragment_tasks) {
                 layoutManager = LinearLayoutManager(context)
                 adapter = plantsWithTasksAdapter
             }
+
+            layoutNoTasks.setViews(
+                imageRes = R.drawable.ic_baseline_calendar_24,
+                titleRes = R.string.title_no_tasks,
+                messageRes = R.string.msg_no_tasks
+            )
         }
+    }
+
+    private fun setTasksVisibility(areTasksVisible: Boolean) {
+        binding.rvTasks.isVisible = areTasksVisible
+        binding.layoutNoTasks.clNoItems.isVisible = !areTasksVisible
     }
 
     companion object {

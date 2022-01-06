@@ -3,6 +3,7 @@ package com.example.plantsapp.presentation.ui.plants
 import android.os.Bundle
 import android.view.View
 import android.widget.SearchView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -12,6 +13,7 @@ import com.example.plantsapp.presentation.ui.plants.adapter.PlantsAdapter
 import com.example.plantsapp.databinding.FragmentPlantsBinding
 import com.example.plantsapp.presentation.ui.plantcreation.PlantCreationFragment
 import com.example.plantsapp.presentation.ui.plantdetail.PlantDetailFragment
+import com.example.plantsapp.presentation.ui.utils.setViews
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -31,6 +33,7 @@ class PlantsFragment : Fragment(R.layout.fragment_plants) {
         with(plantsViewModel) {
             filteredPlants.observe(viewLifecycleOwner) {
                 plantsAdapter.submitList(it)
+                setPlantsVisibility(arePlantsVisible = it.isNotEmpty())
             }
 
             clickedPlant.observe(viewLifecycleOwner) {
@@ -69,7 +72,18 @@ class PlantsFragment : Fragment(R.layout.fragment_plants) {
                     return true
                 }
             })
+
+            layoutNoPlants.setViews(
+                imageRes = R.drawable.ic_plant_outlined,
+                titleRes = R.string.title_no_plants,
+                messageRes = R.string.msg_no_plants
+            )
         }
+    }
+
+    private fun setPlantsVisibility(arePlantsVisible: Boolean) {
+        binding.rvPlants.isVisible = arePlantsVisible
+        binding.layoutNoPlants.clNoItems.isVisible = !arePlantsVisible
     }
 
     private fun openFragment(fragment: Fragment) {

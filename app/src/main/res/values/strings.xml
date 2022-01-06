@@ -48,9 +48,11 @@
     <string name="title_intent_picker_dialog_btn_gallery">Upload from Gallery</string>
     <string name="title_intent_picker_dialog_btn_camera">Upload from Camera</string>
     <string name="title_intent_picker_dialog_btn_cancel">Cancel</string>
+    <string name="title_no_plants">No plants</string>
+    <string name="msg_no_plants">When you have plants, you\'ll see them here</string>
 
     <!-- Tasks Screen -->
-    <string name="title_tasks_screen">My Tasks</string>
+    <string name="title_tasks_screen">Tasks</string>
     <string name="title_today_date">Today</string>
     <string name="title_tomorrow_date">Tomorrow</string>
     <string name="title_watering_task">Watering</string>
@@ -61,6 +63,13 @@
     <string name="title_btn_uncompleted_state">Complete</string>
     <string name="title_btn_completed_state">Completed</string>
     <string name="title_btn_statistics">Statistics</string>
+    <string name="title_no_tasks">No tasks</string>
+    <string name="msg_no_tasks">When you have tasks, you\'ll see them here</string>
+
+    <plurals name="msg_task_amount_left">
+        <item quantity="one">%d task left</item>
+        <item quantity="other">%d tasks left</item>
+    </plurals>
 
     <!-- Task Notification -->
     <string name="title_notification_channel">Notification</string>
