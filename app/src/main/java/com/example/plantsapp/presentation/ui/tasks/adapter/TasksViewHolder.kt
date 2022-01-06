@@ -13,6 +13,7 @@ import com.example.plantsapp.presentation.model.TaskWithState
 import com.example.plantsapp.presentation.ui.utils.getColorRes
 import com.example.plantsapp.presentation.ui.utils.getIconRes
 import com.example.plantsapp.presentation.ui.utils.getTitleRes
+import com.example.plantsapp.presentation.ui.utils.setColorAndIconFor
 
 class TasksViewHolder(
     private val binding: ItemTaskBinding,
@@ -32,16 +33,6 @@ class TasksViewHolder(
             btnCompleteTask.isVisible = taskWithState.isCompletable
             btnCompleteTask.isEnabled = !taskWithState.isCompleted
         }
-    }
-
-    private fun ImageView.setColorAndIconFor(task: Task) {
-        setImageResource(task.getIconRes())
-        setBackgroundColor(
-            ContextCompat.getColor(
-                context,
-                task.getColorRes()
-            )
-        )
     }
 
     companion object {

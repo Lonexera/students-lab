@@ -10,6 +10,7 @@ import com.example.plantsapp.databinding.ItemPlantDetailTaskBinding
 import com.example.plantsapp.domain.model.Task
 import com.example.plantsapp.presentation.ui.utils.getColorRes
 import com.example.plantsapp.presentation.ui.utils.getIconRes
+import com.example.plantsapp.presentation.ui.utils.setColorAndIconFor
 
 class DetailTasksViewHolder(
     private val binding: ItemPlantDetailTaskBinding
@@ -17,13 +18,7 @@ class DetailTasksViewHolder(
 
     fun bind(task: Task) {
         with(binding) {
-            ivTaskIcon.setImageResource(task.getIconRes())
-            ivTaskIcon.setBackgroundColor(
-                ContextCompat.getColor(
-                    root.context,
-                    task.getColorRes()
-                )
-            )
+            ivTaskIcon.setColorAndIconFor(task)
 
             tvTaskTitle.text = root.context.getString(task.getShortTitleRes())
             tvTaskDetail.text = root.context.getTaskDetailText(task)
