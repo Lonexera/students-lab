@@ -35,4 +35,8 @@ class RoomTasksHistoryRepository @Inject constructor(
     override suspend fun getTaskCompletionDates(plant: Plant, task: Task): List<Date> {
         TODO("Not implemented")
     }
+
+    override suspend fun deleteTaskHistory(plant: Plant, task: Task) {
+        TODO("Not yet implemented")
+    }
 }

@@ -47,6 +47,17 @@ class FirebaseTasksRepository @Inject constructor(
             .await()
     }
 
+    override suspend fun deleteAllTasks(plant: Plant) {
+        getTasksCollectionForPlant(plant)
+            .get()
+            .await()
+            .forEach {
+                it.reference
+                .delete()
+                .await()
+            }
+    }
+
     private fun getTasksCollectionForPlant(plant: Plant): CollectionReference {
         return plantsCollection
             .document(plant.name.value)

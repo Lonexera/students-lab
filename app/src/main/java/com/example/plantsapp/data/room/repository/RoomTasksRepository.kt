@@ -31,4 +31,8 @@ class RoomTasksRepository @Inject constructor(
             completionDate = completionDate.time
         )
     }
+
+    override suspend fun deleteAllTasks(plant: Plant) {
+        TODO("Not yet implemented")
+    }
 }
