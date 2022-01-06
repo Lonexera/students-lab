@@ -36,4 +36,9 @@ interface UseCaseModule {
     fun bindSignOutUseCase(
         signOutUseCaseImpl: SignOutUseCaseImpl
     ): SignOutUseCase
+
+    @Binds
+    fun bindDeletePlantUseCase(
+        deletePlantUseCaseImpl: DeletePlantUseCaseImpl
+    ): DeletePlantUseCase
 }

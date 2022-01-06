@@ -11,6 +11,7 @@ import com.example.plantsapp.domain.model.Task
 import com.example.plantsapp.domain.repository.PlantPhotosRepository
 import com.example.plantsapp.domain.repository.PlantsRepository
 import com.example.plantsapp.domain.repository.TasksRepository
+import com.example.plantsapp.domain.usecase.DeletePlantUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
@@ -22,6 +23,7 @@ class PlantDetailViewModel @AssistedInject constructor(
     @FirebaseQualifier private val plantsRepository: PlantsRepository,
     @FirebaseQualifier private val tasksRepository: TasksRepository,
     @FirebaseQualifier private val plantPhotosRepository: PlantPhotosRepository,
+    private val deletePlantUseCase: DeletePlantUseCase,
     @Assisted plantName: String
 ) : ViewModel() {
 
@@ -69,7 +71,7 @@ class PlantDetailViewModel @AssistedInject constructor(
             try {
                 _plantDetailUiState.value = PlantDetailUiState.LoadingState
 
-                plantsRepository.deletePlant(plant)
+                deletePlantUseCase(plant)
                 _plantDetailUiState.value = PlantDetailUiState.FinalState
             } catch (e: Exception) {
                 Timber.e(e)
