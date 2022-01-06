@@ -82,12 +82,16 @@ class TasksFragment : Fragment(R.layout.fragment_tasks) {
                 layoutManager = LinearLayoutManager(context)
                 adapter = plantsWithTasksAdapter
             }
+
+            layoutNoTasks.ivNoItemsImage.setImageResource(R.drawable.ic_baseline_calendar_24)
+            layoutNoTasks.tvNoItemsTitle.setText(R.string.title_no_tasks)
+            layoutNoTasks.tvNoItemsDetail.setText(R.string.msg_no_tasks)
         }
     }
 
     private fun setTasksVisibility(areTasksVisible: Boolean) {
         binding.rvTasks.isVisible = areTasksVisible
-        binding.clNoTasks.isVisible = !areTasksVisible
+        binding.layoutNoTasks.clNoItems.isVisible = !areTasksVisible
     }
 
     companion object {

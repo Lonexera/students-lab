@@ -2,6 +2,7 @@ package com.example.plantsapp.presentation.ui.tasks.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
@@ -23,7 +24,7 @@ class TasksViewHolder(
             val task = taskWithState.task
 
             tvTaskTitle.text = root.context.getString(task.getTitleRes())
-            setUpTaskIconFor(task)
+            ivTaskIcon.setColorAndIconFor(task)
 
             btnCompleteTask.setOnClickListener {
                 onTaskClick(plant to task)
@@ -33,16 +34,14 @@ class TasksViewHolder(
         }
     }
 
-    private fun setUpTaskIconFor(task: Task) {
-        with(binding.ivTaskIcon) {
-            setImageResource(task.getIconRes())
-            setBackgroundColor(
-                ContextCompat.getColor(
-                    binding.root.context,
-                    task.getColorRes()
-                )
+    private fun ImageView.setColorAndIconFor(task: Task) {
+        setImageResource(task.getIconRes())
+        setBackgroundColor(
+            ContextCompat.getColor(
+                context,
+                task.getColorRes()
             )
-        }
+        )
     }
 
     companion object {

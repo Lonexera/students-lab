@@ -71,12 +71,16 @@ class PlantsFragment : Fragment(R.layout.fragment_plants) {
                     return true
                 }
             })
+
+            layoutNoPlants.ivNoItemsImage.setImageResource(R.drawable.ic_plant_outlined)
+            layoutNoPlants.tvNoItemsTitle.setText(R.string.title_no_plants)
+            layoutNoPlants.tvNoItemsDetail.setText(R.string.msg_no_plants)
         }
     }
 
     private fun setPlantsVisibility(arePlantsVisible: Boolean) {
         binding.rvPlants.isVisible = arePlantsVisible
-        binding.clNoPlants.isVisible = !arePlantsVisible
+        binding.layoutNoPlants.clNoItems.isVisible = !arePlantsVisible
     }
 
     private fun openFragment(fragment: Fragment) {
