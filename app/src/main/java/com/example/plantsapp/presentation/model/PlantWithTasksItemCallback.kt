@@ -17,6 +17,6 @@ class PlantWithTasksItemCallback : DiffUtil.ItemCallback<Pair<Plant, List<Task>>
         oldItem: Pair<Plant, List<Task>>,
         newItem: Pair<Plant, List<Task>>
     ): Boolean {
-        return oldItem == newItem
+        return oldItem.first == newItem.first
     }
 }

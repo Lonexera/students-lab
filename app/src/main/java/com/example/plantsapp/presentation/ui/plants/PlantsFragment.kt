@@ -3,6 +3,7 @@ package com.example.plantsapp.presentation.ui.plants
 import android.os.Bundle
 import android.view.View
 import android.widget.SearchView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -31,6 +32,7 @@ class PlantsFragment : Fragment(R.layout.fragment_plants) {
         with(plantsViewModel) {
             filteredPlants.observe(viewLifecycleOwner) {
                 plantsAdapter.submitList(it)
+                setPlantsVisibility(arePlantsVisible = it.isNotEmpty())
             }
 
             clickedPlant.observe(viewLifecycleOwner) {
@@ -70,6 +72,11 @@ class PlantsFragment : Fragment(R.layout.fragment_plants) {
                 }
             })
         }
+    }
+
+    private fun setPlantsVisibility(arePlantsVisible: Boolean) {
+        binding.rvPlants.isVisible = arePlantsVisible
+        binding.clNoPlants.isVisible = !arePlantsVisible
     }
 
     private fun openFragment(fragment: Fragment) {

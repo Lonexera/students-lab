@@ -62,6 +62,8 @@ class TasksFragment : Fragment(R.layout.fragment_tasks) {
                         binding.pbLoading.isVisible = false
                         loadingDialog.dismiss()
                         plantsWithTasksAdapter.submitList(state.plantsWithTasks)
+
+                        setTasksVisibility(areTasksVisible = state.plantsWithTasks.isNotEmpty())
                     }
                 }
             }
@@ -81,6 +83,11 @@ class TasksFragment : Fragment(R.layout.fragment_tasks) {
                 adapter = plantsWithTasksAdapter
             }
         }
+    }
+
+    private fun setTasksVisibility(areTasksVisible: Boolean) {
+        binding.rvTasks.isVisible = areTasksVisible
+        binding.clNoTasks.isVisible = !areTasksVisible
     }
 
     companion object {
