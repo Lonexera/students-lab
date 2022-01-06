@@ -8,14 +8,18 @@
 
     <!-- Plant Detail Screen -->
     <string name="title_plant_detail_screen">%s</string>
-    <string name="msg_detail_plant_name">Plant name: \n %s</string>
-    <string name="msg_detail_species_name">Species name: \n %s</string>
+    <string name="hint_detail_plant_name">Plant name</string>
+    <string name="hint_detail_species_name">Species name</string>
     <string name="msg_detail_watering_text">Watering frequency: \n every %d days</string>
     <string name="title_button_delete">Delete</string>
-    <string name="title_task_detail">%1$s: every %2$s</string>
+    <string name="title_task_detail">every %s</string>
     <string name="title_plant_gallery_text">Plant gallery</string>
     <string name="title_delete_dialog_confirmation">Delete Plant</string>
     <string name="msg_delete_dialog_confirmation">Are you sure you want to delete this plant?</string>
+    <string name="title_plant_detail_watering_task">Water</string>
+    <string name="title_plant_detail_spraying_task">Spray</string>
+    <string name="title_plant_detail_loosening_task">Loosen soil</string>
+    <string name="title_plant_detail_taking_photo_task">Take photo</string>
 
     <!-- Plant Creation Screen -->
     <string name="title_plant_creation_screen">New Plant</string>
@@ -59,7 +63,7 @@
     <string name="title_spraying_task">Spraying</string>
     <string name="title_loosening_task">Loosening soil</string>
     <string name="title_taking_photo_task">Taking photo</string>
-    <string name="title_plant_tasks">Tasks:</string>
+    <string name="title_plant_tasks">Tasks</string>
     <string name="title_btn_uncompleted_state">Complete</string>
     <string name="title_btn_completed_state">Completed</string>
     <string name="title_btn_statistics">Statistics</string>

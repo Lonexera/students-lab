@@ -3,13 +3,13 @@ package com.example.plantsapp.presentation.ui.plantdetail.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.plantsapp.R
 import com.example.plantsapp.databinding.ItemPlantDetailTaskBinding
 import com.example.plantsapp.domain.model.Task
+import com.example.plantsapp.presentation.ui.utils.getColorRes
 import com.example.plantsapp.presentation.ui.utils.getIconRes
-import com.example.plantsapp.presentation.ui.utils.getTitleRes
-import com.example.plantsapp.presentation.ui.utils.loadPicture
 
 class DetailTasksViewHolder(
     private val binding: ItemPlantDetailTaskBinding
@@ -17,8 +17,15 @@ class DetailTasksViewHolder(
 
     fun bind(task: Task) {
         with(binding) {
-            ivTaskIcon.loadPicture(task.getIconRes())
+            ivTaskIcon.setImageResource(task.getIconRes())
+            ivTaskIcon.setBackgroundColor(
+                ContextCompat.getColor(
+                    root.context,
+                    task.getColorRes()
+                )
+            )
 
+            tvTaskTitle.text = root.context.getString(task.getShortTitleRes())
             tvTaskDetail.text = root.context.getTaskDetailText(task)
         }
     }
@@ -26,13 +33,21 @@ class DetailTasksViewHolder(
     private fun Context.getTaskDetailText(task: Task): String {
         return getString(
             R.string.title_task_detail,
-            getString(task.getTitleRes()),
             resources.getQuantityString(
                 R.plurals.msg_creation_frequency_units,
                 task.frequency,
                 task.frequency
             )
         )
+    }
+
+    private fun Task.getShortTitleRes(): Int {
+        return when (this) {
+            is Task.WateringTask -> R.string.title_plant_detail_watering_task
+            is Task.SprayingTask -> R.string.title_plant_detail_spraying_task
+            is Task.LooseningTask -> R.string.title_plant_detail_loosening_task
+            is Task.TakingPhotoTask -> R.string.title_plant_detail_taking_photo_task
+        }
     }
 
     companion object {
