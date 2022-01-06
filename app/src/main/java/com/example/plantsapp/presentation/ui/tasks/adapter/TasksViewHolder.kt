@@ -2,16 +2,16 @@ package com.example.plantsapp.presentation.ui.tasks.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import com.example.plantsapp.R
 import com.example.plantsapp.databinding.ItemTaskBinding
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.model.Task
 import com.example.plantsapp.presentation.model.TaskWithState
+import com.example.plantsapp.presentation.ui.utils.getColorRes
 import com.example.plantsapp.presentation.ui.utils.getIconRes
 import com.example.plantsapp.presentation.ui.utils.getTitleRes
-import com.example.plantsapp.presentation.ui.utils.loadPicture
 
 class TasksViewHolder(
     private val binding: ItemTaskBinding,
@@ -22,29 +22,27 @@ class TasksViewHolder(
         with(binding) {
             val task = taskWithState.task
 
-            tvTaskTitle.text = root.context.getString(
-                task.getTitleRes()
-            )
-
-            ivTaskIcon.loadPicture(task.getIconRes())
+            tvTaskTitle.text = root.context.getString(task.getTitleRes())
+            setUpTaskIconFor(task)
 
             btnCompleteTask.setOnClickListener {
                 onTaskClick(plant to task)
             }
-
             btnCompleteTask.isVisible = taskWithState.isCompletable
-            btnCompleteTask.text = getCompleteButtonTitle(taskWithState.isCompleted)
             btnCompleteTask.isEnabled = !taskWithState.isCompleted
         }
     }
 
-    private fun getCompleteButtonTitle(isCompleted: Boolean): String {
-        return binding.root.context.getString(
-            when (isCompleted) {
-                true -> R.string.title_btn_completed_state
-                else -> R.string.title_btn_uncompleted_state
-            }
-        )
+    private fun setUpTaskIconFor(task: Task) {
+        with(binding.ivTaskIcon) {
+            setImageResource(task.getIconRes())
+            setBackgroundColor(
+                ContextCompat.getColor(
+                    binding.root.context,
+                    task.getColorRes()
+                )
+            )
+        }
     }
 
     companion object {

@@ -21,7 +21,7 @@
 
     <!-- Image size -->
     <dimen name="profile_image_size">112dp</dimen>
-    <dimen name="task_icon_image_size">20dp</dimen>
+    <dimen name="task_icon_image_size">48dp</dimen>
     <dimen name="task_plant_image_size">80dp</dimen>
     <dimen name="plant_detail_image_size">200dp</dimen>
     <dimen name="plant_photo_size">104dp</dimen>
@@ -29,6 +29,9 @@
     <dimen name="no_tasks_image_size">100dp</dimen>
 
     <dimen name="plant_card_image_height">120dp</dimen>
+
+    <!-- Button size -->
+    <dimen name="task_complete_btn_size">40dp</dimen>
 
     <!-- Text size -->
     <dimen name="text_size_small">14sp</dimen>

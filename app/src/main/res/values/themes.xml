@@ -14,17 +14,25 @@
 
     <style name="Widget.Plant.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"/>
 
+    <!-- Dates Button Style -->
     <style name="PlantsApp.Dates.Button" parent="Widget.AppCompat.Button">
         <item name="android:textColor">@android:color/darker_gray</item>
         <item name="android:background">@android:color/transparent</item>
         <item name="textAllCaps">false</item>
     </style>
 
+    <!-- Rounded Image Style -->
     <style name="ShapeAppearanceOverlay.PlantsApp.CornerSize12Percent" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">12%</item>
     </style>
 
+    <style name="ShapeAppearanceOverlay.PlantsApp.Circle" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <!-- Loading Indicator Style -->
     <style name="Widget.PlantsApp.LinearProgressIndicator" parent="Widget.MaterialComponents.LinearProgressIndicator">
         <item name="indicatorColor">?attr/colorAccent</item>
         <item name="android:indeterminate">true</item>

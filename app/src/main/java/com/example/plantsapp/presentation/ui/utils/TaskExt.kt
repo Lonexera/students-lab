@@ -20,3 +20,12 @@ fun Task.getIconRes(): Int {
         is Task.TakingPhotoTask -> R.drawable.ic_taking_photo
     }
 }
+
+fun Task.getColorRes(): Int {
+    return when (this) {
+        is Task.WateringTask -> R.color.blue
+        is Task.SprayingTask -> R.color.purple
+        is Task.LooseningTask -> R.color.brown
+        is Task.TakingPhotoTask -> R.color.green_blue
+    }
+}
