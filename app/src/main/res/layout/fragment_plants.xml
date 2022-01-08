@@ -5,6 +5,15 @@
     android:layout_height="match_parent"
     android:background="@color/super_light_grey">
 
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/pb_loading"
+        style="@style/Widget.PlantsApp.LinearProgressIndicator"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <SearchView
         android:id="@+id/search_view_plants"
         android:layout_width="0dp"
