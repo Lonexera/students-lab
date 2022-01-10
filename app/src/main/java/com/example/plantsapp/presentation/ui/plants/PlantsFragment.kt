@@ -31,9 +31,15 @@ class PlantsFragment : Fragment(R.layout.fragment_plants) {
         activity?.setTitle(R.string.title_plants_screen)
 
         with(plantsViewModel) {
+            isLoading.observe(viewLifecycleOwner) {
+                binding.pbLoading.isVisible = it
+            }
+
             filteredPlants.observe(viewLifecycleOwner) {
-                plantsAdapter.submitList(it)
-                setPlantsVisibility(arePlantsVisible = it.isNotEmpty())
+                it?.let {
+                    plantsAdapter.submitList(it)
+                    setPlantsVisibility(arePlantsVisible = it.isNotEmpty())
+                }
             }
 
             clickedPlant.observe(viewLifecycleOwner) {
