@@ -25,10 +25,11 @@ class FirebasePlantsRepository @Inject constructor(
     @FirebaseQualifier private val userRepository: UserRepository
 ) : PlantsRepository {
 
-    private val plantsCollection = firestore
-        .collection(KEY_COLLECTION_USERS)
-        .document(userRepository.requireUser().uid)
-        .collection(KEY_COLLECTION_PLANTS)
+    private val plantsCollection
+        get() = firestore
+            .collection(KEY_COLLECTION_USERS)
+            .document(userRepository.requireUser().uid)
+            .collection(KEY_COLLECTION_PLANTS)
 
     private val storageRef = storage.reference
 

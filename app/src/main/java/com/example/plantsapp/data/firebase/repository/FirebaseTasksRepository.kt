@@ -20,10 +20,11 @@ class FirebaseTasksRepository @Inject constructor(
     @FirebaseQualifier private val userRepository: UserRepository
 ) : TasksRepository {
 
-    private val plantsCollection = firestore
-        .collection(KEY_COLLECTION_USERS)
-        .document(userRepository.requireUser().uid)
-        .collection(KEY_COLLECTION_PLANTS)
+    private val plantsCollection
+        get() = firestore
+            .collection(KEY_COLLECTION_USERS)
+            .document(userRepository.requireUser().uid)
+            .collection(KEY_COLLECTION_PLANTS)
 
     override suspend fun addTasks(plant: Plant, tasks: List<Task>) {
         tasks.forEach { task ->
