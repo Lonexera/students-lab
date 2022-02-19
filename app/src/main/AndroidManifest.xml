@@ -4,6 +4,7 @@
     package="com.example.plantsapp">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
 
     <application
         android:name=".presentation.PlantApplication"
@@ -41,6 +42,14 @@
 
         <receiver
             android:name=".presentation.ui.notification.broadcastreceiver.NotificationBroadcastReceiver"
+            android:exported="true" />
+
+        <receiver
+            android:name=".presentation.ui.worker.ReschedulingAlarmReceiver"
+            android:exported="true" />
+
+        <receiver
+            android:name=".presentation.ui.notification.NotificationAlarmReceiver"
             android:exported="true" />
 
         <provider

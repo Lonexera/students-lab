@@ -1,11 +1,10 @@
 package com.example.plantsapp.presentation.ui.notification.broadcastreceiver
 
 import android.app.PendingIntent
-import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import androidx.annotation.CallSuper
 import com.example.plantsapp.di.module.FirebaseQualifier
+import com.example.plantsapp.di.util.HiltBroadcastReceiver
 import com.example.plantsapp.domain.model.Plant
 import com.example.plantsapp.domain.model.Task
 import com.example.plantsapp.domain.model.TaskKeys
@@ -17,11 +16,6 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.util.Date
 import javax.inject.Inject
-
-abstract class HiltBroadcastReceiver : BroadcastReceiver() {
-    @CallSuper
-    override fun onReceive(context: Context, intent: Intent?) = Unit
-}
 
 @AndroidEntryPoint
 class NotificationBroadcastReceiver : HiltBroadcastReceiver() {

@@ -11,6 +11,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import java.util.Date
 
+@Deprecated("WorkManager does not perform at the exact time. Use AlarmManager instead.")
 @HiltWorker
 class NotificationWorker @AssistedInject constructor(
     @Assisted private val context: Context,

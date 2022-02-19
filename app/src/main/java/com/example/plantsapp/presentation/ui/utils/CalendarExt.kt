@@ -17,3 +17,16 @@ fun Calendar.calculateDelay(
 
     return firstScheduledDate.timeInMillis + TimeUnit.DAYS.toMillis(1) - this.timeInMillis
 }
+
+fun Calendar.getNextDayInEpoch(
+    nextDayHour: Int = 0,
+    nextDayMinute: Int = 0,
+    nextDaySecond: Int = 0
+): Long = (this.clone() as Calendar)
+    .apply {
+        set(Calendar.HOUR_OF_DAY, nextDayHour)
+        set(Calendar.MINUTE, nextDayMinute)
+        set(Calendar.SECOND, nextDaySecond)
+        add(Calendar.DATE, 1)
+    }
+    .timeInMillis
